@@ -1,0 +1,23 @@
+/* CSS styles for the home "page". */
+#home-header-container {
+  font-family: 'Raleway', Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  text-shadow: 3px 3px rgb(160, 157, 157);
+
+  margin-top: 0;
+}
+#home-content-container {
+  padding: 25px;
+}
+#home-footer-container {
+  position: absolute;
+  bottom: 0;
+
+  font-family: 'Segoe UI', Helvetica, sans-serif;
+  text-align: center;
+
+  margin: 0;
+  padding: 4px;
+  width: 100%;
+}

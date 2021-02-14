@@ -1,0 +1,143 @@
+/* UI-related styles. */
+/* Basic UI classes. */
+.ui-content {
+  border: 1px solid rgb(221, 221, 221);
+  background: rgb(255, 255, 255);
+  color: rgb(51, 51, 51);
+}
+.ui-cursor-draggable {
+  cursor: move !important;
+}
+.ui-button {
+  border: 1px solid rgb(197, 197, 197);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  background: rgb(246, 246, 246);
+}
+.ui-button:hover {
+  background-color: rgb(210, 210, 210);
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+.ui-size-small {
+  height: 20px;
+  width: 100px;
+  font-size: 1rem;
+  padding: 7px;
+  box-sizing: content-box;
+}
+/* ReactJS custom modal classes. */
+.custom-modal-container {
+  position: absolute;
+  padding: 0.2em;
+  overflow: hidden;
+  resize: both;
+
+  min-width: 200px;
+  min-height: 200px;
+  max-width: 100vw;
+  max-height: 100vh;
+
+  box-sizing: content-box;
+
+  z-index: 101;
+  pointer-events: all;
+}
+.custom-modal-container:focus {
+  outline: blue solid 3px;
+}
+.custom-modal-header {
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-align: left;
+
+  box-sizing: content-box;
+
+  padding: 0.4em 1em;
+  background: rgb(233, 233, 233);
+  height: 1.3rem;
+  position: relative;
+}
+.custom-modal-header-span {
+  float: left;
+  margin: 0.1em 0;
+  white-space: nowrap;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.custom-modal-close-span {
+  width: 16px;
+  height: 16px;
+  padding: 1px;
+  display: inline-block;
+
+  text-align: center;
+}
+.custom-modal-close-button {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 22%;
+  right: 1em;
+  padding: 1px;
+
+  border: 1px solid rgb(197, 197, 197);
+  background: rgb(244, 244, 244);
+  font-weight: bold;
+  font-size: 0.6rem;
+}
+.custom-modal-content {
+  display: block;
+  padding: 0.5em 1em;
+  overflow: auto;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 1em;
+  text-align: left;
+
+  position: absolute;
+  top: 57px;
+  bottom: 82px;
+  right: 4px;
+  left: 4px;
+}
+.custom-modal-footer {
+  position: absolute;
+  bottom: 0;
+  right: 4px;
+  left: 4px;
+  height: 65px;
+
+  overflow: auto;
+  box-sizing: content-box;
+  text-align: left;
+  border-width: 1px 0 0 0;
+  padding: 0.4em 1em 0.4em 0.4em;
+}
+.custom-modal-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background: rgba(130, 127, 127, 0.09);
+
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+/* Hides a modal, more specifically, the `react-modal` modal. */
+.hide-modal {
+  bottom: unset;
+  overflow: visible;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  position: static;
+  background: none;
+  pointer-events: none;
+}
+.hide-modal:focus {
+  outline: none;
+}

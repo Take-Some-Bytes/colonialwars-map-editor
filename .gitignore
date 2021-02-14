@@ -1,0 +1,8 @@
+# You must ignore node_modules.
+node_modules/
+# If snowpack builds anything, it will be in dist/
+# We don't want that in our Git repository.
+dist/
+
+# MacOS has the .DS_Store file, which we do NOT want
+.DS_Store

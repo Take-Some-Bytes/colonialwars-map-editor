@@ -1,7 +1,7 @@
 {
   "name": "colonialwars-map-editor",
   "description": "Map editor for Colonial Wars.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build"

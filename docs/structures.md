@@ -12,8 +12,10 @@ Structure of Colonial Wars map save files.
     "mode": "Teams", // Either Teams, KOTH, or Siege
     "maxPlayers": 40, // Must be a positive integer
     "worldLimits": {
-      "WORLD_MIN": 0, // Must be a positive integer
-      "WORLD_MAX": 6000 // Must be a positive integer
+      // Must have x and y, and those properties must have a number describing
+      // the maximums for each axis.
+      "x": 6000,
+      "y": 6000
     },
     "startPositions": {
       // Must contain an object with alphanumerical object keys and

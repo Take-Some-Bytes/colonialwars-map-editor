@@ -9,13 +9,19 @@
   cursor: move !important;
 }
 .ui-button {
-  border: 1px solid rgb(197, 197, 197);
+  color: rgb(5, 5, 5);
+  text-align: center;
+  text-decoration: none;
   font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  background: rgb(246, 246, 246);
+
+  background-color: rgb(215, 213, 211);
+  border-radius: 5px;
+  border: none;
+
+  display: inline-block;
 }
 .ui-button:hover {
-  background-color: rgb(210, 210, 210);
+  background-color: rgb(182, 175, 167);
   color: rgb(0, 0, 0);
   cursor: pointer;
 }
@@ -25,6 +31,39 @@
   font-size: 1rem;
   padding: 7px;
   box-sizing: content-box;
+  border: 1px solid rgb(197, 197, 197);
+  background-color: rgb(246, 246, 246);
+}
+input[type='button'].ui-size-small:hover,
+button.ui-size-small:hover {
+  background-color: rgb(210, 210, 210);
+}
+.ui-size-large {
+  font-size: 1.3rem;
+  padding: 16.8px;
+  width: 225px;
+  height: 65px;
+}
+.ui-large-button {
+  display: inline-block;
+  cursor: pointer;
+  padding: 16.8px;
+
+  width: 225px;
+  height: 65px;
+
+  background-color: rgb(215, 213, 211);
+  border-radius: 5px;
+  border: none;
+
+  color: rgb(5, 5, 5);
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.ui-large-button:hover {
+  background-color: rgb(182, 175, 167);
 }
 /* ReactJS custom modal classes. */
 .custom-modal-container {
@@ -51,17 +90,16 @@
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   text-align: left;
-
   box-sizing: content-box;
 
   padding: 0.4em 1em;
   background: rgb(233, 233, 233);
-  height: 1.3rem;
+  height: 1.5rem;
   position: relative;
 }
 .custom-modal-header-span {
   float: left;
-  margin: 0.1em 0;
+  margin: 0.05em 0;
   white-space: nowrap;
   width: 90%;
   overflow: hidden;
@@ -79,14 +117,18 @@
   width: 22px;
   height: 22px;
   position: absolute;
-  top: 22%;
+  top: 25%;
   right: 1em;
   padding: 1px;
 
   border: 1px solid rgb(197, 197, 197);
-  background: rgb(244, 244, 244);
+  background-color: rgb(244, 244, 244);
   font-weight: bold;
   font-size: 0.6rem;
+}
+.custom-modal-close-button:hover {
+  background-color: rgb(233, 233, 233);
+  cursor: pointer;
 }
 .custom-modal-content {
   display: block;
@@ -140,4 +182,27 @@
 }
 .hide-modal:focus {
   outline: none;
+}
+/* ReactJS select menu classes. */
+.selectmenu-wrapper {
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: 15px;
+  background-position: right 5% bottom 50%;
+  background-color: rgb(246, 246, 246);
+}
+.selectmenu-content {
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  font-size: 1em;
+  color: rgb(0, 0, 0);
+
+  border: 0;
+  border-radius: 0;
+  padding: 10px 20px;
+  width: 100%;
+  height: 100%;
 }

@@ -8,6 +8,7 @@ import React from 'react'
 /**
  * @typedef {Object} FooterProps
  * @prop {string} version
+ * @prop {boolean} show
  */
 
 /**
@@ -17,7 +18,7 @@ import React from 'react'
  */
 export default function Footer (props) {
   return (
-    <footer id='home-footer-container'>
+    <footer id='home-footer-container' style={{ display: props.show ? 'block' : 'none' }}>
       Version {props.version}.
     </footer>
   )

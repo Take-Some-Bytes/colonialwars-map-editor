@@ -14,8 +14,10 @@ import Button from '../components/button.jsx'
  *
  * @typedef {'handleNewMap'|'handleLoadMap'} ButtonNames
  * @typedef {Record<ButtonNames, ButtonCallback>} ButtonCallbacks
+ *
  * @typedef {Object} ContentProps
  * @prop {ButtonCallbacks} buttonHandlers
+ * @prop {boolean} show
  */
 
 /**
@@ -25,7 +27,7 @@ import Button from '../components/button.jsx'
  */
 export default function Content (props) {
   return (
-    <article id='home-content-container'>
+    <article id='home-content-container' style={{ display: props.show ? 'block' : 'none' }}>
       <header>
         <h2>Either create a new map, or load an existing one from your computer.</h2>
       </header>

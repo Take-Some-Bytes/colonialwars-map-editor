@@ -1,6 +1,5 @@
 # Save File Structures
 Structures of Colonial Wars save files.
-Revision number 1.
 
 ## Map Save File structure
 Structure of Colonial Wars map save files.
@@ -24,10 +23,8 @@ Structure of Colonial Wars map save files.
       "French": { "x": 5750, "y": 5750 },
       "American": { "x": 3000, "y": 3000 }
     },
-    "unitDataExtends": "default", // Must be "default" or a valid file path
-    "tileDataExtends": "default", // Must be "default" or a valid file path
-    "buildingDataExtends": "default", // Must be "default" or a valid file path
-    "obstacleDataExtends": "default" // Must be "default" or a valid file path
+    "tileType": "grass", // Must be rock, grass, or sand.
+    "defaultHeight": 0 // Must be 0, 1, or 2
   }
 }
 ```

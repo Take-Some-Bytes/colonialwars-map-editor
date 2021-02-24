@@ -19,6 +19,7 @@ import React from 'react'
  *
  * @typedef {Object} SelectmenuProps
  * @prop {string} id
+ * @prop {string} name
  * @prop {string} arrowSrc
  * @prop {string} defaultValue
  * @prop {Dimensions} dimensions
@@ -44,6 +45,7 @@ export default function Selectmenu (props) {
     >
       <select
         id={props.id}
+        name={props.name}
         onChange={props.onChange}
         defaultValue={props.defaultValue}
         className='selectmenu-content'

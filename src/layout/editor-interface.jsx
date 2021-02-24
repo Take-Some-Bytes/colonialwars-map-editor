@@ -20,8 +20,8 @@ export default function MapEditorInterface (props) {
     <div
       className='editor-interface'
       style={{
-        // height: `${props.dimensions.height}px`,
-        // width: `${props.dimensions.width}px`
+        height: `${props.dimensions.height}px`,
+        width: `${props.dimensions.width}px`
       }}
     >
       hi

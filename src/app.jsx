@@ -9,8 +9,11 @@ import Layout from './layout/layout.jsx'
 import Header from './layout/header.jsx'
 import Footer from './layout/footer.jsx'
 import Content from './layout/content.jsx'
+import ErrorModal from './layout/error-modal.jsx'
 import NewMapModal from './layout/new-map-modal.jsx'
 import MapEditorContainer from './layout/editor-container.jsx'
+
+import Constants from './constants.js'
 
 import * as mathUtils from './helpers/math-utils.js'
 import * as fileUtils from './helpers/file-utils.js'
@@ -21,14 +24,10 @@ import * as fileUtils from './helpers/file-utils.js'
  */
 export default function App () {
   const [page, setPage] = React.useState(0)
+  const [error, setError] = React.useState(null)
   const [mapConfig, setMapConfig] = React.useState({})
   const [newMapConfig, setNewMapConfig] = React.useState({
-    size: {
-      x: 60,
-      y: 60
-    },
-    tileType: 'grass',
-    defaultHeight: 0
+    ...Constants.FALLBACKS.STARTING_MAP_CONFIG
   })
   const [newMapModalOpened, setNewMapModalOpened] = React.useState(false)
   const viewportDimensions = {
@@ -49,6 +48,7 @@ export default function App () {
       return vw
     })()
   }
+  console.log('tileType', newMapConfig.tileType)
 
   /**
    * Handles a change in the new map modal/form.
@@ -66,12 +66,14 @@ export default function App () {
         }
       }))
     } else {
-      setNewMapConfig(prevConfig => ({
-        ...prevConfig,
-        [target.name]: !isNaN(Number(target.value))
-          ? mathUtils.bound(target.value, 0, 2)
-          : target.value
-      }))
+      setNewMapConfig(prevConfig => {
+        return ({
+          ...prevConfig,
+          [target.name]: !isNaN(Number(target.value))
+            ? mathUtils.bound(target.value, 0, 2)
+            : target.value
+        })
+      })
     }
   }
   /**
@@ -82,12 +84,15 @@ export default function App () {
     e.stopPropagation()
     e.preventDefault()
     setPage(1)
+    console.log(newMapConfig.tileType)
     setMapConfig({
       configType: 'game-config',
       meta: {
         worldLimits: Object.fromEntries(Object.entries(newMapConfig.size).map(entry => {
           return [entry[0], entry[1] * 100]
-        }))
+        })),
+        tileType: newMapConfig.tileType,
+        defaultHeight: newMapConfig.defaultHeight
       }
     })
     setNewMapModalOpened(false)
@@ -124,6 +129,10 @@ export default function App () {
                 })))[0].contents
               )
               data = JSON.parse(new TextDecoder('utf-8').decode(rawData))
+              if (data.configType !== 'game-config') {
+                setError(new TypeError('Invalid configuration file!'))
+                return
+              }
               setMapConfig(data)
               setPage(1)
             } catch (err) {
@@ -134,7 +143,21 @@ export default function App () {
         show={page === 0}
       />
       <Footer version={import.meta.env.SNOWPACK_PUBLIC_VERSION} show={page === 0} />
-      <MapEditorContainer show={page === 1} viewportDimensions={viewportDimensions} />
+      <MapEditorContainer
+        show={page === 1}
+        mapConfig={mapConfig}
+        keyBindings={{
+          basic: {
+            directionBindings: {
+              up: ['w', 'W'],
+              down: ['s', 'S'],
+              left: ['a', 'A'],
+              right: ['d', 'D']
+            }
+          }
+        }}
+        viewportDimensions={viewportDimensions}
+      />
       <NewMapModal
         isOpen={newMapModalOpened}
         position={{
@@ -145,6 +168,15 @@ export default function App () {
         inputFieldValues={newMapConfig}
         onChange={handleNewMapFormChange}
         onOkButtonClick={onOkButtonClick}
+      />
+      <ErrorModal
+        isOpen={error instanceof Error}
+        position={{
+          x: Math.round(viewportDimensions.width / 2) - 400 / 2,
+          y: Math.round(viewportDimensions.height / 2) - 400 / 2
+        }}
+        closeModal={() => { setError(null) }}
+        error={error === null ? {} : error}
       />
     </Layout>
   )

@@ -1,0 +1,6 @@
+{
+  "tileLocations": {
+    "grass": "tiles/grass-tile.png",
+    "sand": "tiles/sand-tile.png"
+  }
+}

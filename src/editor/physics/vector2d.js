@@ -88,6 +88,18 @@ export default class Vector2D {
   }
 
   /**
+   * Floors the axes of a Vector2D to a whole number and returns a new Vector2D
+   * @param {Vector2D} vector The Vector2D to floor the axes of.
+   * @returns {Vector2D}
+   */
+  static floorAxes (vector) {
+    return new Vector2D(
+      Math.floor(vector.x),
+      Math.floor(vector.y)
+    )
+  }
+
+  /**
    * Scales this Vector2D by a constant scalar. Returns this Vector2D for method chaining.
    * @param {number} scalar The constant to scale this Vector2D by.
    * @returns {Vector2D}

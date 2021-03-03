@@ -48,7 +48,6 @@ export default function App () {
       return vw
     })()
   }
-  console.log('tileType', newMapConfig.tileType)
 
   /**
    * Handles a change in the new map modal/form.
@@ -62,7 +61,11 @@ export default function App () {
         ...prevConfig,
         size: {
           ...prevConfig.size,
-          [target.name[5]]: mathUtils.bound(Number(target.value), 40, 120)
+          [target.name[5]]: mathUtils.bound(
+            Number(target.value),
+            Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE,
+            Constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE
+          )
         }
       }))
     } else {
@@ -70,7 +73,11 @@ export default function App () {
         return ({
           ...prevConfig,
           [target.name]: !isNaN(Number(target.value))
-            ? mathUtils.bound(target.value, 0, 2)
+            ? mathUtils.bound(
+                Number(target.value),
+                Constants.MAP_CONFIG_LIMITS.MIN_DEFAULT_HEIGHT,
+                Constants.MAP_CONFIG_LIMITS.MAX_DEFAULT_HEIGHT
+              )
             : target.value
         })
       })
@@ -84,7 +91,6 @@ export default function App () {
     e.stopPropagation()
     e.preventDefault()
     setPage(1)
-    console.log(newMapConfig.tileType)
     setMapConfig({
       configType: 'game-config',
       meta: {

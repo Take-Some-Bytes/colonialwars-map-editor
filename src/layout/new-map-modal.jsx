@@ -8,6 +8,8 @@ import React from 'react'
 import SelectMenu from '../components/selectmenu.jsx'
 import CustomModal from '../components/custom-modal.jsx'
 
+import Constants from '../constants.js'
+
 /**
  * @callback ChangeHandler
  * @param {React.ChangeEvent<HTMLSelectElement|HTMLInputElement>} e
@@ -73,8 +75,8 @@ export default function NewMapModal (props) {
         type='number'
         name='size.x'
         value={props.inputFieldValues.size.x}
-        min={40}
-        max={120}
+        min={Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
+        max={Constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
       />
       &nbsp;:&nbsp;
@@ -82,8 +84,8 @@ export default function NewMapModal (props) {
         type='number'
         name='size.y'
         value={props.inputFieldValues.size.y}
-        min={40}
-        max={120}
+        min={Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
+        max={Constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
       />
       <br /><br />

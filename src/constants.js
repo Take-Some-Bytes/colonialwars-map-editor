@@ -28,5 +28,11 @@ export default Object.freeze({
     imgMetaDir: '/meta/game-images',
     spriteSheetDir: '/imgs/sprite-sheets',
     spriteSheetMetaDir: '/meta/sprite-sheets'
+  },
+  MAP_CONFIG_LIMITS: {
+    MIN_MAP_SIZE: 50,
+    MAX_MAP_SIZE: 200,
+    MIN_DEFAULT_HEIGHT: 0,
+    MAX_DEFAULT_HEIGHT: 2
   }
 })

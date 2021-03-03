@@ -25,6 +25,7 @@ import Editor from '../editor/editor.js'
  */
 export default function MapEditorContainer (props) {
   const editor = React.useRef(undefined)
+  const editorInitializing = React.useRef(false)
   const tenthScreenHeight = props.viewportDimensions.height / 10
   const tenthScreenWidth = props.viewportDimensions.width / 10
 
@@ -37,10 +38,12 @@ export default function MapEditorContainer (props) {
             height: props.viewportDimensions.height
           }}
           draw={async ctx => {
-            if (editor.current instanceof Error) {
+            if (editor.current instanceof Error || editorInitializing.current) {
               // Do nothing.
               // The above check makes sure that, if an error was encountered
               // while doing messing with the Editor, we would stop doing things.
+              // Or, if the editor is still initializing, we would wait for it
+              // to finish initializing.
             } else if (editor.current instanceof Editor) {
               try {
                 await editor.current.run()
@@ -49,13 +52,16 @@ export default function MapEditorContainer (props) {
                 editor.current = new Error(JSON.stringify(ex))
               }
             } else {
+              editorInitializing.current = true
               try {
                 editor.current = await Editor.create(
-                  props.mapConfig, props.keyBindings, ctx
+                  props.mapConfig, props.keyBindings, ctx, props.viewportDimensions
                 )
               } catch (ex) {
                 console.error(ex)
                 editor.current = new Error(JSON.stringify(ex))
+              } finally {
+                editorInitializing.current = false
               }
             }
           }}

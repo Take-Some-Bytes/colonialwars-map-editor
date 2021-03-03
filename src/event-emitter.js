@@ -1,7 +1,7 @@
 /* eslint-env browser */
 /**
  * @fileoverview Port of the Node.JS EventEmitter API to the browser.
- * @author Horton Cheng <horton0712@gmail.com>
+ * @author Take-Some-Bytes <horton0712@gmail.com>
  */
 
 /**

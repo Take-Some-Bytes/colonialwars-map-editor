@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "scripts": {
     "start": "snowpack dev",
-    "build": "snowpack build"
+    "build": "snowpack build",
+    "clean-build": "rm -rf dist"
   },
   "homepage": "https://github.com/Take-Some-Bytes/colonialwars-map-editor#colonialwars-map-editor",
   "bugs": {
@@ -15,7 +16,7 @@
     "url": "https://github.com/Take-Some-Bytes/colonialwars-map-editor.git"
   },
   "author": {
-    "name": "Horton Cheng",
+    "name": "Take-Some-Bytes",
     "email": "horton0712@gmail.com"
   },
   "dependencies": {
@@ -28,7 +29,7 @@
   "devDependencies": {
     "@snowpack/plugin-dotenv": "^2.0.5",
     "@snowpack/plugin-react-refresh": "^2.4.0",
-    "snowpack": "^3.0.11",
+    "snowpack": "^3.0.13",
     "standard": "*"
   },
   "private": true,

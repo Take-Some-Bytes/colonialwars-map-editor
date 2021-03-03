@@ -16,5 +16,10 @@ module.exports = exports = {
   plugins: [
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv'
-  ]
+  ],
+  optimize: {
+    minify: true,
+    bundle: true,
+    target: 'es2015'
+  }
 }

@@ -8,5 +8,5 @@ This application is completely optional. It is only meant to help with the creat
 editing of Colonial Wars maps.
 
 ## Compatibility
-The save files created by this application currently follows the first revision
-of Colonial Wars save file structures.
+The save files that can be opened by this application currently follows an ***unstable version*** of
+Colonial Wars save files. This application currently does not produce any save files.

@@ -20,6 +20,7 @@ import InputManager from './input/input-manager.js'
  * @prop {Object} meta.worldLimits
  * @prop {number} meta.worldLimits.x
  * @prop {number} meta.worldLimits.y
+ * @prop {string} meta.tileType
  *
  * @typedef {Object} EditorOptions
  * @prop {MapConfig} mapConfig
@@ -27,6 +28,7 @@ import InputManager from './input/input-manager.js'
  * @prop {number} playerSpeed
  * @prop {Viewport} viewport
  * @prop {Drawing} drawing
+ * @prop {import('../components/custom-modal').Dimensions} viewportDimensions
  */
 
 /**
@@ -40,12 +42,14 @@ export default class Editor {
   constructor (options) {
     const {
       mapConfig, playerSpeed,
-      viewport, inputManager, drawing
+      viewport, inputManager, drawing,
+      viewportDimensions
     } = options
     this.mapConfig = {
       ...mapConfig
     }
 
+    this.viewportDimensions = viewportDimensions
     this.inputManager = inputManager
     this.playerSpeed = playerSpeed
     this.viewport = viewport
@@ -57,24 +61,27 @@ export default class Editor {
 
     this.worldBounds = Object.freeze({
       x: { MIN: 0, MAX: this.mapConfig.meta.worldLimits.x },
-      y: { MIN: 0, MAX: this.mapConfig.meta.worldLimits.x }
+      y: { MIN: 0, MAX: this.mapConfig.meta.worldLimits.y }
     })
   }
 
   /**
    * Initializes this editor instance.
    */
-  init () {
+  async init () {
     this.self = Player.create(
       new Vector2D(this.worldBounds.x.MAX / 2, this.worldBounds.y.MAX / 2),
       this.playerSpeed, this.worldBounds
     )
+    console.debug(this.worldBounds)
     this.lastUpdateTime = Date.now()
 
     this.inputManager.on('input', state => {
       // this.self.addInputToQueue(state)
       this.self.updateOnInput(state)
     })
+
+    await this.drawing.init()
   }
 
   /**
@@ -83,7 +90,7 @@ export default class Editor {
   async draw () {
     if (this.self) {
       this.drawing.clear()
-      await this.drawing.drawTiles()
+      await this.drawing.drawTiles(this.self.position, this.viewportDimensions)
       // this.drawing.drawTiles()
     }
   }
@@ -111,9 +118,11 @@ export default class Editor {
    * @param {StartingMapConfig} mapConfig The map configuration.
    * @param {KeyBindings} keyBindings The editor's key bindings.
    * @param {CanvasRenderingContext2D} context The canvas context to draw on.
+   * @param {import('../components/custom-modal').Dimensions} viewportDimensions
+   * The client's current viewport dimensions.
    * @returns {Promise<Editor>}
    */
-  static async create (mapConfig, keyBindings, context) {
+  static async create (mapConfig, keyBindings, context, viewportDimensions) {
     const viewport = Viewport.create(context.canvas)
     const inputManager = InputManager.create(
       keyBindings.basic, document, context.canvas
@@ -127,9 +136,10 @@ export default class Editor {
       playerSpeed: Constants.GAME_CONSTANTS.PLAYER_SPEED,
       inputManager: inputManager,
       viewport: viewport,
-      drawing: drawing
+      drawing: drawing,
+      viewportDimensions: viewportDimensions
     })
-    editor.init()
+    await editor.init()
     return editor
   }
 }

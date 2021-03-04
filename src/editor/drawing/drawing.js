@@ -4,6 +4,7 @@
  * drawn for the map editor.
  */
 
+import MapDrawer from './map-drawer.js'
 import Constants from '../../constants.js'
 import ImageDrawer from './image-drawer.js'
 
@@ -22,6 +23,7 @@ import * as loaders from '../../helpers/loaders.js'
  * @prop {DrawingData} drawingData Data that is required for this class to
  * draw stuff properly.
  * @prop {ImageDrawer} imgDrawer The ImageDrawer to draw with.
+ * @prop {MapDrawer} mapDrawer
  * @prop {import('../viewport').default} viewport The viewport class to work with.
  */
 
@@ -38,16 +40,24 @@ export default class Drawing {
   constructor (options) {
     const {
       context, drawingData, imgDrawer,
-      viewport
+      viewport, mapDrawer
     } = options
 
     this.context = context
     this.viewport = viewport
     this.imgDrawer = imgDrawer
+    this.mapDrawer = mapDrawer
     this.drawingData = drawingData
 
     this.width = context.canvas.width
     this.height = context.canvas.height
+  }
+
+  /**
+   * Initializes this Drawing class.
+   */
+  async init () {
+    await this.mapDrawer.init()
   }
 
   /**
@@ -59,32 +69,12 @@ export default class Drawing {
 
   /**
    * Draws the background tiles to the canvas.
+   * @param {import('../physics/vector2d').default} playerPosition The player's current position.
+   * @param {import('../../components/custom-modal').Dimensions} viewportDimensions
+   * The client's viewport dimensions.
    */
-  async drawTiles () {
-    const start = this.viewport.toCanvas({ x: 0, y: 0 })
-    const end = this.viewport.toCanvas({
-      x: this.drawingData.worldSize.x,
-      y: this.drawingData.worldSize.y
-    })
-
-    for (
-      let x = start.x, endX = end.x; x < endX;
-      x += Constants.GAME_CONSTANTS.DRAWING_TILE_SIZE
-    ) {
-      for (
-        let y = start.y, endY = end.y; y < endY;
-        y += Constants.GAME_CONSTANTS.DRAWING_TILE_SIZE
-      ) {
-        await this.imgDrawer.drawImage(
-          this.drawingData.images.tile,
-          { position: { x, y }, context: this.context }
-        )
-        // this.imgDrawer.drawImage(
-        //   this.drawingData.images.tile,
-        //   { position: { x, y }, context: this.context }
-        // )
-      }
-    }
+  async drawTiles (playerPosition, viewportDimensions) {
+    this.mapDrawer.drawTiles(playerPosition, viewportDimensions)
   }
 
   /**
@@ -97,20 +87,30 @@ export default class Drawing {
    */
   static async create (context, viewport, mapConfig) {
     const imgsMeta = await loaders.loadAsJson('/meta/images.meta.json')
+    const imgDrawer = new ImageDrawer({
+      ...Constants.IMAGE_DRAWER_CONFIG,
+      context
+    })
+
+    // debugger
 
     return new Drawing({
       context: context,
       viewport: viewport,
-      imgDrawer: new ImageDrawer({
-        ...Constants.IMAGE_DRAWER_CONFIG,
-        context
-      }),
+      imgDrawer: imgDrawer,
       drawingData: {
         worldSize: mapConfig.meta.worldLimits,
         images: {
           tile: imgsMeta.tileLocations[mapConfig.meta.tileType]
         }
-      }
+      },
+      mapDrawer: new MapDrawer({
+        viewport: viewport,
+        mapConfig: mapConfig,
+        imageMeta: imgsMeta,
+        imageDrawer: imgDrawer,
+        gameCanvasContext: context
+      })
     })
   }
 }

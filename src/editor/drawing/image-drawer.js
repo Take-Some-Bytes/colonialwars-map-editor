@@ -100,7 +100,7 @@ export default class ImageDrawer {
    */
   _getImage (pathOrAlias) {
     if (this.aliases.has(pathOrAlias)) {
-      return this.aliases.get(pathOrAlias)
+      return this.images.get(this.aliases.get(pathOrAlias).pointer)
     } else if (this.images.has(pathOrAlias)) {
       return this.images.get(pathOrAlias)
     }
@@ -142,47 +142,6 @@ export default class ImageDrawer {
    * @returns {Promise<HTMLImageElement>}
    */
   async loadImage (path, options = {}) {
-    // if (this.pendingImgLoads.includes(path)) {
-    //   // The image is currently being loaded, so don't try to load it
-    //   // again.
-    //   console.log('here')
-    //   return
-    // }
-    // const loadMeta = options.loadMeta
-    // const imgDir = options.imgDir || this.imgDir
-    // const imgMetaDir = options.imgMetaDir || this.imgMetaDir
-    // const aliases = Array.isArray(options)
-    //   ? options.aliases.slice()
-    //   : []
-
-    // this.pendingImgLoads.push(path)
-
-    // const img = await loaders.loadImageFromBlob(
-    //   await loaders.loadAsBlob(`${imgDir}/${path}`)
-    // )
-    // let meta = null
-
-    // if (loadMeta) {
-    //   try {
-    //     meta = await loaders.loadAsJson(`${imgMetaDir}/${path}.meta.json`)
-    //   } catch (ex) {
-    //     // Failed to load meta; just warn the user.
-    //     console.warn(`Failed to load meta data for image ${path}.`)
-    //     meta = null
-    //   }
-    // }
-
-    // this.images.set(path, img)
-
-    // if (meta && Array.isArray(meta.aliases)) {
-    //   aliases.push(...meta.aliases)
-    // }
-
-    // for (const alias of aliases) {
-    //   this.aliases.set(alias, { pointer: path })
-    // }
-
-    // return img
     if (this.pendingImgLoads.has(path)) {
       // The image is currently being loaded.
       return (await this.pendingImgLoads.get(path)).img

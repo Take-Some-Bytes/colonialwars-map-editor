@@ -79,6 +79,7 @@ export default class InputTracker extends EventEmitter {
    * @param {MouseEvent} event The Mouse event to handle.
    */
   onMouseDown (event) {
+    event.preventDefault()
     if (event.button === 0) {
       this.leftMouseDown = true
     }
@@ -102,6 +103,7 @@ export default class InputTracker extends EventEmitter {
    * @param {MouseEvent} event The Mouse event to handle.
    */
   onMouseUp (event) {
+    event.preventDefault()
     if (event.button === 0) {
       this.leftMouseDown = false
     }
@@ -125,6 +127,7 @@ export default class InputTracker extends EventEmitter {
    * @param {MouseEvent} event The Mouse event to handle.
    */
   onMouseMove (event) {
+    event.preventDefault()
     this.mousePosition[0] = event.offsetX
     this.mousePosition[1] = event.offsetY
 

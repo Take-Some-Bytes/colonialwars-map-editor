@@ -11,10 +11,6 @@ import CustomModal from '../components/custom-modal.jsx'
 import Constants from '../constants.js'
 
 /**
- * @callback ChangeHandler
- * @param {React.ChangeEvent<HTMLSelectElement|HTMLInputElement>} e
- * @returns {void}
- *
  * @callback ClickHandler
  * @param {React.MouseEvent<HTMLButtonElement>} e
  * @returns {void}
@@ -28,7 +24,8 @@ import Constants from '../constants.js'
  *
  * @typedef {Object} NewMapModalProps
  * @prop {boolean} isOpen
- * @prop {ChangeHandler} onChange
+ * @prop {React.ChangeEventHandler<HTMLSelectElement|HTMLInputElement>} onChange
+ * @prop {React.FocusEventHandler<HTMLSelectElement|HTMLInputElement>} onBlur
  * @prop {ClickHandler} onOkButtonClick
  * @prop {FieldValues} inputFieldValues
  * @prop {Record<'x'|'y', number>} position
@@ -78,6 +75,7 @@ export default function NewMapModal (props) {
         min={Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
         max={Constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
+        onBlur={props.onBlur}
       />
       &nbsp;:&nbsp;
       <input
@@ -87,6 +85,7 @@ export default function NewMapModal (props) {
         min={Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
         max={Constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
+        onBlur={props.onBlur}
       />
       <br /><br />
       Tile type:
@@ -104,6 +103,7 @@ export default function NewMapModal (props) {
           { id: 'item-3', value: 'rock', displayedText: 'Rock' }
         ]}
         onChange={props.onChange}
+        onBlur={props.onBlur}
       />
       <br />
       Default height: &nbsp;
@@ -114,6 +114,7 @@ export default function NewMapModal (props) {
         min={0}
         max={2}
         onChange={props.onChange}
+        onBlur={props.onBlur}
       />
     </CustomModal>
   )

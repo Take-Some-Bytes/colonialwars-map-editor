@@ -61,6 +61,32 @@ export default function App () {
         ...prevConfig,
         size: {
           ...prevConfig.size,
+          [target.name[5]]: target.value
+        }
+      }))
+    } else {
+      setNewMapConfig(prevConfig => {
+        return ({
+          ...prevConfig,
+          [target.name]: target.value
+        })
+      })
+    }
+  }
+  /**
+   * Handler for the blurring of an input field.
+   * @param {React.FocusEvent<HTMLInputElement|HTMLSelectElement>} e The
+   * event that happened.
+   */
+  function handleNewMapFormBlur (e) {
+    const target = e.target
+    // This function is mainly to bound the number inputs to
+    // their respective minimums and maximums.
+    if (target.name === 'size.x' || target.name === 'size.y') {
+      setNewMapConfig(prevConfig => ({
+        ...prevConfig,
+        size: {
+          ...prevConfig.size,
           [target.name[5]]: mathUtils.bound(
             Number(target.value),
             Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE,
@@ -172,6 +198,7 @@ export default function App () {
         }}
         closeModal={() => { setNewMapModalOpened(false) }}
         inputFieldValues={newMapConfig}
+        onBlur={handleNewMapFormBlur}
         onChange={handleNewMapFormChange}
         onOkButtonClick={onOkButtonClick}
       />

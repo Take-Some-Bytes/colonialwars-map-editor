@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import CustomModal from '../components/custom-modal.jsx'
+import CustomModal from '../../components/custom-modal.jsx'
 
 /**
  * @typedef {Object} ErrorModal

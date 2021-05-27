@@ -1,0 +1,17 @@
+/* CSS styles various standalone modals. */
+.newmap-config {
+  display: flex;
+  flex-direction: row;
+}
+.newmap-config__bsc {
+  border-right: 1px solid black;
+  padding: 10px;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+.newmap-config__adv {
+  border-left: 1px solid black;
+  padding: 10px;
+  flex-grow: 1;
+  flex-basis: 0;
+}

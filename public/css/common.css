@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: initial;
 }
 
 html, body {
@@ -21,6 +22,11 @@ h1 {
 input[type='number'] {
   width: 60px;
   font-size: 1rem;
+}
+input[type='text'] {
+  display: block;
+  font-size: 0.9rem;
+  width: 200px;
 }
 
 #root {

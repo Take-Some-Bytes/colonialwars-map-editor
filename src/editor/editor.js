@@ -10,7 +10,15 @@ import Drawing from './drawing/drawing.js'
 import Vector2D from './physics/vector2d.js'
 import InputManager from './input/input-manager.js'
 
+import debugFactory from 'debug'
+
+const debug = debugFactory('cw-map-editor:editor')
+
 /**
+ * @typedef {Object} WorldLimits
+ * @prop {number} x
+ * @prop {number} y
+ *
  * @typedef {Object} KeyBindings
  * @prop {import('./input/input-manager').BasicKeyBindings} basic
  *
@@ -23,7 +31,7 @@ import InputManager from './input/input-manager.js'
  * @prop {string} meta.tileType
  *
  * @typedef {Object} EditorOptions
- * @prop {MapConfig} mapConfig
+ * @prop {import('./map-config').default} mapConfig
  * @prop {InputManager} inputManager
  * @prop {number} playerSpeed
  * @prop {Viewport} viewport
@@ -45,9 +53,7 @@ export default class Editor {
       viewport, inputManager, drawing,
       viewportDimensions
     } = options
-    this.mapConfig = {
-      ...mapConfig
-    }
+    this.mapConfig = mapConfig
 
     this.viewportDimensions = viewportDimensions
     this.inputManager = inputManager
@@ -56,12 +62,14 @@ export default class Editor {
     this.drawing = drawing
 
     this.self = null
+    this.hasUnsavedChanges = true
+    this.suspended = false
     this.lastUpdateTime = 0
     this.deltaTime = 0
 
     this.worldBounds = Object.freeze({
-      x: { MIN: 0, MAX: this.mapConfig.meta.worldLimits.x },
-      y: { MIN: 0, MAX: this.mapConfig.meta.worldLimits.y }
+      x: { MIN: 0, MAX: this.mapConfig.worldLimits.x },
+      y: { MIN: 0, MAX: this.mapConfig.worldLimits.y }
     })
   }
 
@@ -73,7 +81,6 @@ export default class Editor {
       new Vector2D(this.worldBounds.x.MAX / 2, this.worldBounds.y.MAX / 2),
       this.playerSpeed, this.worldBounds
     )
-    console.debug(this.worldBounds)
     this.lastUpdateTime = Date.now()
 
     this.inputManager.on('input', state => {
@@ -87,18 +94,22 @@ export default class Editor {
   /**
    * Draws the entities onto the client's screen.
    */
-  async draw () {
+  draw () {
     if (this.self) {
       this.drawing.clear()
-      await this.drawing.drawTiles(this.self.position, this.viewportDimensions)
-      // this.drawing.drawTiles()
+      this.drawing.drawTiles(this.self.position, this.viewportDimensions)
     }
   }
 
   /**
    * Function to call on every iteration of the animation/update loop.
    */
-  async run () {
+  run () {
+    if (this.suspended) {
+      // Editor is suspended! Do nothing.
+      return
+    }
+
     const currentTime = Date.now()
     this.deltaTime = currentTime - this.lastUpdateTime
     this.lastUpdateTime = currentTime
@@ -109,13 +120,36 @@ export default class Editor {
       this.viewport.update(this.deltaTime)
     }
 
-    await this.draw()
-    // this.draw()
+    this.draw()
+  }
+
+  /**
+   * Call this when you want the editor to stop.
+   */
+  stop () {
+    debug('Editor stopped')
+    this.inputManager.stopTracking(document, this.drawing.context.canvas)
+  }
+
+  /**
+   * Suspends this Editor, making it stop taking input and stop updating.
+   */
+  suspend () {
+    this.inputManager.stopTracking(document, this.drawing.context.canvas)
+    this.suspended = true
+  }
+
+  /**
+   * Unsuspends this Editor, making it start taking input and updating again.
+   */
+  unsuspend () {
+    this.inputManager.startTracking(document, this.drawing.context.canvas)
+    this.suspended = false
   }
 
   /**
    * Factory method for creating a new Editor.
-   * @param {StartingMapConfig} mapConfig The map configuration.
+   * @param {import('./map-config').default} mapConfig The map configuration.
    * @param {KeyBindings} keyBindings The editor's key bindings.
    * @param {CanvasRenderingContext2D} context The canvas context to draw on.
    * @param {import('../components/custom-modal').Dimensions} viewportDimensions

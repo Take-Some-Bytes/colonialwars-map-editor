@@ -34,6 +34,12 @@ export default class InputTracker extends EventEmitter {
     this.leftMouseDown = false
     this.rightMouseDown = false
     this.mousePosition = [0, 0]
+
+    this.onKeyDown = this.onKeyDown.bind(this)
+    this.onKeyUp = this.onKeyUp.bind(this)
+    this.onMouseDown = this.onMouseDown.bind(this)
+    this.onMouseUp = this.onMouseUp.bind(this)
+    this.onMouseMove = this.onMouseMove.bind(this)
   }
 
   /**
@@ -41,6 +47,7 @@ export default class InputTracker extends EventEmitter {
    * @param {KeyboardEvent} event The event to handle.
    */
   onKeyDown (event) {
+    event.preventDefault()
     if (!this.keysPressed.includes(event.key)) {
       this.keysPressed.push(event.key)
     }
@@ -61,6 +68,7 @@ export default class InputTracker extends EventEmitter {
    * @param {KeyboardEvent} event The event to handle.
    */
   onKeyUp (event) {
+    event.preventDefault()
     this.keysPressed.splice(this.keysPressed.indexOf(event.key), 1)
     const state = {
       keysPressed: this.keysPressed,
@@ -144,21 +152,33 @@ export default class InputTracker extends EventEmitter {
   }
 
   /**
-   * Applies the event handlers to elements in the DOM.
+   * Attaches the event handlers to elements in the DOM.
    * @param {Element} keyElement The element to track keypresses on.
    * @param {Element} mouseClickElement The element to track mouse clicks on.
-   * @param {Element} mouseMoveElement The element to track mouse movement
-   * relative to.
+   * @param {Element} mouseMoveElement The element to track mouse movement relative to.
    */
-  applyEventHandlers (keyElement, mouseClickElement, mouseMoveElement) {
-    keyElement.addEventListener('keydown', this.onKeyDown.bind(this))
-    keyElement.addEventListener('keyup', this.onKeyUp.bind(this))
-    mouseClickElement.addEventListener(
-      'mousedown', this.onMouseDown.bind(this)
-    )
-    mouseClickElement.addEventListener('mouseup', this.onMouseUp.bind(this))
+  attachEventHandlers (keyElement, mouseClickElement, mouseMoveElement) {
+    keyElement.addEventListener('keydown', this.onKeyDown)
+    keyElement.addEventListener('keyup', this.onKeyUp)
+    mouseClickElement.addEventListener('mousedown', this.onMouseDown)
+    mouseClickElement.addEventListener('mouseup', this.onMouseUp)
     mouseMoveElement.setAttribute('tabindex', 1)
-    mouseMoveElement.addEventListener('mousemove', this.onMouseMove.bind(this))
+    mouseMoveElement.addEventListener('mousemove', this.onMouseMove)
+  }
+
+  /**
+   * Detaches the event handlers from elements in the DOM.
+   * @param {Element} keyElement The element that we tracked keypresses on.
+   * @param {Element} mouseClickElement The element that we tracked mouse clicks on.
+   * @param {Element} mouseMoveElement The element that we tracked mouse movement relative to.
+   */
+  detachEventHandlers (keyElement, mouseClickElement, mouseMoveElement) {
+    keyElement.removeEventListener('keydown', this.onKeyDown)
+    keyElement.removeEventListener('keyup', this.onKeyUp)
+    mouseClickElement.removeEventListener('mousedown', this.onMouseDown)
+    mouseClickElement.removeEventListener('mouseup', this.onMouseUp)
+    mouseMoveElement.setAttribute('tabindex', 1)
+    mouseMoveElement.removeEventListener('mousemove', this.onMouseMove)
   }
 
   /**
@@ -171,7 +191,7 @@ export default class InputTracker extends EventEmitter {
    */
   static create (keyElement, mouseMoveElement) {
     const input = new InputTracker()
-    input.applyEventHandlers(keyElement, keyElement, mouseMoveElement)
+    input.attachEventHandlers(keyElement, keyElement, mouseMoveElement)
     return input
   }
 }

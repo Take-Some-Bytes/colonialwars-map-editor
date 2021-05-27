@@ -113,6 +113,24 @@ export default class InputManager extends EventEmitter {
   }
 
   /**
+   * Start tracking input.
+   * @param {Element} keyElement The element to track key presses on.
+   * @param {Element} mouseElement The element to track mouse input on.
+   */
+  startTracking (keyElement, mouseElement) {
+    this.inputTracker.attachEventHandlers(keyElement, keyElement, mouseElement)
+  }
+
+  /**
+   * Stop tracking input.
+   * @param {Element} keyElement The element that we tracked key presses on.
+   * @param {Element} mouseElement The element that we tracked mouse input on.
+   */
+  stopTracking (keyElement, mouseElement) {
+    this.inputTracker.detachEventHandlers(keyElement, keyElement, mouseElement)
+  }
+
+  /**
    * Factory method for a InputManager class.
    * @param {BasicKeyBindings} basicKeyBindings The basic key bindings for this client.
    * @param {Element} keyElement The element to track key presses on.

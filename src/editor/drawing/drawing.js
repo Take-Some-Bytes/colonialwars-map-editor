@@ -6,23 +6,12 @@
 
 import MapDrawer from './map-drawer.js'
 import Constants from '../../constants.js'
-import ImageDrawer from './image-drawer.js'
 
 import * as loaders from '../../helpers/loaders.js'
 
 /**
- * @typedef {Object} DrawingData
- * @prop {Object} worldSize
- * @prop {number} worldSize.x
- * @prop {number} worldSize.y
- * @prop {Object} images
- * @prop {string} images.tile
- *
  * @typedef {Object} DrawingOptions
  * @prop {CanvasRenderingContext2D} context The canvas context to draw to.
- * @prop {DrawingData} drawingData Data that is required for this class to
- * draw stuff properly.
- * @prop {ImageDrawer} imgDrawer The ImageDrawer to draw with.
  * @prop {MapDrawer} mapDrawer
  * @prop {import('../viewport').default} viewport The viewport class to work with.
  */
@@ -39,15 +28,12 @@ export default class Drawing {
    */
   constructor (options) {
     const {
-      context, drawingData, imgDrawer,
-      viewport, mapDrawer
+      context, viewport, mapDrawer
     } = options
 
     this.context = context
     this.viewport = viewport
-    this.imgDrawer = imgDrawer
     this.mapDrawer = mapDrawer
-    this.drawingData = drawingData
 
     this.width = context.canvas.width
     this.height = context.canvas.height
@@ -70,10 +56,10 @@ export default class Drawing {
   /**
    * Draws the background tiles to the canvas.
    * @param {import('../physics/vector2d').default} playerPosition The player's current position.
-   * @param {import('../../components/custom-modal').Dimensions} viewportDimensions
+   * @param {import('../../helpers/display-utils').ViewportDimensions} viewportDimensions
    * The client's viewport dimensions.
    */
-  async drawTiles (playerPosition, viewportDimensions) {
+  drawTiles (playerPosition, viewportDimensions) {
     this.mapDrawer.drawTiles(playerPosition, viewportDimensions)
   }
 
@@ -82,35 +68,30 @@ export default class Drawing {
    * @param {CanvasRenderingContext2D} context The canvas context to draw to.
    * @param {import('../viewport').default} viewport The viewport object for
    * coordinate translation.
-   * @param {{}} mapConfig A reference to the current map configurations.
+   * @param {import('../map-config').default} mapConfig A reference to the current map configurations.
    * @returns {Promise<Drawing>}
    */
   static async create (context, viewport, mapConfig) {
-    const imgsMeta = await loaders.loadAsJson('/meta/images.meta.json')
-    const imgDrawer = new ImageDrawer({
-      ...Constants.IMAGE_DRAWER_CONFIG,
-      context
+    const imgLoader = new loaders.ImageLoader({
+      baseURL: `${window.origin}${Constants.DRAWING_CONSTANTS.baseUrl}`
     })
-
-    // debugger
+    const mapDrawer = new MapDrawer({
+      gameCanvasContext: context,
+      imgLoader: imgLoader,
+      viewport: viewport,
+      mapConfig: {
+        // tileType: mapConfig.meta.tileType,
+        tileType: mapConfig.tileType,
+        staticElems: {},
+        // worldLimits: mapConfig.meta.worldLimits
+        worldLimits: mapConfig.worldLimits
+      }
+    })
 
     return new Drawing({
       context: context,
       viewport: viewport,
-      imgDrawer: imgDrawer,
-      drawingData: {
-        worldSize: mapConfig.meta.worldLimits,
-        images: {
-          tile: imgsMeta.tileLocations[mapConfig.meta.tileType]
-        }
-      },
-      mapDrawer: new MapDrawer({
-        viewport: viewport,
-        mapConfig: mapConfig,
-        imageMeta: imgsMeta,
-        imageDrawer: imgDrawer,
-        gameCanvasContext: context
-      })
+      mapDrawer: mapDrawer
     })
   }
 }

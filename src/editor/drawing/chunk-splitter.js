@@ -8,6 +8,10 @@ import Vector2D from '../physics/vector2d.js'
 import * as loaders from '../../helpers/loaders.js'
 import * as mathUtils from '../../helpers/math-utils.js'
 
+import debugFactory from 'debug'
+
+const debug = debugFactory('cw-map-editor:chunk-splitter')
+
 /**
  * @typedef {Object} ChunkSplitterOptions
  * @prop {HTMLCanvasElement} map The canvas element containing the map to be
@@ -15,7 +19,7 @@ import * as mathUtils from '../../helpers/math-utils.js'
  * @prop {Vector2D|'calculated'} chunkSize How large each chunk should be.
  * @prop {boolean} prefersBigChunks Whether you prefer big chunks or small chunks.
  *
- * @typedef {Pick<ChunkSplitterOptions, 'prefersBigChunks'|'chunkSize'>} AddChunkOptions
+ * @typedef {Omit<ChunkSplitterOptions, 'map'>} AddChunkOptions
  */
 
 /**
@@ -41,7 +45,6 @@ export default class ChunkSplitter {
     this.loadingChunks = []
     this.workCanvas = document.createElement('canvas')
 
-    console.debug('end of constructor')
     this.splitChunks(
       this.calculateChunkSize, this.prefersBigChunks, this.chunkSize, map
     )
@@ -67,10 +70,9 @@ export default class ChunkSplitter {
     heightDivisors.pop()
     widthDivisors.shift()
     heightDivisors.shift()
-    // debugger
 
     if (prefersBigChunks) {
-      console.debug('prefers big chunks')
+      debug('prefers big chunks')
       // If we want big chunks, use a smaller divisor.
       widthDivisors.splice(0, Math.floor(widthDivisors.length / 2))
       heightDivisors.splice(0, Math.floor(heightDivisors.length / 2))
@@ -80,27 +82,17 @@ export default class ChunkSplitter {
           x: dimensions.width % 1000 ? 0 : dimensions.width / (dimensions.width / 1000),
           y: dimensions.height % 1000 ? 0 : dimensions.height / (dimensions.height / 1000)
         })
-        console.debug(chunkSize)
-        console.debug({
-          x: dimensions.width / 1000,
-          y: dimensions.height / 1000
-        })
       }
       // The middle divisor is the one we want.
       widthDivisor = widthDivisors[Math.round(widthDivisors.length / 3 * 2) - 1]
       heightDivisor = heightDivisors[Math.round(heightDivisors.length / 3 * 2) - 1]
-      // console.debug(dimensions)
-      console.debug(widthDivisor, heightDivisor)
-      // console.debug(chunkSize)
-      // console.debug(dimensions.width / (dimensions.width / heightDivisor))
 
       chunkSize.add({
         x: chunkSize.x ? 0 : dimensions.width / (dimensions.width / widthDivisor),
         y: chunkSize.y ? 0 : dimensions.height / (dimensions.height / heightDivisor)
       })
-      console.debug(chunkSize)
     } else {
-      console.debug('prefers small chunks')
+      debug('prefers small chunks')
       // If we want small chunks, use a bigger divisor.
       widthDivisors.splice(Math.floor(widthDivisors.length / 2))
       heightDivisors.splice(Math.floor(heightDivisors.length / 2))
@@ -118,7 +110,6 @@ export default class ChunkSplitter {
         x: chunkSize.x ? 0 : dimensions.width / (dimensions.width / widthDivisor),
         y: chunkSize.y ? 0 : dimensions.height / (dimensions.height / heightDivisor)
       })
-      console.debug(widthDivisor, heightDivisor)
     }
 
     return Vector2D.floorAxes(chunkSize)
@@ -167,27 +158,23 @@ export default class ChunkSplitter {
   splitChunks (calculateChunkSize, prefersBigChunks, chunkSize, map) {
     console.time('splitChunk')
     if (calculateChunkSize) {
-      console.debug('calculating chunk size')
+      debug('calculating chunk size')
       chunkSize = this._getChunkSize({
         width: map.width,
         height: map.height
       }, prefersBigChunks)
     }
-    console.debug(chunkSize)
+    debug('Chunk size: %o', chunkSize)
 
     const start = Vector2D.zero()
     const end = Vector2D.fromArray([map.width, map.height])
     const ctx = this.workCanvas.getContext('2d')
     const loadingImages = []
-    // let i = 0
 
     this._setUpWorkCanvas(chunkSize)
-    console.debug('set up work canvas')
-    // debugger
-    console.debug(end.x / chunkSize.x, end.y / chunkSize.y)
+    debug('set up work canvas')
     for (let x = start.x, endX = end.x; x < endX; x += chunkSize.x) {
       for (let y = start.y, endY = end.y; y < endY; y += chunkSize.y) {
-        // i++
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
         ctx.drawImage(
           map, x, y, chunkSize.x, chunkSize.y,
@@ -203,8 +190,7 @@ export default class ChunkSplitter {
     }
 
     this.loadingChunks.push(...loadingImages)
-    console.debug(this.loadingChunks.length)
-    // console.debug('split chunk iterations', i)
+    debug('%d loading chunks', this.loadingChunks.length)
     this.chunkSize = chunkSize
     console.timeEnd('splitChunk')
   }
@@ -214,8 +200,6 @@ export default class ChunkSplitter {
    */
   async finishLoadingChunks () {
     this.chunks.push(...await Promise.all(this.loadingChunks))
-    console.debug(this.chunks.length)
     this.loadingChunks.splice(0)
-    // debugger
   }
 }

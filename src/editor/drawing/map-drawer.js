@@ -3,21 +3,26 @@
  * @fileoverview MapDrawer class to handle the drawing of Colonial Wars maps.
  */
 
-import Constants from '../../constants.js'
+import debugFactory from 'debug'
+import constants from '../../constants.js'
 import Vector2D from '../physics/vector2d.js'
 import ChunkSplitter from './chunk-splitter.js'
 
 import * as mathUtils from '../../helpers/math-utils.js'
 
+const debug = debugFactory('cw-map-editor:map-drawer')
+
 /**
- * @typedef {Object} ImageMeta
- * @prop {Record<string, string>} tileLocations
+ * @typedef {Object} MapConfig
+ * @prop {'grass'|'sand'} tileType
+ * @prop {{}} staticElems
+ * @prop {Readonly<import('../editor').WorldLimits>} worldLimits
  *
  * @typedef {Object} MapDrawerOptions
+ * @prop {MapConfig} mapConfig
  * @prop {import('../viewport').default} viewport
- * @prop {import('../editor').MapConfig} mapConfig
- * @prop {import('./image-drawer').default} imageDrawer
- * @prop {ImageMeta} imageMeta Image metadata object.
+ * @prop {import('../../helpers/image-helpers').ImageLoader} imgLoader
+ * ImageLoader class to load images.
  * @prop {CanvasRenderingContext2D} gameCanvasContext The actual canvas context
  * to draw the map on.
  */
@@ -33,14 +38,13 @@ export default class MapDrawer {
    */
   constructor (options) {
     const {
-      mapConfig, imageMeta, imageDrawer, viewport,
+      mapConfig, imgLoader, viewport,
       gameCanvasContext
     } = options
 
     this.viewport = viewport
     this.mapConfig = mapConfig
-    this.imageMeta = imageMeta
-    this.imageDrawer = imageDrawer
+    this.imgLoader = imgLoader
     this.gameCtx = gameCanvasContext
 
     this.tileChunkSplitter = null
@@ -52,24 +56,32 @@ export default class MapDrawer {
 
   /**
    * Draws tiles onto a canvas, which then should be split into chunks.
-   * @param {string} tileType The tile to draw.
+   * @param {string} tileType The type of tile to draw..
    * @param {CanvasRenderingContext2D} ctx The context to draw on.
    * @param {Vector2D} start Where to start drawing the tiles.
    * @param {Vector2D} end Where to stop drawing the tiles.
    * @private
    */
   async _drawTiles (tileType, ctx, start, end) {
+    const tileSheet = await this.imgLoader.loadImg('tile-sheet.png')
+    const frameSize = 100
+    const frame = constants.DRAWING_CONSTANTS.tileFrames[tileType]
+
     for (
       let x = start.x, endX = end.x; x < endX;
-      x += Constants.GAME_CONSTANTS.DRAWING_TILE_SIZE
+      x += constants.GAME_CONSTANTS.DRAWING_TILE_SIZE
     ) {
       for (
         let y = start.y, endY = end.y; y < endY;
-        y += Constants.GAME_CONSTANTS.DRAWING_TILE_SIZE
+        y += constants.GAME_CONSTANTS.DRAWING_TILE_SIZE
       ) {
-        await this.imageDrawer.drawImage(
-          this.imageMeta.tileLocations[tileType],
-          { position: { x, y }, context: ctx }
+        ctx.drawImage(
+          tileSheet,
+          // Src-X + Src-Y
+          frame[0] * frameSize, frame[1] * frameSize,
+          // Src width+height.
+          frameSize, frameSize,
+          x, y, frameSize, frameSize
         )
       }
     }
@@ -81,7 +93,7 @@ export default class MapDrawer {
   async init () {
     if (this.initialized) { return }
 
-    const worldLimits = this.mapConfig.meta.worldLimits
+    const worldLimits = this.mapConfig.worldLimits
     const end = Vector2D.zero()
     const halvedWorldLimits = Vector2D.sub(
       worldLimits, Vector2D.fromArray([worldLimits.x / 2, worldLimits.y / 2])
@@ -90,25 +102,25 @@ export default class MapDrawer {
 
     this.workCanvas.width = worldLimits.x
     this.workCanvas.height = worldLimits.y
-    console.debug(worldLimits)
+    debug(worldLimits)
 
     // If the map size is greater than 16000 pixels, split it to make
     // sure we don't go over the canvas limits each browser imposes.
     if (worldLimits.x > 16000 || worldLimits.y > 16000) {
       // The map is too large, we gotta halve it and draw it that way.
       end.add(halvedWorldLimits)
-      console.debug('halved')
+      debug('halved')
       needsHalving = true
       this.workCanvas.width = halvedWorldLimits.x
       this.workCanvas.height = halvedWorldLimits.y
     } else {
       // Otherwise, just draw it the "normal" way.
       end.add(worldLimits)
-      console.debug('drawn normally')
+      debug('drawn normally')
     }
 
     await this._drawTiles(
-      this.mapConfig.meta.tileType, this.workCtx,
+      this.mapConfig.tileType, this.workCtx,
       { x: 0, y: 0 }, end
     )
 
@@ -119,19 +131,19 @@ export default class MapDrawer {
     })
     await this.tileChunkSplitter.finishLoadingChunks()
     if (needsHalving) {
-      console.debug('drawing second half')
+      debug('drawing second half')
       // The map was halved, so finish drawing it.
       this.workCtx.clearRect(0, 0, this.workCanvas.width, this.workCanvas.height)
       await this._drawTiles(
-        this.mapConfig.meta.tileType, this.workCtx,
+        this.mapConfig.tileType, this.workCtx,
         { x: 0, y: 0 }, end
       )
       this.tileChunkSplitter.addChunks(this.workCanvas)
     }
 
     await this.tileChunkSplitter.finishLoadingChunks()
-    console.debug(this.tileChunkSplitter.chunks)
-    console.debug(this.tileChunkSplitter.chunkSize)
+    debug(this.tileChunkSplitter.chunks)
+    debug(this.tileChunkSplitter.chunkSize)
 
     this.initialized = true
   }
@@ -139,7 +151,7 @@ export default class MapDrawer {
   /**
    * Draws all the map tiles onto the canvas.
    * @param {Vector2D} playerPosition The player's current position.
-   * @param {import('../../components/custom-modal').Dimensions} viewportDimensions
+   * @param {import('../../helpers/display-utils').ViewportDimensions} viewportDimensions
    * The client's viewport dimensions.
    */
   drawTiles (playerPosition, viewportDimensions) {
@@ -158,8 +170,8 @@ export default class MapDrawer {
     ))
     const start = Vector2D.floorAxes(this.viewport.toCanvas({ x: 0, y: 0 }))
     const end = Vector2D.floorAxes(this.viewport.toCanvas({
-      x: this.mapConfig.meta.worldLimits.x,
-      y: this.mapConfig.meta.worldLimits.y
+      x: this.mapConfig.worldLimits.x,
+      y: this.mapConfig.worldLimits.y
     }))
     let chunkID = -1
     // let i = 0

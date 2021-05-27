@@ -20,8 +20,8 @@ import React from 'react'
  * @typedef {Object} SelectmenuProps
  * @prop {string} id
  * @prop {string} name
+ * @prop {string} value
  * @prop {string} arrowSrc
- * @prop {string} defaultValue
  * @prop {Dimensions} dimensions
  * @prop {Array<SelectOption>} options
  * @prop {SelectmenuChangeHandler} onChange
@@ -34,32 +34,24 @@ import React from 'react'
  */
 export default function Selectmenu (props) {
   return (
-    <div
-      id={`${props.id}-wrapper`}
-      className='selectmenu-wrapper ui-content'
+    <select
+      id={props.id}
+      name={props.name}
+      onChange={props.onChange}
+      className='ui-selectmenu ui-content ui-content--light ui-content--radius'
       style={{
         backgroundImage: `url('${props.arrowSrc}')`,
+        height: `${props.dimensions.height}px`,
         width: `${props.dimensions.width}px`,
-        height: `${props.dimensions.height}px`
+        display: 'block'
       }}
+      value={props.value}
     >
-      <select
-        id={props.id}
-        name={props.name}
-        onChange={props.onChange}
-        defaultValue={props.defaultValue}
-        className='selectmenu-content'
-        style={{
-          width: `${props.dimensions.width}px`,
-          height: `${props.dimensions.height}px`
-        }}
-      >
-        {props.options.map(option => (
-          <option id={option.id} key={option.id} value={option.value}>
-            {option.displayedText}
-          </option>
-        ))}
-      </select>
-    </div>
+      {props.options.map(option => (
+        <option id={option.id} key={option.id} value={option.value}>
+          {option.displayedText}
+        </option>
+      ))}
+    </select>
   )
 }

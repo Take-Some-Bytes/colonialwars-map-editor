@@ -11,4 +11,4 @@ editing of Colonial Wars maps.
 
 ## Compatibility
 The save files that can be opened by this application currently follows an ***unstable version*** of
-Colonial Wars save files. This application currently does not produce any save files.
+Colonial Wars save files. Compatibility with ``colonialwars-server`` is not guaranteed.

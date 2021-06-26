@@ -4,7 +4,7 @@ Changelog for ``colonialwars-server``.
 The format is based on [Keep a Changelog][1], and this project adheres to [Semantic Versioning][2],
 with the exception that this project does *not* expose a public API.
 
-## [v0.3.0] - 2021-06-21
+## [v0.3.0] - 2021-06-26
 ### Added:
 - Added functionality to edit the teams of a Colonial Wars map.
   * The "Map Teams" modal was added to display and make it possible to edit map teams.

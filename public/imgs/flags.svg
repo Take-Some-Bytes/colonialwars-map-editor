@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+  <g id="flag-right">
+    <path d="M25 48 l15 -35" fill-opacity="0" stroke="white" stroke-width="3" />
+    <!-- The actual flag. -->
+    <path d="M40 15 l10 15" fill-opacity="0" stroke="white" stroke-width="3" />
+    <path d="M34 25 l9 16" fill-opacity="0" stroke="white" stroke-width="3" />
+    <path d="M50 28 l-8 13" fill-opacity="0" stroke="white" stroke-width="3" />
+  </g>
+  <use href="#flag-right" transform="scale(-1 1) translate(-60 0)" />
+</svg>

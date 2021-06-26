@@ -18,7 +18,7 @@ import '@szhsin/react-menu/dist/core.css'
  * @typedef {Object} MenuProps
  * @prop {string} name A unique name for this Menu.
  * @prop {boolean} arrow Whether to have an arrow when this Menu is opened.
- * @prop {{}} children The stuff that's in the Menu.
+ * @prop {React.ReactNode} children The stuff that's in the Menu.
  * @prop {string} className The CSS classes to apply to this Menu.
  * @prop {React.CSSProperties} style Any styles to apply to this Menu.
  * @prop {ButtonOpts} buttonOpts Options for the button that opens this Menu.
@@ -32,6 +32,7 @@ import '@szhsin/react-menu/dist/core.css'
  *  closeMenu: () => void;
  *  toggleMenu: (menuItemFocus?: ReactMenu.FocusPosition) => void;
  * }} menuState
+ * @prop {{}} buttonProps Any props for the menu button.
  */
 
 /**
@@ -63,6 +64,7 @@ export default function Menu (props) {
         className={props.buttonOpts.className}
         style={props.buttonOpts.style}
         onClick={onMenuButtonClick}
+        {...props.buttonProps}
       >
         {props.buttonOpts.content}
       </button>

@@ -9,11 +9,15 @@ import React from 'react'
  * @callback ButtonClickCallback
  * @param {React.MouseEvent<HTMLButtonElement, MouseEvent>} e
  * @returns {void}
- *
+ */
+/**
  * @typedef {Object} ButtonProps
  * @prop {string} text
- * @prop {{}} children
+ * @prop {boolean} small Is this a small button?
+ * @prop {React.ReactNode} children
  * @prop {ButtonClickCallback} onClick
+ * @prop {React.CSSProperties} style
+ * @prop {string} className
  */
 
 /**
@@ -22,8 +26,18 @@ import React from 'react'
  * @returns {JSX.Element}
  */
 export default function Button (props) {
+  let className = props.small
+    ? 'ui-button ui-button--small'
+    : 'ui-button ui-button--large'
+
+  className += props.className || ''
+
   return (
-    <button onClick={props.onClick} className='ui-button ui-size-large'>
+    <button
+      onClick={props.onClick}
+      className={className}
+      style={props.style}
+    >
       {props.text || props.children}
     </button>
   )

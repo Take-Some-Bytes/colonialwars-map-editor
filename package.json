@@ -1,7 +1,7 @@
 {
   "name": "colonialwars-map-editor",
   "description": "Map editor for Colonial Wars.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
@@ -26,7 +26,8 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
-    "react-modal": "^3.12.1"
+    "react-modal": "^3.12.1",
+    "react-tooltip": "^4.2.21"
   },
   "devDependencies": {
     "@snowpack/plugin-dotenv": "^2.0.5",

@@ -203,7 +203,7 @@ export default function App () {
             }
           }
         }}
-        viewportDimensions={viewportDimensions}
+        vwDimensions={viewportDimensions}
         closeEditor={closeEditor}
         openNewMapModal={() => {
           return new Promise(resolve => {
@@ -213,6 +213,7 @@ export default function App () {
             debug('New map modal opened')
           })
         }}
+        setError={setError}
       />
       <Modals
         errorModalOpts={{

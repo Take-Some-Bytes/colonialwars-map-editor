@@ -3,13 +3,24 @@
  * @fileoverview MapConfig class to manage parsing and exporting map configurations.
  */
 
+import debugFactory from 'debug'
+
 import constants from '../constants.js'
 import Vector2D from './physics/vector2d.js'
 
 import * as mathUtils from '../helpers/math-utils.js'
 
+const debug = debugFactory('cw-map-editor:map-config')
+const { MAP_CONFIG_LIMITS } = constants
+
 /**
  * @typedef {Record<'unit'|'building'|'graphics', string>} CWDataFiles
+ *
+ * @typedef {Object} Team
+ * @prop {string} name
+ * @prop {number} maxPlayers
+ * @prop {string} description
+ * @prop {import('./physics/vector2d').default} spawnPosition
  */
 
 /**
@@ -118,11 +129,10 @@ export default class MapConfig {
    */
   _parseConfig (rawConfig) {
     const config = JSON.parse(rawConfig)
-    console.log('x' in config.meta.worldLimits)
 
     this._validateConfig(config)
 
-    // Welp, the config variable passed validation.
+    // Welp, the config passed validation.
     this._config = config
   }
 
@@ -194,7 +204,7 @@ export default class MapConfig {
     config.setTeam('Red', Vector2D.zero(), 1, 'Team Red')
     config.setTeam('Blue', Vector2D.fromObject(worldLimits), 1, 'Team Blue')
     /**
-     * HACK: The below currently sets a property that is not supposed to be publicly set.
+     * XXX: The below currently sets a property that is not supposed to be publicly set.
      * We do this so that the ``config.exportAsJson`` method doesn't complain about
      * a missing ``data`` field.
      * (05/21/2021) Take-Some-Bytes */
@@ -266,7 +276,7 @@ export default class MapConfig {
     if (!this._config.meta || typeof this._config.meta !== 'object') {
       this._config.meta = {}
     }
-    if (!/^\w(?:\w| |-){0,30}$/i.test(name)) {
+    if (!/^(?:\w| |-){0,30}$/i.test(name)) {
       throw new TypeError('Invalid characters in map name!')
     }
 
@@ -291,11 +301,11 @@ export default class MapConfig {
     if (!this._config.meta || typeof this._config.meta !== 'object') {
       this._config.meta = {}
     }
-    // Limit map description to 1000 chars.
-    if (descrp.length > 1000) {
+    // Limit map description to 5000 chars.
+    if (descrp.length > 5000) {
       throw new RangeError('Map description too long!')
     }
-    if (!/[^]{0,1000}/im.test(descrp)) {
+    if (!/[^]{0,5000}/im.test(descrp)) {
       throw new TypeError('Invalid characters in map description!')
     }
 
@@ -329,41 +339,53 @@ export default class MapConfig {
   }
 
   /**
+   * Get all teams of this map.
+   * @returns {Array<Team>}
+   */
+  getTeams () {
+    if (!Array.isArray(this._config.meta.teams)) {
+      return []
+    }
+    return this._config.meta.teams
+  }
+
+  /**
    * Sets a team for this map. If an existing team with the same name already exists,
    * this method overrides it.
    * @param {string} name The name of the team.
-   * @param {Vector2D} spawnPoint The position where new players of the team spawns.
+   * @param {Vector2D} spawnPosition The position where new players of the team spawns.
    * @param {number} maxPlayers The maximum amount of players on the team.
    * @param {string} desc A short description of the team.
    */
-  setTeam (name, spawnPoint, maxPlayers, desc) {
+  setTeam (name, spawnPosition, maxPlayers, desc) {
     if (!this._config.meta || typeof this._config.meta !== 'object') {
       this._config.meta = {}
     }
     if (!Array.isArray(this._config.meta.teams)) {
       this._config.meta.teams = []
     }
-    if (maxPlayers < 1) {
+    if (maxPlayers && maxPlayers < MAP_CONFIG_LIMITS.MIN_PLAYERS_ON_TEAM) {
       throw new RangeError('Minimum 1 player on a team!')
     }
-    if (desc.length > 150) {
+    if (desc && desc.length > MAP_CONFIG_LIMITS.MAX_TEAM_DESC_LEN) {
       throw new RangeError('Description is too long!')
     }
 
     const teamIndex = this._config.meta.teams.findIndex(team => team.name === name)
     if (!~teamIndex) {
+      debug('Adding team %s.', name)
       // Team doesn't exist.
       this._config.meta.teams.push({
         name: name,
         description: desc,
         maxPlayers: maxPlayers,
-        spawnPosition: Vector2D.fromObject(spawnPoint)
+        spawnPosition: Vector2D.fromObject(spawnPosition)
       })
     } else {
       // Team exists. Override it.
       desc && (this._config.meta.teams[teamIndex].description = desc)
       maxPlayers && (this._config.meta.teams[teamIndex].maxPlayers = maxPlayers)
-      spawnPoint && (this._config.meta.teams[teamIndex].spawnPoint = Vector2D.fromObject(spawnPoint))
+      spawnPosition && (this._config.meta.teams[teamIndex].spawnPosition = Vector2D.fromObject(spawnPosition))
     }
 
     this._configChanged = true

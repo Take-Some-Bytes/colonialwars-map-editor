@@ -102,7 +102,7 @@ export default class MapDrawer {
 
     this.workCanvas.width = worldLimits.x
     this.workCanvas.height = worldLimits.y
-    debug(worldLimits)
+    debug('World limits: %o', worldLimits)
 
     // If the map size is greater than 16000 pixels, split it to make
     // sure we don't go over the canvas limits each browser imposes.
@@ -142,8 +142,8 @@ export default class MapDrawer {
     }
 
     await this.tileChunkSplitter.finishLoadingChunks()
-    debug(this.tileChunkSplitter.chunks)
-    debug(this.tileChunkSplitter.chunkSize)
+    debug('Loaded chunks: %o', this.tileChunkSplitter.chunks)
+    debug('Chunk size: %o', this.tileChunkSplitter.chunkSize)
 
     this.initialized = true
   }
@@ -174,7 +174,6 @@ export default class MapDrawer {
       y: this.mapConfig.worldLimits.y
     }))
     let chunkID = -1
-    // let i = 0
 
     for (
       let x = start.x, endX = end.x; x < endX;
@@ -191,7 +190,6 @@ export default class MapDrawer {
            * TODO: Investigate how the chunkID variable could be
            * greater than the actual number of chunks.
            * (02/27/2021) Take-Some-Bytes */
-          // debugger
           continue
         }
         if (
@@ -202,11 +200,7 @@ export default class MapDrawer {
             this.tileChunkSplitter.chunks[chunkID], x, y
           )
         }
-        // i++
       }
     }
-
-    // console.debug('Loop Y iterations', i)
-    // debugger
   }
 }

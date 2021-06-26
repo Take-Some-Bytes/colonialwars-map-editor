@@ -47,7 +47,6 @@ export default class InputTracker extends EventEmitter {
    * @param {KeyboardEvent} event The event to handle.
    */
   onKeyDown (event) {
-    event.preventDefault()
     if (!this.keysPressed.includes(event.key)) {
       this.keysPressed.push(event.key)
     }
@@ -68,7 +67,6 @@ export default class InputTracker extends EventEmitter {
    * @param {KeyboardEvent} event The event to handle.
    */
   onKeyUp (event) {
-    event.preventDefault()
     this.keysPressed.splice(this.keysPressed.indexOf(event.key), 1)
     const state = {
       keysPressed: this.keysPressed,
@@ -87,7 +85,6 @@ export default class InputTracker extends EventEmitter {
    * @param {MouseEvent} event The Mouse event to handle.
    */
   onMouseDown (event) {
-    event.preventDefault()
     if (event.button === 0) {
       this.leftMouseDown = true
     }
@@ -111,7 +108,6 @@ export default class InputTracker extends EventEmitter {
    * @param {MouseEvent} event The Mouse event to handle.
    */
   onMouseUp (event) {
-    event.preventDefault()
     if (event.button === 0) {
       this.leftMouseDown = false
     }
@@ -135,7 +131,6 @@ export default class InputTracker extends EventEmitter {
    * @param {MouseEvent} event The Mouse event to handle.
    */
   onMouseMove (event) {
-    event.preventDefault()
     this.mousePosition[0] = event.offsetX
     this.mousePosition[1] = event.offsetY
 

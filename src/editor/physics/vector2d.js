@@ -128,4 +128,15 @@ export default class Vector2D {
   copy () {
     return new Vector2D(this.x, this.y)
   }
+
+  /**
+   * Returns this Vector2D as an object.
+   * @returns {Vector2DLike}
+   */
+  asObject () {
+    return {
+      x: this.x,
+      y: this.y
+    }
+  }
 }

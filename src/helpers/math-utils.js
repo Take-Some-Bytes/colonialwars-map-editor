@@ -53,3 +53,22 @@ export function findAllDivisors (num) {
 
   return divisors
 }
+/**
+ * Return the X/Y coordinates that will center an element with the specified
+ * dimensions if placed using the top left corner.
+ * @param {import('../components/custom-modal').Dimensions} elemDimensions
+ * The element to calculate with.
+ * @param {import('./display-utils').ViewportDimensions} vwDimensions
+ * The current viewport dimensions.
+ * @returns {import('../editor/physics/vector2d').Vector2DLike}
+ */
+export function centerPos (elemDimensions, vwDimensions) {
+  return {
+    x: Math.round(
+      vwDimensions.width / 2
+    ) - elemDimensions.width / 2,
+    y: Math.round(
+      vwDimensions.height / 2
+    ) - elemDimensions.height / 2
+  }
+}

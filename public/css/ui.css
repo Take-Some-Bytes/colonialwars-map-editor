@@ -1,6 +1,6 @@
-/* UI-related styles. */
+/* Gigantic file of UI-related styles. */
 
-/********** Generic UI content styling. **********/
+/********** Generic UI content styling **********/
 /* 
  * If a class has `-no-hover` in the class name, that means no additional
  * styles will be applied on hover.
@@ -20,9 +20,23 @@
   background-color: rgb(200, 200, 200) !important;
 }
 
+/********** React tooltip styling **********/
+.ui-tooltip {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+}
+
+/********** Random classes that may be useful **********/
 .ui-cursor-draggable {
   cursor: move !important;
 }
+.ui-no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .ui-button {
   color: rgb(5, 5, 5);
   text-align: center;
@@ -40,6 +54,8 @@
   color: rgb(0, 0, 0);
   cursor: pointer;
 }
+.ui-button--small,
+/* Deprecated: Please use the BEM styled classes instead. */
 .ui-size-small {
   height: 20px;
   width: 100px;
@@ -49,38 +65,21 @@
   border: 1px solid rgb(197, 197, 197);
   background-color: rgb(246, 246, 246);
 }
+.ui-button--small:hover,
 input[type='button'].ui-size-small:hover,
 button.ui-size-small:hover {
   background-color: rgb(210, 210, 210);
 }
+.ui-button--large,
+/* Deprecated: Please use the BEM styled classes instead. */
 .ui-size-large {
   font-size: 1.3rem;
   padding: 16.8px;
   width: 225px;
   height: 65px;
 }
-.ui-large-button {
-  display: inline-block;
-  cursor: pointer;
-  padding: 16.8px;
-
-  width: 225px;
-  height: 65px;
-
-  background-color: rgb(215, 213, 211);
-  border-radius: 5px;
-  border: none;
-
-  color: rgb(5, 5, 5);
-  text-align: center;
-  text-decoration: none;
-  font-size: 1.3rem;
-  font-family: Arial, Helvetica, sans-serif;
-}
-.ui-large-button:hover {
-  background-color: rgb(182, 175, 167);
-}
 /* ReactJS custom modal classes. */
+/* TODO: Convert all the following classes to follow BEM methodology. */
 .custom-modal-container {
   position: absolute;
   padding: 0.2em;
@@ -215,5 +214,57 @@ button.ui-size-small:hover {
   font-size: 1em;
 }
 .ui-selectmenu:hover {
+  cursor: pointer;
+}
+
+/********** ReactJS radio button list component **********/
+.ui-radio-list {
+  display: block;
+}
+.ui-radio-list__item {
+  cursor: pointer;
+  font-size: 1em;
+
+  padding: 10px;
+  padding-left: 40px;
+  margin-bottom: 1px;
+  height: 40px;
+  width: 250px;
+  position: relative;
+}
+.ui-radio-list__item input:checked ~ .ui-radio-list__checkmark {
+  background-color: rgb(33, 150, 243);
+}
+.ui-radio-list__item input:checked ~ .ui-radio-list__checkmark::after {
+  display: block;
+}
+.ui-radio-list__item .ui-radio-list__checkmark::after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+  background: white;
+}
+.ui-radio-list__checkmark {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 6px;
+  height: 25px;
+  width: 25px;
+
+  background-color: rgb(252, 252, 252);
+  border-radius: 50%;
+}
+.ui-radio-list__checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.ui-radio-list__item input {
+  position: absolute;
+  opacity: 0;
   cursor: pointer;
 }

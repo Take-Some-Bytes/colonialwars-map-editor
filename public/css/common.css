@@ -28,6 +28,18 @@ input[type='text'] {
   font-size: 0.9rem;
   width: 200px;
 }
+textarea {
+  display: block;
+  font-size: 0.8rem;
+  width: 400px;
+  height: 230px;
+  resize: none;
+  cursor: text;
+
+  padding: 5px;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
 
 #root {
   background-color: rgb(172, 118, 61);

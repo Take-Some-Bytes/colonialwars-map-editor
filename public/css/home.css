@@ -1,4 +1,5 @@
 /* CSS styles for the home "page". */
+/* TODO: Make all these classes follow BEM methodology */
 #home-header-container {
   font-family: 'Raleway', Helvetica, sans-serif;
   font-style: normal;

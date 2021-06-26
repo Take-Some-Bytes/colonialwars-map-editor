@@ -1,7 +1,33 @@
 # Colonial Wars Map Editor Changelog
 Changelog for ``colonialwars-server``.
 
-The format is based on [Keep a Changelog][1], and this project adheres to [Semantic Versioning][2].
+The format is based on [Keep a Changelog][1], and this project adheres to [Semantic Versioning][2],
+with the exception that this project does *not* expose a public API.
+
+## [v0.3.0] - 2021-06-21
+### Added:
+- Added functionality to edit the teams of a Colonial Wars map.
+  * The "Map Teams" modal was added to display and make it possible to edit map teams.
+  * The "New Team" modal was added to allow users to add teams.
+
+  Teams are limited to 8 per map.
+- Added a modal to modify general map settings (map name and description).
+- Added tooltips (via [``react-tooltip``](https://www.npmjs.com/package/react-tooltip))
+to various components of the editor.
+- Added more UI components for React:
+  * ``TwoColTable``, which renders a table that only has two rows.
+  * ``RadioList``, which renders a list of radio buttons.
+### Changed:
+- ***PROJECT CONTRIBUTORS ONLY***: The ``Button`` React component is now a bit more
+customizable, providing you with the ability to specify button size, additional CSS
+class names, and additional CSS styles.
+- ***PROJECT CONTRIBUTORS ONLY***: Modals now could find their own positions, by
+doing some math with their dimensions and the current screen dimensions.
+- ***PROJECT CONTRIBUTORS ONLY***: Editor input tracker does not prevent the default
+behaviour of ``keydown``, ``keyup``, ``mousedown``, and ``mouseup`` anymore.
+### Deprecated:
+- ***PROJECT CONTRIBUTORS ONLY***: Non-[BEM](http://getbem.com)-styled CSS classes are
+now *deprecated*. New CSS classes MUST follow the BEM methodology.
 
 ## [v0.2.0] - 2021-05-30
 ### Added:
@@ -47,4 +73,5 @@ immediately displays 50 instead). Now, the inputs only bind their values on blur
 
 [v0.1.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/ee64c8cac332995c587977e61df96d1ec37c9adf
 [v0.1.1]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/032e468d5a309f89d984cf74c736b8b40b63fe4e
-[v0.2.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main
+[v0.2.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/10b65a0a79d4d1766ec53c0ed9b97b8289524132
+[v0.3.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main

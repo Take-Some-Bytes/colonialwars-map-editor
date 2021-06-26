@@ -1,4 +1,6 @@
-/* CSS styles various standalone modals. */
+/* Various styles for various modals. */
+
+/********** New Map modal! **********/
 .newmap-config {
   display: flex;
   flex-direction: row;
@@ -14,4 +16,51 @@
   padding: 10px;
   flex-grow: 1;
   flex-basis: 0;
+}
+
+/********** Teams Editor Modal! **********/
+.teams-modal {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.teams-modal__teams-list {
+  flex-grow: 0;
+  padding: 15px;
+  border-right: 1px solid black;
+
+  height: 100%;
+}
+.teams-modal__team-editor {
+  flex-grow: 1;
+  padding: 15px;
+  position: relative;
+
+  font-size: 0.85rem;
+}
+.teams-modal__team-editor * {
+  font-size: 0.85rem !important;
+}
+.teams-modal__team-editor--no-team-selected {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-family: 'Raleway', Arial, Helvetica, sans-serif;
+}
+.teams-modal__team-editor__table {
+  border-collapse: collapse;
+  padding: 0;
+  width: 100%;
+}
+.teams-modal__team-editor__item {
+  /* border: 1px solid black; */
+  /* border-bottom: 1px solid black; */
+  padding: 6px;
+  display: inline-block;
+  width: 50%;
+}
+.teams-modal__team-editor__row:nth-child(odd) {
+  background-color: rgb(243, 243, 243);
 }

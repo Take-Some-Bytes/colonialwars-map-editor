@@ -26,6 +26,9 @@ function deepFreeze (object) {
  * Client constants.
  */
 export default deepFreeze({
+  /**
+   * TODO: Trim unneeded constants.
+   * (06/26/2021) Take-Some-Bytes */
   FALLBACKS: {
     STARTING_MAP_CONFIG: {
       mode: 'teams',
@@ -58,8 +61,23 @@ export default deepFreeze({
     MIN_MAP_SIZE: 50,
     MAX_MAP_SIZE: 200,
     MIN_DEFAULT_HEIGHT: 0,
-    MAX_DEFAULT_HEIGHT: 2
+    MAX_DEFAULT_HEIGHT: 2,
+    MIN_TEAMS: 2,
+    MAX_TEAMS: 8,
+    MAX_PLAYERS_ON_TEAM: 20,
+    MIN_PLAYERS_ON_TEAM: 1,
+    MAX_TEAM_DESC_LEN: 150,
+    MAX_MAP_NAME_LEN: 30,
+    MAX_MAP_DESC_LEN: 5000
   },
   VALID_TILE_TYPES: ['grass', 'sand', 'rock'],
-  VALID_GAME_MODES: ['teams', 'koth', 'siege']
+  VALID_GAME_MODES: ['teams', 'koth', 'siege'],
+  EDITOR_STATE: {
+    RUNNING: Symbol('EDITOR_STATE_RUNNING'),
+    STARTING: Symbol('EDITOR_STATE_STARTING'),
+    SUSPENDED: Symbol('EDITOR_STATE_SUSPENDED'),
+    HAD_ERROR: Symbol('EDITOR_STATE_HAD_ERROR'),
+    NOT_STARTED: Symbol('EDITOR_STATE_NOT_STARTED'),
+    DO_NOT_START: Symbol('EDITOR_STATE_DO_NOT_START')
+  }
 })

@@ -4,6 +4,10 @@ Changelog for ``colonialwars-server``.
 The format is based on [Keep a Changelog][1], and this project adheres to [Semantic Versioning][2],
 with the exception that this project does *not* expose a public API.
 
+## [Unreleased]
+### Fixed:
+- Modals used to be able to be dragged by their footer. That is no longer the case.
+
 ## [v0.3.0] - 2021-06-26
 ### Added:
 - Added functionality to edit the teams of a Colonial Wars map.
@@ -74,4 +78,5 @@ immediately displays 50 instead). Now, the inputs only bind their values on blur
 [v0.1.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/ee64c8cac332995c587977e61df96d1ec37c9adf
 [v0.1.1]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/032e468d5a309f89d984cf74c736b8b40b63fe4e
 [v0.2.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/10b65a0a79d4d1766ec53c0ed9b97b8289524132
-[v0.3.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main
+[v0.3.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/17e7411c44c287271522ed3d7c16e0f315e63a25
+[Unreleased]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main

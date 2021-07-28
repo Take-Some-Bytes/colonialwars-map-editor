@@ -33,6 +33,8 @@ import '@szhsin/react-menu/dist/core.css'
  *  toggleMenu: (menuItemFocus?: ReactMenu.FocusPosition) => void;
  * }} menuState
  * @prop {{}} buttonProps Any props for the menu button.
+ * @prop {VoidFunction} onOpen Function to call when this menu is opened.
+ * @prop {VoidFunction} onClose Function to call when this menu is closed.
  */
 
 /**
@@ -44,6 +46,8 @@ import '@szhsin/react-menu/dist/core.css'
 export default function Menu (props) {
   const menuState = props.menuState
   const menuButtonRef = React.useRef(null)
+  const onOpen = props.onOpen || (() => {})
+  const onClose = props.onClose || (() => {})
 
   /**
    * Handler for the ``click`` event of the menu button.
@@ -51,8 +55,10 @@ export default function Menu (props) {
   function onMenuButtonClick () {
     if (menuState.isOpen) {
       menuState.closeMenu()
+      onClose()
     } else {
       menuState.openMenu()
+      onOpen()
     }
   }
 

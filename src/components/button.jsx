@@ -30,7 +30,9 @@ export default function Button (props) {
     ? 'ui-button ui-button--small'
     : 'ui-button ui-button--large'
 
-  className += props.className || ''
+  if (props.className) {
+    className += ` ${props.className}`
+  }
 
   return (
     <button

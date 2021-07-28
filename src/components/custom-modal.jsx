@@ -78,7 +78,7 @@ export default function CustomModal (props) {
             <div id={`${props.id}-dialog-content`} className='custom-modal-content'>
               {props.children}
             </div>
-            <footer id={`${props.id}-dialog-header`} className='custom-modal-footer ui-content'>
+            <footer id={`${props.id}-dialog-footer`} className='custom-modal-footer ui-content'>
               {props.footerContent}
             </footer>
           </>

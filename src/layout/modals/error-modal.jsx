@@ -7,6 +7,9 @@ import React from 'react'
 
 import CustomModal from '../../components/custom-modal.jsx'
 
+import constants from '../../constants.js'
+import { centerPos } from '../../helpers/math-utils.js'
+
 /**
  * @typedef {Object} ErrorModal
  * @prop {boolean} isOpen
@@ -21,15 +24,11 @@ import CustomModal from '../../components/custom-modal.jsx'
  * @returns {JSX.Element}
  */
 export default function ErrorModal (props) {
-  const dimensions = { width: 400, height: 400 }
-  const position = {
-    x: Math.round(
-      props.vwDimensions.width / 2
-    ) - dimensions.width / 2,
-    y: Math.round(
-      props.vwDimensions.height / 2
-    ) - dimensions.height / 2
+  const dimensions = {
+    width: constants.ROOT_FONT_SIZE * 20,
+    height: constants.ROOT_FONT_SIZE * 20
   }
+  const position = centerPos(dimensions, props.vwDimensions)
 
   return (
     <CustomModal

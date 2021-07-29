@@ -12,7 +12,7 @@ import CustomModal from '../../components/custom-modal.jsx'
 import constants from '../../constants.js'
 import Vector2D from '../../editor/physics/vector2d.js'
 
-import { bound } from '../../helpers/math-utils.js'
+import { bound, centerPos } from '../../helpers/math-utils.js'
 
 /**
  * @callback NewTeam
@@ -24,7 +24,10 @@ import { bound } from '../../helpers/math-utils.js'
  */
 
 /**
+ * @typedef {import('../../helpers/display-utils').ViewportDimensions} ViewportDimensions
+ *
  * @typedef {Object} NewTeamModalProps
+ * @prop {ViewportDimensions} vwDimensions
  * @prop {() => void} closeModal
  * @prop {Vector2D} mapLimits
  * @prop {NewTeam} newTeam
@@ -44,15 +47,11 @@ export default function NewTeamModal (props) {
     description: 'New Team',
     spawnPosition: Vector2D.zero()
   })
-  const dimensions = { width: 400, height: 400 }
-  const position = {
-    x: Math.round(
-      props.vwDimensions.width / 2
-    ) - dimensions.width / 2,
-    y: Math.round(
-      props.vwDimensions.height / 2
-    ) - dimensions.height / 2
+  const dimensions = {
+    width: constants.ROOT_FONT_SIZE * 20,
+    height: constants.ROOT_FONT_SIZE * 20
   }
+  const position = centerPos(dimensions, props.vwDimensions)
 
   /**
    * Update event handler.
@@ -151,7 +150,7 @@ export default function NewTeamModal (props) {
       }}
       footerContent={(
         <div className='float-right'>
-          <Button onClick={onOkButtonClick} small>
+          <Button onClick={onOkButtonClick} style={{ margin: '0.6rem' }} small>
             OK
           </Button>
         </div>

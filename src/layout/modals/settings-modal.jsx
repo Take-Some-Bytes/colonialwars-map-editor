@@ -13,7 +13,7 @@ import constants from '../../constants.js'
 import { centerPos } from '../../helpers/math-utils.js'
 
 /**
- * @typedef {Object} MapSettingsModalProps
+ * @typedef {Object} SettingsModalProps
  * @prop {boolean} isOpen
  * @prop {() => void} closeModal
  * @prop {() => void} unsuspendEditor
@@ -24,10 +24,13 @@ import { centerPos } from '../../helpers/math-utils.js'
 
 /**
  * Renders a modal that allows users to specify general map settings.
- * @param {MapSettingsModalProps} props Component props.
+ * @param {SettingsModalProps} props Component props.
  */
-export default function MapSettingsModal (props) {
-  const dimensions = { width: 650, height: 500 }
+export default function SettingsModal (props) {
+  const dimensions = {
+    width: constants.ROOT_FONT_SIZE * 32.5,
+    height: constants.ROOT_FONT_SIZE * 25
+  }
   const position = centerPos(dimensions, props.vwDimensions)
 
   /**

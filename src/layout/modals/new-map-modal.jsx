@@ -8,7 +8,14 @@ import React from 'react'
 import SelectMenu from '../../components/selectmenu.jsx'
 import CustomModal from '../../components/custom-modal.jsx'
 
-import Constants from '../../constants.js'
+import constants from '../../constants.js'
+
+import { centerPos } from '../../helpers/math-utils.js'
+
+const SELECTMENU_DIMENSIONS = Object.freeze({
+  width: constants.ROOT_FONT_SIZE * 11.25,
+  height: constants.ROOT_FONT_SIZE * 2.25
+})
 
 /**
  * @callback ClickHandler
@@ -29,7 +36,7 @@ import Constants from '../../constants.js'
  * @prop {() => void} closeModal
  * @prop {ClickHandler} onOkButtonClick
  * @prop {FieldValues} inputFieldValues
- * @prop {Record<'x'|'y', number>} position
+ * @prop {Record<'width'|'height', number>} vwDimensions
  * @prop {React.ChangeEventHandler<HTMLSelectElement|HTMLInputElement>} onChange
  * @prop {React.FocusEventHandler<HTMLSelectElement|HTMLInputElement>} onBlur
  *
@@ -53,8 +60,8 @@ function BasicMapConfig (props) {
         type='number'
         name='size.x'
         value={props.inputFieldValues.size.x}
-        min={Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
-        max={Constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
+        min={constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
+        max={constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
         onBlur={props.onBlur}
       />
@@ -63,8 +70,8 @@ function BasicMapConfig (props) {
         type='number'
         name='size.y'
         value={props.inputFieldValues.size.y}
-        min={Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
-        max={Constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
+        min={constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
+        max={constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
         onBlur={props.onBlur}
       />
@@ -74,10 +81,7 @@ function BasicMapConfig (props) {
         name='tileType'
         id='tile-type-select'
         arrowSrc='/imgs/drop-down-arrow.png'
-        dimensions={{
-          height: 45,
-          width: 225
-        }}
+        dimensions={SELECTMENU_DIMENSIONS}
         value={props.inputFieldValues.tileType}
         options={[
           { id: 'tile-type-1', value: 'grass', displayedText: 'Grass' },
@@ -93,10 +97,7 @@ function BasicMapConfig (props) {
         name='mode'
         id='mode-select'
         arrowSrc='/imgs/drop-down-arrow.png'
-        dimensions={{
-          height: 45,
-          width: 225
-        }}
+        dimensions={SELECTMENU_DIMENSIONS}
         value={props.inputFieldValues.mode}
         options={[
           { id: 'mode-1', value: 'teams', displayedText: 'Teams' },
@@ -166,16 +167,19 @@ function AdvMapConfig (props) {
  * @returns {JSX.Element}
  */
 export default function NewMapModal (props) {
+  const dimensions = {
+    width: constants.ROOT_FONT_SIZE * 27.5,
+    height: constants.ROOT_FONT_SIZE * 27.5
+  }
+  const position = centerPos(dimensions, props.vwDimensions)
+
   return (
     <CustomModal
       id='new-map-modal'
       isOpen={props.isOpen}
       headerContent='New Map'
-      dimensions={{
-        width: 550,
-        height: 550
-      }}
-      position={props.position}
+      dimensions={dimensions}
+      position={position}
       onCloseRequest={e => {
         e.stopPropagation()
         e.preventDefault()
@@ -184,7 +188,7 @@ export default function NewMapModal (props) {
       footerContent={
         <div className='float-right'>
           <button
-            className='ui-button ui-size-small'
+            className='ui-button ui-button--small'
             style={{
               margin: '12px'
             }}

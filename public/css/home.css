@@ -9,7 +9,7 @@
   margin-top: 0;
 }
 #home-content-container {
-  padding: 25px;
+  padding: 1.25rem;
 }
 #home-footer-container {
   position: absolute;
@@ -20,6 +20,6 @@
   text-align: center;
 
   margin: 0;
-  padding: 16px;
+  padding: 0.8rem;
   width: 100%;
 }

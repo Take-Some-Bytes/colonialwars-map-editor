@@ -54,29 +54,23 @@
   color: rgb(0, 0, 0);
   cursor: pointer;
 }
-.ui-button--small,
-/* Deprecated: Please use the BEM styled classes instead. */
-.ui-size-small {
-  height: 20px;
-  width: 100px;
+.ui-button--small {
+  height: 1rem;
+  width: 5rem;
   font-size: 1rem;
-  padding: 7px;
+  padding: 0.35rem;
   box-sizing: content-box;
   border: 1px solid rgb(197, 197, 197);
   background-color: rgb(246, 246, 246);
 }
-.ui-button--small:hover,
-input[type='button'].ui-size-small:hover,
-button.ui-size-small:hover {
+.ui-button--small:hover {
   background-color: rgb(210, 210, 210);
 }
-.ui-button--large,
-/* Deprecated: Please use the BEM styled classes instead. */
-.ui-size-large {
+.ui-button--large {
   font-size: 1.3rem;
-  padding: 16.8px;
-  width: 225px;
-  height: 65px;
+  padding: 0.85rem;
+  width: 11.25rem;
+  height: 3.25rem;
 }
 /* ReactJS custom modal classes. */
 /* TODO: Convert all the following classes to follow BEM methodology. */
@@ -86,8 +80,8 @@ button.ui-size-small:hover {
   overflow: hidden;
   resize: both;
 
-  min-width: 200px;
-  min-height: 200px;
+  min-width: 10rem;
+  min-height: 10rem;
   max-width: 100vw;
   max-height: 100vh;
 
@@ -120,20 +114,20 @@ button.ui-size-small:hover {
   text-overflow: ellipsis;
 }
 .custom-modal-close-span {
-  width: 16px;
-  height: 16px;
-  padding: 1px;
+  width: 0.8rem;
+  height: 0.8rem;
+  padding: 0.05rem;
   display: inline-block;
 
   text-align: center;
 }
 .custom-modal-close-button {
-  width: 22px;
-  height: 22px;
+  width: 1.1rem;
+  height: 1.1rem;
   position: absolute;
   top: 25%;
   right: 1em;
-  padding: 1px;
+  padding: 0.05rem;
 
   border: 1px solid rgb(197, 197, 197);
   background-color: rgb(244, 244, 244);
@@ -153,17 +147,17 @@ button.ui-size-small:hover {
   text-align: left;
 
   position: absolute;
-  top: 57px;
-  bottom: 82px;
-  right: 4px;
-  left: 4px;
+  top: 2.85rem;
+  bottom: 4.1rem;
+  right: 0.2rem;
+  left: 0.2rem;
 }
 .custom-modal-footer {
   position: absolute;
   bottom: 0;
-  right: 4px;
-  left: 4px;
-  height: 65px;
+  right: 0.2rem;
+  left: 0.2rem;
+  height: 3.25rem;
 
   overflow: auto;
   box-sizing: content-box;
@@ -205,11 +199,11 @@ button.ui-size-small:hover {
 
   background: transparent;
   background-repeat: no-repeat;
-  background-size: 15px;
+  background-size: 0.75rem;
   background-position: right 5% bottom 50%;
 
-  padding: 10px 20px;
-  padding-right: 25px;
+  padding: 0.5rem 1rem;
+  padding-right: 1.25rem;
 
   font-size: 1em;
 }
@@ -225,11 +219,11 @@ button.ui-size-small:hover {
   cursor: pointer;
   font-size: 1em;
 
-  padding: 10px;
-  padding-left: 40px;
-  margin-bottom: 1px;
-  height: 40px;
-  width: 250px;
+  padding: 0.5rem;
+  padding-left: 2rem;
+  margin-bottom: 0.05rem;
+  height: 2rem;
+  width: 12.5rem;
   position: relative;
 }
 .ui-radio-list__item input:checked ~ .ui-radio-list__checkmark {
@@ -239,10 +233,10 @@ button.ui-size-small:hover {
   display: block;
 }
 .ui-radio-list__item .ui-radio-list__checkmark::after {
-  top: 9px;
-  left: 9px;
-  width: 8px;
-  height: 8px;
+  top: 0.45rem;
+  left: 0.45rem;
+  width: 0.4rem;
+  height: 0.4rem;
 
   border-radius: 50%;
   background: white;
@@ -251,9 +245,9 @@ button.ui-size-small:hover {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 6px;
-  height: 25px;
-  width: 25px;
+  left: 0.4rem;
+  height: 1.25rem;
+  width: 1.25rem;
 
   background-color: rgb(252, 252, 252);
   border-radius: 50%;
@@ -267,4 +261,49 @@ button.ui-size-small:hover {
   position: absolute;
   opacity: 0;
   cursor: pointer;
+}
+
+/********** ReactJS item editor **********/
+.ui-item-editor {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.ui-item-editor__items-list {
+  flex-grow: 0;
+  padding: 0.75rem;
+  border-right: 1px solid black;
+
+  height: 100%;
+}
+.ui-item-editor__item-display {
+  flex-grow: 1;
+  padding: 0.75rem;
+  position: relative;
+
+  font-size: 0.85rem;
+}
+.ui-item-editor__item-display * {
+  font-size: 0.85rem !important;
+}
+.ui-item-editor__item-display--no-team-selected {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-family: 'Raleway', Arial, Helvetica, sans-serif;
+}
+.ui-item-editor__item-display__table {
+  border-collapse: collapse;
+  padding: 0;
+  width: 100%;
+}
+.ui-item-editor__item-display__item {
+  padding: 0.3rem;
+  display: inline-block;
+  width: 50%;
+}
+.ui-item-editor__item-display__row:nth-child(odd) {
+  background-color: rgb(243, 243, 243);
 }

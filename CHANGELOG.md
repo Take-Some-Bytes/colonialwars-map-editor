@@ -5,8 +5,23 @@ The format is based on [Keep a Changelog][1], and this project adheres to [Seman
 with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
+### Added:
+- **PROJECT MAINTAINERS**: Added new ``ItemEditor`` component to make creating modals that edit
+items more convenient.
+- **PROJECT MAINTAINERS**: Added new ``BoundMap`` class, which exposes a ``Map``-like API, except
+all keys must be strings, and storage of values is done in a user-provided object.
+
+### Changed:
+- Used relative positioning/dimensions in CSS and JSX components where applicable.
+- **PROJECT MAINTAINERS**: The ``MapSettingsModal`` has been renamed to ``SettingsModal``.
+- **PROJECT MAINTAINERS**: The ``Button`` component could now be customized with CSS classes.
+- **PROJECT MAINTAINERS**: The ``Menu`` component now accept menu open/close hooks, allowing you to
+run code when a menu opens/closes.
+- **PROJECT MAINTAINERS**: The code for loading maps has now been moved to ``loaders.js``.
+
 ### Fixed:
 - Modals used to be able to be dragged by their footer. That is no longer the case.
+- Menus in the editor toolbar now close whenever another menu is opened.
 
 ## [v0.3.0] - 2021-06-26
 ### Added:

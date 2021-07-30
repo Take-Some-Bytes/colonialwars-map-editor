@@ -4,16 +4,12 @@
  */
 
 import React from 'react'
-import debugFactory from 'debug'
 
 import Header from '../header.jsx'
 import Footer from '../footer.jsx'
 import Content from '../content.jsx'
 
-import * as fileUtils from '../../helpers/file-utils.js'
-import MapConfig from '../../editor/map-config.js'
-
-const debug = debugFactory('cw-map-editor:landing')
+import { loadMap } from '../../helpers/loaders.js'
 
 /**
  * @typedef {Object} LandingPageProps
@@ -52,43 +48,18 @@ export default function LandingPage (props) {
    * @param {React.MouseEvent<HTMLButtonElement, MouseEvent>} e The event object.
    */
   async function onLoadMap (e) {
-    let fileStats
     let config
     e.preventDefault()
     e.stopPropagation()
 
     try {
-      const [file] = await fileUtils.openFiles({
-        acceptedTypes: 'application/json',
-        multiple: false
-      })
-      // Do not allow files over 2.5MB
-      if (file.size > 25 * 1024 * 1024) {
-        throw new RangeError('File too large!')
+      config = await loadMap()
+      if (config === null) {
+        // No file selected.
+        return
       }
-
-      /**
-       * XXX: The below is an arcane style of array destructuring, in case you didn't know.
-       * (05/16/2021) Take-Some-Bytes */
-      ;[fileStats] = await fileUtils.readFiles([file])
     } catch (ex) {
-      debug(ex.stack)
-      if (ex.code !== 'ENOFILE') {
-        setError(new Error('Failed to open configuration file!'))
-      }
-      return
-    }
-
-    try {
-      config = new MapConfig(
-        new TextDecoder().decode(new Uint8Array(fileStats.contents))
-      )
-    } catch (ex) {
-      debug(ex.stack)
-      setError(new Error(
-        'Configuration file is invalid!' +
-        ' Please do not mess with configuration files manually.'
-      ))
+      setError(ex)
       return
     }
 

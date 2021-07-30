@@ -6,6 +6,9 @@
 
 import debugFactory from 'debug'
 
+import MapConfig from '../editor/map-config.js'
+import * as fileUtils from './file-utils.js'
+
 const debug = debugFactory('cw-map-editor:loaders')
 
 /**
@@ -65,6 +68,52 @@ export function loadImageFromBlob (blob) {
     })
     img.src = objURL
   })
+}
+
+/**
+ * Load a map from the user's hard drive. Returns null if no file was selected.
+ * @returns {Promise<MapConfig|null>}
+ */
+export async function loadMap () {
+  let fileStats = null
+  let config = null
+
+  try {
+    const [file] = await fileUtils.openFiles({
+      acceptedTypes: 'application/json',
+      multiple: false
+    })
+    // Do not allow files over 25MB
+    if (file.size > 25 * 1024 * 1024) {
+      throw new RangeError('File too large!')
+    }
+
+    /**
+     * XXX: The below is an arcane style of array destructuring, in case you didn't know.
+     * (07/30/2021) Take-Some-Bytes */
+    ;[fileStats] = await fileUtils.readFiles([file])
+  } catch (ex) {
+    debug(ex.stack)
+    if (ex.code !== 'ENOFILE') {
+      throw new Error('Failed to open configuration file!')
+    }
+    // No file was selected.
+    return null
+  }
+
+  try {
+    config = new MapConfig(
+      new TextDecoder().decode(new Uint8Array(fileStats.contents))
+    )
+  } catch (ex) {
+    debug(ex.stack)
+    throw new Error(
+      'Configuration file is invalid!' +
+      ' Please do not mess with configuration files manually.'
+    )
+  }
+
+  return config
 }
 
 /**

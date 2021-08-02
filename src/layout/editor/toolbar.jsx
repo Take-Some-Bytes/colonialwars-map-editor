@@ -11,6 +11,8 @@ import debugFactory from 'debug'
 import Menu from '../../components/menu'
 import { SubMenu, MenuItem, useMenuState } from '@szhsin/react-menu'
 
+import constants from '../../constants.js'
+
 const debug = debugFactory('cw-map-editor:toolbar')
 
 /**
@@ -22,6 +24,11 @@ const DEFAULT_TOOLTIP_PROPS = {
   insecure: false,
   delayShow: 1200,
   className: 'ui-tooltip'
+}
+
+const BUTTON_SIZE = {
+  width: `${constants.ROOT_FONT_SIZE * 2.5}px`,
+  height: `${constants.ROOT_FONT_SIZE * 2.5}px`
 }
 
 /**
@@ -82,7 +89,12 @@ export default function EditorToolBar (props) {
         name='options-menu'
         className='ui-content ui-content--light--no-hover ui-content--radius editor-toolbar__menu'
         buttonOpts={{
-          content: (<img src='/imgs/hamburger.svg' width='50px' height='50px' />),
+          content: (
+            <img
+              src='/imgs/hamburger.svg'
+              width={BUTTON_SIZE.width}
+              height={BUTTON_SIZE.height}
+            />),
           className: 'editor-toolbar__button'
         }}
         menuState={menuStates.get('options-menu')}
@@ -102,7 +114,12 @@ export default function EditorToolBar (props) {
         name='file-menu'
         className='ui-content ui-content--light--no-hover ui-content--radius editor-toolbar__menu'
         buttonOpts={{
-          content: (<img src='/imgs/folder.svg' width='50px' height='50px' />),
+          content: (
+            <img
+              src='/imgs/folder.svg'
+              width={BUTTON_SIZE.width}
+              height={BUTTON_SIZE.height}
+            />),
           className: 'editor-toolbar__button'
         }}
         menuState={menuStates.get('file-menu')}
@@ -143,7 +160,11 @@ export default function EditorToolBar (props) {
         data-for='teams-tip'
         onClick={onOpenMapTeams}
       >
-        <img src='/imgs/flags.svg' width='50px' height='50px' />
+        <img
+          src='/imgs/flags.svg'
+          width={BUTTON_SIZE.width}
+          height={BUTTON_SIZE.height}
+        />
       </button>
     </div>
   )

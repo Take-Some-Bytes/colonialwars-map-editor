@@ -130,7 +130,7 @@ export default class InputManager extends EventEmitter {
    * @param {Element} mouseElement The element to track mouse input on.
    */
   startTracking (keyElement, mouseElement) {
-    this.inputTracker.attachEventHandlers(keyElement, keyElement, mouseElement)
+    this.tracker.attachEventHandlers(keyElement, keyElement, mouseElement)
   }
 
   /**
@@ -139,7 +139,7 @@ export default class InputManager extends EventEmitter {
    * @param {Element} mouseElement The element that we tracked mouse input on.
    */
   stopTracking (keyElement, mouseElement) {
-    this.inputTracker.detachEventHandlers(keyElement, keyElement, mouseElement)
+    this.tracker.detachEventHandlers(keyElement, keyElement, mouseElement)
   }
 
   /**

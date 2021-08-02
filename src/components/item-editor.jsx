@@ -230,6 +230,7 @@ export function ItemDisplayRow (props) {
       name={props.name}
       className='ui-item-editor__item-display__row'
       itemClassName='ui-item-editor__item-display__item'
+      nameClassName='ui-item-editor__item-display__item-name'
     >
       {props.children}
     </Row>

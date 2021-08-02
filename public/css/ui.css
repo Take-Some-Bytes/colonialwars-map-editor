@@ -302,7 +302,12 @@
 .ui-item-editor__item-display__item {
   padding: 0.3rem;
   display: inline-block;
-  width: 50%;
+  width: 65%;
+}
+.ui-item-editor__item-display__item-name {
+  padding: 0.3rem;
+  display: inline-block;
+  width: 35%;
 }
 .ui-item-editor__item-display__row:nth-child(odd) {
   background-color: rgb(243, 243, 243);

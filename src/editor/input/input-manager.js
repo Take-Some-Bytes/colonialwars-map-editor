@@ -1,6 +1,6 @@
 /* eslint-env browser */
 /**
- * @fileoverview Input manager for the editor.
+ * @fileoverview InputManager class to manage and report the current client inputs.
  */
 
 import Vector2D from '../physics/vector2d.js'
@@ -8,108 +8,120 @@ import InputTracker from './input-tracker.js'
 import EventEmitter from '../../event-emitter.js'
 
 /**
- * @typedef {Object} InputState
- * @prop {Object} directionData
- * @prop {boolean} directionData.up
- * @prop {boolean} directionData.down
- * @prop {boolean} directionData.left
- * @prop {boolean} directionData.right
- * @prop {Object} mouseData
- * @prop {boolean} mouseData.leftMousePressed
- * @prop {boolean} mouseData.rightMousePressed
- * @prop {Vector2D} mouseData.mouseCoords
- *
- * @typedef {Object} BasicKeyBindings
- * @prop {DirectionBindings} directionBindings
- *
- * @typedef {Object} DirectionBindings
- * @prop {Array<string>|string} up
- * @prop {Array<string>|string} down
- * @prop {Array<string>|string} left
- * @prop {Array<string>|string} right
- *
- * @typedef {Object} InputManagerOptions
- * @prop {InputTracker} inputTracker
- * @prop {BasicKeyBindings} basicKeyBindings
- */
+  * @typedef {Record<string, Array<string>>} KeyBindings
+  * @typedef {Record<'up'|'down'|'left'|'right', Array<string>>} DirectionBindings
+  *
+  * @typedef {Object} InputState
+  * @prop {BasicInputState} basic
+  *
+  * @typedef {Object} DirectionState
+  * @prop {boolean} up
+  * @prop {boolean} down
+  * @prop {boolean} left
+  * @prop {boolean} right
+  *
+  * @typedef {Object} MouseState
+  * @prop {boolean} leftMousePressed
+  * @prop {boolean} rightMousePressed
+  * @prop {Vector2D} mouseCoords
+  *
+  * @typedef {Object} BasicInputState
+  * @prop {DirectionState} directionData
+  * @prop {MouseState} mouseData
+  *
+  * @typedef {Object} InputManagerOptions
+  * @prop {InputTracker} inputTracker The input tracker object to use.
+  * @prop {DirectionBindings} directionBindings
+  */
 
 /**
- * InputManager class.
- * @extends EventEmitter
- */
+  * Array of valid directions.
+  * @type {[
+  * 'up',
+  * 'down',
+  * 'left',
+  * 'right'
+  * ]}
+  */
+export const VALID_DIRECTIONS = [
+  'up',
+  'down',
+  'left',
+  'right'
+]
+
+/**
+  * InputManager class.
+  */
 export default class InputManager extends EventEmitter {
   /**
-   * Constructor for an InputManager class.
-   * @param {InputManagerOptions} options Options.
-   */
-  constructor (options) {
-    const {
-      inputTracker,
-      basicKeyBindings
-    } = options
+    * Constructor for an InputManager class. The InputManager class manages client
+    * inputs, and reports them when requested.
+    * @param {InputManagerOptions} opts Options.
+    */
+  constructor (opts) {
+    const { inputTracker, directionBindings } = opts
 
     super()
 
-    this.inputTracker = inputTracker
-    this.basicKeyBindings = basicKeyBindings
+    this.tracker = inputTracker
+    this.mouseClicks = 0
+    this.directionBindings = directionBindings
 
-    this.inputState = {
-      directionData: {
-        up: false,
-        down: false,
-        left: false,
-        right: false
-      },
-      mouseData: {
-        leftMousePressed: false,
-        rightMousePressed: false,
-        mouseCoords: Vector2D.zero()
-      }
-    }
-
-    this.inputTracker.on('input', this._onInput.bind(this))
+    this.tracker.on('input', this._onInput.bind(this))
   }
 
   /**
-   * Called when this class's ``.inputTracker`` object emits an ``input`` event.
-   * @param {import('./input-tracker').InputState} state The current state of the input.
-   * @private
-   */
+    * Processes an input event.
+    * @param {import('./input-tracker').InputState} state The current input state.
+    * @private
+    */
   _onInput (state) {
-    const { keysPressed, mouseData } = state
-    const directionBindings = Object.entries(this.basicKeyBindings.directionBindings)
-    for (let i = 0, l = directionBindings.length; i < l; i++) {
-      const binding = directionBindings[i]
-      if (Array.isArray(binding[1])) {
-        for (let j = 0, l2 = binding[1].length; j < l2; j++) {
-          const keyBinding = binding[1][j]
-          if (keysPressed.includes(keyBinding)) {
-            this.inputState.directionData[binding[0]] = true
-            break
-          } else {
-            this.inputState.directionData[binding[0]] = false
-          }
+    if (state.inputType === 'mouse') {
+      // Ignore mouse input events for now.
+      return
+    }
+    const directionData = this._getDirectionState(state.keysPressed)
+
+    this.emit('input', {
+      basic: {
+        directionData
+      }
+    })
+  }
+
+  /**
+    * Gets the direction state.
+    * @param {Array<string>} keysPressed The keys that were pressed.
+    * @returns {DirectionState}
+    * @private
+    */
+  _getDirectionState (keysPressed) {
+    const state = {
+      up: false,
+      down: false,
+      left: false,
+      right: false
+    }
+
+    const directions = Object.keys(this.directionBindings)
+    for (const direction of directions) {
+      if (!VALID_DIRECTIONS.includes(direction)) {
+        continue
+      }
+
+      const bindings = this.directionBindings[direction]
+      for (const binding of bindings) {
+        if (keysPressed.includes(binding)) {
+          state[direction] = true
         }
-      } else {
-        // If the keys pressed include one that is in our basic direction bindings,
-        // set the direction input to be true. If not, set the direction input to
-        // be false.
-        if (keysPressed.includes(binding[1])) {
-          this.inputState.directionData[binding[0]] = true
-        } else {
-          this.inputState.directionData[binding[0]] = false
-        }
+        /**
+          * XXX: See if we'll need to set the respective state prop to false.
+          * (04/19/2021) Take-Some-Bytes */
       }
     }
 
-    // The mouse data needs no additional modification other than converting the
-    // mouse coordinates to a Vector2D.
-    this.inputState.mouseData = {
-      ...mouseData,
-      mouseCoords: Vector2D.fromArray(mouseData.mouseCoords)
-    }
-
-    this.emit('input', this.inputState)
+    return state
   }
 
   /**
@@ -131,16 +143,15 @@ export default class InputManager extends EventEmitter {
   }
 
   /**
-   * Factory method for a InputManager class.
-   * @param {BasicKeyBindings} basicKeyBindings The basic key bindings for this client.
-   * @param {Element} keyElement The element to track key presses on.
-   * @param {Element} mouseElement The element to track mouse input on.
-   * @returns {InputManager}
-   */
-  static create (basicKeyBindings, keyElement, mouseElement) {
+    * Factory method for creating an InputManager.
+    * @param {DirectionBindings} directionBindings The key bindings for movement.
+    * @param {Element} keyElem The element to track key presses on.
+    * @param {Element} mouseElem The element to track mouse input on.
+    */
+  static create (directionBindings, keyElem, mouseElem) {
     return new InputManager({
-      inputTracker: InputTracker.create(keyElement, mouseElement),
-      basicKeyBindings: basicKeyBindings
+      inputTracker: InputTracker.create(keyElem, mouseElem),
+      directionBindings: directionBindings
     })
   }
 }

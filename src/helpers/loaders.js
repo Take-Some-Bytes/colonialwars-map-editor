@@ -6,15 +6,50 @@
 
 import debugFactory from 'debug'
 
+import constants from '../constants.js'
 import MapConfig from '../editor/map-config.js'
 import * as fileUtils from './file-utils.js'
 
 const debug = debugFactory('cw-map-editor:loaders')
 
 /**
+ * @typedef {Object} KeyBindings
+ * @prop {import('../editor/input/input-manager').DirectionBindings} direction
+ *
  * @typedef {Object} ImageLoaderOptions
  * @prop {string} baseURL The URL to load images relative from.
  */
+
+/**
+ * Returns the localStorage object if available. Otherwise,
+ * returns null.
+ * @returns {Storage|null}
+ */
+const getStorage = () => {
+  if (window.localStorage) {
+    return window.localStorage
+  }
+  return null
+}
+
+/**
+ * Load the current keybindings.
+ * @returns {KeyBindings}
+ */
+export function loadKeybindings () {
+  const storage = getStorage()
+  if (!storage) {
+    return constants.DEFAULT.KEYBINDINGS
+  }
+
+  const bindings = storage.getItem('user-keybindings')
+  if (!bindings) {
+    return constants.DEFAULT.KEYBINDINGS
+  }
+
+  // The keybindings are stored in JSON.
+  return JSON.parse(bindings)
+}
 
 /**
  * Fetches a resource from the specified URL. Rejects on failure.

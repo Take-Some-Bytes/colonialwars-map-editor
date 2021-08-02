@@ -7,18 +7,12 @@ import Vector2D from './physics/vector2d.js'
 import BoundEntity from './physics/bound-entity.js'
 
 /**
+ * @typedef {import('./input/input-manager').DirectionState} DirectionState
+ *
  * @typedef {Object} PlayerOptions
  * @prop {number} speed
  * @prop {import('./physics/vector2d').default} position
  * @prop {Readonly<import('./physics/bound-entity').Bounds>} worldBounds
- *
- * @typedef {Object} PlayerInput
- * @prop {number} timestamp
- * @prop {Object} directionData
- * @prop {boolean} directionData.up
- * @prop {boolean} directionData.down
- * @prop {boolean} directionData.left
- * @prop {boolean} directionData.right
  */
 
 /**
@@ -41,32 +35,24 @@ export default class Player extends BoundEntity {
 
     this.speed = speed
     this.velocity = Vector2D.zero()
-    this.lastInputProcessTime = 0
-
-    /**
-     * @type {Array<PlayerInput>}
-     */
-    this.inputQueue = []
-
-    this.onInputProcess = () => {}
+    this.lastUpdateTime = 0
   }
 
   /**
    * Gets the velocity of this player with the given input.
-   * @param {PlayerInput} data The input data.
+   * @param {DirectionState} direction The input data.
    * @returns {Vector2D}
    * @private
    */
-  _getVelocity (data) {
-    const directionData = data.directionData
-    const verticalVelocity = directionData.up
+  _getVelocity (direction) {
+    const verticalVelocity = direction.up
       ? new Vector2D(0, -this.speed)
-      : directionData.down
+      : direction.down
         ? new Vector2D(0, this.speed)
         : Vector2D.zero()
-    const horizontalVelocity = directionData.left
+    const horizontalVelocity = direction.left
       ? new Vector2D(-this.speed, 0)
-      : directionData.right
+      : direction.right
         ? new Vector2D(this.speed, 0)
         : Vector2D.zero()
 
@@ -85,45 +71,10 @@ export default class Player extends BoundEntity {
   }
 
   /**
-   * Adds an input object to this Player's input queue.
-   * @param {import('./input/input-manager').InputState} data An object storing
-   * the input data.
-   */
-  addInputToQueue (data) {
-    const timestamp = Date.now()
-    const directionData = Object.fromEntries(Object.entries(
-      data.directionData
-    ).map(entry => [entry[0], Boolean(entry[1])]))
-
-    this.inputQueue.push({
-      timestamp,
-      directionData
-    })
-  }
-
-  /**
-   * Initializes this Player object.
+   * Initializes this Player.
    */
   init () {
-    this.lastInputProcessTime = Date.now()
-  }
-
-  /**
-   * Processes all the queued inputs.
-   */
-  processInputs () {
-    const inputs = this.inputQueue.splice(0)
-    let nextInput = null
-    while ((nextInput = inputs.shift())) {
-      const input = nextInput
-      let deltaTime = 0
-
-      this.velocity = this._getVelocity(input)
-      deltaTime = input.timestamp - this.lastInputProcessTime
-      this.lastInputProcessTime = input.timestamp
-
-      this._update(deltaTime)
-    }
+    // no-op
   }
 
   /**
@@ -132,8 +83,8 @@ export default class Player extends BoundEntity {
   update () {
     // this.processInputs()
     const currentTime = Date.now()
-    const deltaTime = currentTime - this.lastInputProcessTime
-    this.lastInputProcessTime = currentTime
+    const deltaTime = currentTime - this.lastUpdateTime
+    this.lastUpdateTime = currentTime
     this._update(deltaTime)
   }
 
@@ -142,7 +93,7 @@ export default class Player extends BoundEntity {
    * @param {import('./input/input-manager').InputState} data The current input state.
    */
   updateOnInput (data) {
-    this.velocity = this._getVelocity(data)
+    this.velocity = this._getVelocity(data.basic.directionData)
   }
 
   /**

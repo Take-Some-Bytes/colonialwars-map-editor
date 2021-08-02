@@ -24,6 +24,7 @@ import React from 'react'
  *
  * @typedef {Object} RowProps
  * @prop {string} className
+ * @prop {string} nameClassName
  * @prop {string} itemClassName
  * @prop {string} name
  * @prop {React.ReactNode} children
@@ -38,7 +39,7 @@ export function Row (props) {
     <tr
       className={props.className}
     >
-      <td className={props.itemClassName}>{props.name}</td>
+      <td className={props.nameClassName}>{props.name}</td>
       <td className={props.itemClassName}>{props.children}</td>
     </tr>
   )

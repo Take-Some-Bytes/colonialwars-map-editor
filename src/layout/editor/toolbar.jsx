@@ -6,14 +6,14 @@
 
 import React from 'react'
 import ReactTooltip from 'react-tooltip'
-import debugFactory from 'debug'
+// import debugFactory from 'debug'
 
 import Menu from '../../components/menu'
 import { SubMenu, MenuItem, useMenuState } from '@szhsin/react-menu'
 
 import constants from '../../constants.js'
 
-const debug = debugFactory('cw-map-editor:toolbar')
+// const debug = debugFactory('cw-map-editor:toolbar')
 
 /**
  * @type {Partial<import('react-tooltip').TooltipProps>}
@@ -72,7 +72,7 @@ export default function EditorToolBar (props) {
   const onQuit = closeMenusAnd(props.quit)
   const onNewMap = closeMenusAnd(props.openNewMapModal)
   const onSaveMap = closeMenusAnd(props.saveMap)
-  const onLoadMap = closeMenusAnd(debug.bind(null, 'Load map clicked'))
+  const onLoadMap = closeMenusAnd(props.loadMap)
   const onOpenMapTeams = closeMenusAnd(props.openMapTeamsModal)
   const onOpenSettings = closeMenusAnd(props.openSettingsModal)
 
@@ -148,8 +148,8 @@ export default function EditorToolBar (props) {
           arrow
         >
           <MenuItem className='editor-toolbar__menu__item' onClick={onLoadMap}>Load Map...</MenuItem>
-          <MenuItem className='editor-toolbar__menu__item'>Save Unit Data...</MenuItem>
-          <MenuItem className='editor-toolbar__menu__item'>Save Building Data...</MenuItem>
+          <MenuItem className='editor-toolbar__menu__item'>Load Unit Data...</MenuItem>
+          <MenuItem className='editor-toolbar__menu__item'>Load Building Data...</MenuItem>
         </SubMenu>
       </Menu>
       <ReactTooltip id='teams-tip' {...DEFAULT_TOOLTIP_PROPS} />

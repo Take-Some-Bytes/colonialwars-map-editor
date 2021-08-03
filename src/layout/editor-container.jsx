@@ -16,6 +16,7 @@ import Editor from '../editor/editor.js'
 import constants from '../constants.js'
 
 import { saveAs } from 'file-saver'
+import { loadMap } from '../helpers/loaders.js'
 
 const debug = debugFactory('cw-map-editor:editor-container')
 
@@ -25,9 +26,10 @@ const debug = debugFactory('cw-map-editor:editor-container')
  * @prop {() => void} closeEditor
  * @prop {() => void} openMapTeamsModal
  * @prop {React.Dispatch<any>} setError
- * @prop {() => Promise<boolean>} openNewMapModal
  * @prop {Record<string, any>} mapConfig
  * @prop {Record<string, string>} keyBindings
+ * @prop {() => Promise<boolean>} openNewMapModal
+ * @prop {React.Dispatch<React.SetStateAction<{}>>} setMapConfig
  * @prop {import('../components/custom-modal').Dimensions} vwDimensions
  */
 
@@ -165,6 +167,18 @@ export default function EditorContainer (props) {
               type: 'application/json;charset=utf-8'
             })
             saveAs(exportedMapConf, `${editor.mapConfig.mapName}.json`)
+          }}
+          loadMap={async () => {
+            debug('Load map called')
+            const config = await loadMap()
+            if (config === null) {
+              // No file is selected.
+              return
+            }
+
+            editorState.current = constants.EDITOR_STATE.NOT_STARTED
+            setEditor(null)
+            props.setMapConfig(config)
           }}
           openMapTeamsModal={() => {
             // Suspend the editor while the user messes with the teams modal.

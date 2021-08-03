@@ -93,19 +93,19 @@ export default function EditorContainer (props) {
     }
   }
   /**
-   * Convenience function to suspend the editor.
+   * Convenience function to pause the editor.
    */
-  function suspendEditor () {
+  function pauseEditor () {
     debug('Suspending editor.')
-    editor.suspend()
+    editor.pause()
     editorState.current = constants.EDITOR_STATE.SUSPENDED
   }
   /**
-   * Convenience function to suspend the editor.
+   * Convenience function to unpause the editor.
    */
-  function unsuspendEditor () {
+  function unpauseEditor () {
     debug('Unsuspending editor.')
-    editor.unsuspend()
+    editor.unpause()
     editorState.current = constants.EDITOR_STATE.RUNNING
   }
 
@@ -123,7 +123,7 @@ export default function EditorContainer (props) {
           quit={() => {
             if (editor instanceof Editor) {
               // Do this so that we stop taking input.
-              editor.stop()
+              editor.pause()
             }
 
             editorState.current = constants.EDITOR_STATE.DO_NOT_START
@@ -133,7 +133,7 @@ export default function EditorContainer (props) {
           openNewMapModal={() => {
             if (editor instanceof Editor) {
               // Suspend the editor while the user messes with the new map modal.
-              suspendEditor()
+              pauseEditor()
             }
 
             props.openNewMapModal().then(createNewMap => {
@@ -147,7 +147,7 @@ export default function EditorContainer (props) {
               // Unsuspend the editor.
               if (editor instanceof Editor) {
                 editorState.current = constants.EDITOR_STATE.RUNNING
-                unsuspendEditor()
+                unpauseEditor()
               }
             })
           }}
@@ -182,11 +182,11 @@ export default function EditorContainer (props) {
           }}
           openMapTeamsModal={() => {
             // Suspend the editor while the user messes with the teams modal.
-            suspendEditor()
+            pauseEditor()
             setTeamsModalOpen(true)
           }}
           openSettingsModal={() => {
-            suspendEditor()
+            pauseEditor()
             setSettingsModalOpen(true)
           }}
         />
@@ -217,7 +217,7 @@ export default function EditorContainer (props) {
           open: settingsModalOpen,
           setOpen: setSettingsModalOpen
         }}
-        unsuspendEditor={unsuspendEditor}
+        unsuspendEditor={unpauseEditor}
         setError={props.setError}
         vwDimensions={props.vwDimensions}
       />

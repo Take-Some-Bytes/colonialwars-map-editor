@@ -20,7 +20,7 @@ const debug = debugFactory('cw-map-editor:editor')
  * @prop {number} y
  *
  * @typedef {Object} KeyBindings
- * @prop {import('./input/input-manager').BasicKeyBindings} basic
+ * @prop {import('./input/input-manager').DirectionBindings} direction
  *
  * @typedef {Object} MapConfig
  * @prop {'game-config'} configType
@@ -63,7 +63,7 @@ export default class Editor {
 
     this.self = null
     this.hasUnsavedChanges = true
-    this.suspended = false
+    this.paused = false
     this.lastUpdateTime = 0
     this.deltaTime = 0
 
@@ -105,7 +105,7 @@ export default class Editor {
    * Function to call on every iteration of the animation/update loop.
    */
   run () {
-    if (this.suspended) {
+    if (this.paused) {
       // Editor is suspended! Do nothing.
       return
     }
@@ -124,27 +124,19 @@ export default class Editor {
   }
 
   /**
-   * Call this when you want the editor to stop.
+   * Pauses this Editor, making it stop taking input and stop updating.
    */
-  stop () {
-    debug('Editor stopped')
+  pause () {
     this.inputManager.stopTracking(document, this.drawing.context.canvas)
+    this.paused = true
   }
 
   /**
-   * Suspends this Editor, making it stop taking input and stop updating.
+   * Unpauses this Editor, making it start taking input and updating again.
    */
-  suspend () {
-    this.inputManager.stopTracking(document, this.drawing.context.canvas)
-    this.suspended = true
-  }
-
-  /**
-   * Unsuspends this Editor, making it start taking input and updating again.
-   */
-  unsuspend () {
+  unpause () {
     this.inputManager.startTracking(document, this.drawing.context.canvas)
-    this.suspended = false
+    this.paused = false
   }
 
   /**
@@ -159,7 +151,7 @@ export default class Editor {
   static async create (mapConfig, keyBindings, context, viewportDimensions) {
     const viewport = Viewport.create(context.canvas)
     const inputManager = InputManager.create(
-      keyBindings.basic, document, context.canvas
+      keyBindings, document, context.canvas
     )
     const drawing = await Drawing.create(
       context, viewport, mapConfig

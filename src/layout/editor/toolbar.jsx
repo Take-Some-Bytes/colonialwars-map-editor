@@ -69,6 +69,24 @@ export default function EditorToolBar (props) {
       fn()
     }
   }
+  /**
+   * Create a function that closes all menus except for the menu with
+   * the specified ID.
+   * @param {string} menuName The name of the menu.
+   * @returns {VoidFunction}
+   */
+  function createOnMenuOpen (menuName) {
+    return () => {
+      for (const [id, menu] of menuStates.entries()) {
+        if (id === menuName) {
+          // Do not close this menu.
+          continue
+        }
+        menu.closeMenu()
+      }
+    }
+  }
+
   const onQuit = closeMenusAnd(props.quit)
   const onNewMap = closeMenusAnd(props.openNewMapModal)
   const onSaveMap = closeMenusAnd(props.saveMap)
@@ -104,6 +122,7 @@ export default function EditorToolBar (props) {
           'data-tip': 'Options',
           'data-for': 'options-tip'
         }}
+        onOpen={createOnMenuOpen('options-menu')}
       >
         <MenuItem className='editor-toolbar__menu__item'>Keybindings...</MenuItem>
         <MenuItem className='editor-toolbar__menu__item' onClick={onOpenSettings}>Map Settings...</MenuItem>
@@ -129,6 +148,7 @@ export default function EditorToolBar (props) {
           'data-tip': 'File operations',
           'data-for': 'file-tip'
         }}
+        onOpen={createOnMenuOpen('file-menu')}
       >
         <MenuItem className='editor-toolbar__menu__item' onClick={onNewMap}>New Map...</MenuItem>
         <SubMenu

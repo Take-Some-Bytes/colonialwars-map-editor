@@ -79,5 +79,14 @@ export default deepFreeze({
     HAD_ERROR: Symbol('EDITOR_STATE_HAD_ERROR'),
     NOT_STARTED: Symbol('EDITOR_STATE_NOT_STARTED'),
     DO_NOT_START: Symbol('EDITOR_STATE_DO_NOT_START')
-  }
+  },
+  DEFAULT: {
+    KEYBINDINGS: {
+      up: ['w', 'W', 'ArrowUp'],
+      down: ['s', 'S', 'ArrowDown'],
+      left: ['a', 'A', 'ArrowLeft'],
+      right: ['d', 'D', 'ArrowRight']
+    }
+  },
+  ROOT_FONT_SIZE: parseInt(window.getComputedStyle(document.body).fontSize, 10)
 })

@@ -8,11 +8,9 @@ import React from 'react'
 import EditorToolBar from './toolbar'
 
 /**
- * @typedef {Object} EditorInterfaceProps
- * @prop {import('../../components/custom-modal').Dimensions} dimensions
- * @prop {() => void} quit
- * @prop {() => void} saveMap
- * @prop {() => void} openNewMapModal
+ * @typedef {import('./toolbar').EditorToolBarProps} ToolbarProps
+ *
+ * @typedef {ToolbarProps} EditorInterfaceProps
  */
 
 /**
@@ -23,7 +21,14 @@ import EditorToolBar from './toolbar'
 export default function EditorInterface (props) {
   return (
     <>
-      <EditorToolBar {...props} />
+      <EditorToolBar
+        quit={props.quit}
+        saveMap={props.saveMap}
+        loadMap={props.loadMap}
+        openNewMapModal={props.openNewMapModal}
+        openMapTeamsModal={props.openMapTeamsModal}
+        openSettingsModal={props.openSettingsModal}
+      />
     </>
   )
 }

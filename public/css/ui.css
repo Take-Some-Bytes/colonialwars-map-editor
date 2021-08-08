@@ -80,8 +80,8 @@
   overflow: hidden;
   resize: both;
 
-  min-width: 10rem;
-  min-height: 10rem;
+  min-width: 20rem;
+  min-height: 20rem;
   max-width: 100vw;
   max-height: 100vh;
 
@@ -282,6 +282,10 @@
   position: relative;
 
   font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: scroll;
+
+  min-width: 22rem;
 }
 .ui-item-editor__item-display * {
   font-size: 0.85rem !important;
@@ -302,12 +306,12 @@
 .ui-item-editor__item-display__item {
   padding: 0.3rem;
   display: inline-block;
-  width: 70%;
+  width: 65%;
 }
 .ui-item-editor__item-display__item-name {
   padding: 0.3rem;
   display: inline-block;
-  width: 30%;
+  width: 35%;
 }
 .ui-item-editor__item-display__row:nth-child(odd) {
   background-color: rgb(243, 243, 243);

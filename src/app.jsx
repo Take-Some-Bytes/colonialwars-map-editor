@@ -9,7 +9,7 @@ import debugFactory from 'debug'
 import Layout from './layout/layout.jsx'
 import Modals from './layout/modals/index.jsx'
 import LandingPage from './layout/pages/landing.jsx'
-import MapEditorContainer from './layout/editor-container.jsx'
+import EditorContainer from './layout/editor-container.jsx'
 
 import Constants from './constants.js'
 import MapConfig from './editor/map-config.js'
@@ -17,6 +17,7 @@ import MapConfig from './editor/map-config.js'
 import * as mathUtils from './helpers/math-utils.js'
 
 import { ViewportDimensions } from './helpers/display-utils.js'
+import { loadKeybindings } from './helpers/loaders.js'
 
 const debug = debugFactory('cw-map-editor:main-app')
 
@@ -173,15 +174,18 @@ export default function App () {
     setNewMapModalOpened(false)
   }
 
+  const rootClassNames = []
+  if (page === 0) {
+    rootClassNames.push('space-between')
+    rootClassNames.push('root--home')
+  } else {
+    rootClassNames.push('root--editor')
+  }
+
   return (
     <Layout
       id='app-layout'
-      className={page === 0 ? 'space-between' : ''}
-      style={{
-        padding: page === 0 ? '12%' : '0',
-        minHeight: page === 0 ? '100%' : '0',
-        height: page === 0 ? '0' : '100%'
-      }}
+      className={rootClassNames.join(' ')}
     >
       <LandingPage
         visible={page === 0}
@@ -190,19 +194,10 @@ export default function App () {
         setMapConfig={setMapConfig}
         setNewMapModalOpened={setNewMapModalOpened}
       />
-      <MapEditorContainer
+      <EditorContainer
         show={page === 1}
         mapConfig={mapConfig}
-        keyBindings={{
-          basic: {
-            directionBindings: {
-              up: ['w', 'W'],
-              down: ['s', 'S'],
-              left: ['a', 'A'],
-              right: ['d', 'D']
-            }
-          }
-        }}
+        keyBindings={loadKeybindings()}
         vwDimensions={viewportDimensions}
         closeEditor={closeEditor}
         openNewMapModal={() => {
@@ -214,6 +209,7 @@ export default function App () {
           })
         }}
         setError={setError}
+        setMapConfig={setMapConfig}
       />
       <Modals
         errorModalOpts={{

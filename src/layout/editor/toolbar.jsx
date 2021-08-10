@@ -33,12 +33,13 @@ const BUTTON_SIZE = {
 
 /**
  * @typedef {Object} EditorToolBarProps
- * @prop {() => void} quit
- * @prop {() => void} saveMap
- * @prop {() => void} loadMap
- * @prop {() => void} openNewMapModal
- * @prop {() => void} openMapTeamsModal
- * @prop {() => void} openSettingsModal
+ * @prop {VoidFunction} quit
+ * @prop {VoidFunction} saveMap
+ * @prop {VoidFunction} loadMap
+ * @prop {VoidFunction} openNewMapModal
+ * @prop {VoidFunction} openMapTeamsModal
+ * @prop {VoidFunction} openSettingsModal
+ * @prop {VoidFunction} openGraphicsModal
  */
 
 /**
@@ -93,6 +94,7 @@ export default function EditorToolBar (props) {
   const onLoadMap = closeMenusAnd(props.loadMap)
   const onOpenMapTeams = closeMenusAnd(props.openMapTeamsModal)
   const onOpenSettings = closeMenusAnd(props.openSettingsModal)
+  const onOpenGraphics = closeMenusAnd(props.openGraphicsModal)
 
   return (
     <div
@@ -182,6 +184,20 @@ export default function EditorToolBar (props) {
       >
         <img
           src='/imgs/flags.svg'
+          width={BUTTON_SIZE.width}
+          height={BUTTON_SIZE.height}
+        />
+      </button>
+      <ReactTooltip id='graphics-tip' {...DEFAULT_TOOLTIP_PROPS} />
+      <button
+        name='graphics-modal-open'
+        className='editor-toolbar__button'
+        data-tip='Map graphics'
+        data-for='graphics-tip'
+        onClick={onOpenGraphics}
+      >
+        <img
+          src='/imgs/graphics.svg'
           width={BUTTON_SIZE.width}
           height={BUTTON_SIZE.height}
         />

@@ -68,7 +68,10 @@ export default deepFreeze({
     MIN_PLAYERS_ON_TEAM: 1,
     MAX_TEAM_DESC_LEN: 150,
     MAX_MAP_NAME_LEN: 30,
-    MAX_MAP_DESC_LEN: 5000
+    MAX_MAP_DESC_LEN: 5000,
+    MIN_MAP_GRAPHICS: 0,
+    // Set this to a reasonably high amount.
+    MAX_MAP_GRAPHICS: 1500
   },
   VALID_TILE_TYPES: ['grass', 'sand', 'rock'],
   VALID_GAME_MODES: ['teams', 'koth', 'siege'],
@@ -86,7 +89,39 @@ export default deepFreeze({
       down: ['s', 'S', 'ArrowDown'],
       left: ['a', 'A', 'ArrowLeft'],
       right: ['d', 'D', 'ArrowRight']
-    }
+    },
+    GRAPHIC_CONFIG: {
+      id: 'none_avilable',
+      name: 'None',
+      file: '@@_none',
+      angles: 1,
+      hasAnimations: false,
+      mainImg: { x: 0, y: 0, w: 0, h: 0 },
+      damaged1Img: { x: 0, y: 0, w: 0, h: 0 },
+      damaged2Img: { x: 0, y: 0, w: 0, h: 0 },
+      constructing1Img: { x: 0, y: 0, w: 0, h: 0 },
+      animations: null
+    },
+    IMG_CONFIG: { x: 0, y: 0, w: 0, h: 0 },
+    ANIMATION_CONFIG: { x: 0, y: 0, w: 0, h: 0, frameSize: 0 }
   },
+  SELECTABLE: {
+    GRAPHIC_FILES: [{
+      id: 'none_avilable',
+      value: '@@_none',
+      displayedText: 'None'
+    }],
+    ANGLES: [
+      { id: 'one', value: 1, displayedText: '1' },
+      { id: 'two', value: 2, displayedText: '2' },
+      { id: 'four', value: 4, displayedText: '4' },
+      { id: 'eight', value: 8, displayedText: '8' }
+    ]
+  },
+  // Some validation regexps.
+  // Lowercase letters, numbers, and underscores only.
+  ID_REGEXP: /^(?:[a-z0-9]|_)+$/,
+  // Only alphanumerical characters and spaces.
+  NAME_REGEXP: /^(?:[A-Za-z0-9]| ){0,31}$/,
   ROOT_FONT_SIZE: parseInt(window.getComputedStyle(document.body).fontSize, 10)
 })

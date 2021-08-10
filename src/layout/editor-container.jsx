@@ -43,6 +43,7 @@ export default function EditorContainer (props) {
   const [editorLoading, setEditorLoading] = React.useState(false)
   const [teamsModalOpen, setTeamsModalOpen] = React.useState(false)
   const [settingsModalOpen, setSettingsModalOpen] = React.useState(false)
+  const [graphicsModalOpen, setGraphicsModalOpen] = React.useState(false)
   const forceUpdate = React.useReducer(() => ({}))[1]
   const editorState = React.useRef(constants.EDITOR_STATE.DO_NOT_START)
 
@@ -77,7 +78,7 @@ export default function EditorContainer (props) {
     }
 
     if (editorState.current === constants.EDITOR_STATE.NOT_STARTED) {
-      debug('Starting editor')
+      debug('Starting editor with config %O', props.mapConfig)
       editorState.current = constants.EDITOR_STATE.STARTING
       setEditorLoading(true)
       Editor.create(props.mapConfig, props.keyBindings, ctx, props.vwDimensions)
@@ -96,7 +97,6 @@ export default function EditorContainer (props) {
    * Convenience function to pause the editor.
    */
   function pauseEditor () {
-    debug('Suspending editor.')
     editor.pause()
     editorState.current = constants.EDITOR_STATE.SUSPENDED
   }
@@ -104,7 +104,6 @@ export default function EditorContainer (props) {
    * Convenience function to unpause the editor.
    */
   function unpauseEditor () {
-    debug('Unsuspending editor.')
     editor.unpause()
     editorState.current = constants.EDITOR_STATE.RUNNING
   }
@@ -170,15 +169,21 @@ export default function EditorContainer (props) {
           }}
           loadMap={async () => {
             debug('Load map called')
-            const config = await loadMap()
+            let config = null
+
+            try {
+              config = await loadMap()
+            } catch (ex) {
+              props.setError(ex)
+            }
+
             if (config === null) {
               // No file is selected.
               return
             }
-
+            props.setMapConfig(config)
             editorState.current = constants.EDITOR_STATE.NOT_STARTED
             setEditor(null)
-            props.setMapConfig(config)
           }}
           openMapTeamsModal={() => {
             // Suspend the editor while the user messes with the teams modal.
@@ -188,6 +193,10 @@ export default function EditorContainer (props) {
           openSettingsModal={() => {
             pauseEditor()
             setSettingsModalOpen(true)
+          }}
+          openGraphicsModal={() => {
+            pauseEditor()
+            setGraphicsModalOpen(true)
           }}
         />
         {/* We have to use state to do this because changing refs don't cause re-renders. */}
@@ -213,9 +222,13 @@ export default function EditorContainer (props) {
           open: teamsModalOpen,
           setOpen: setTeamsModalOpen
         }}
-        mapSettingsModal={{
+        settingsModal={{
           open: settingsModalOpen,
           setOpen: setSettingsModalOpen
+        }}
+        graphicsModal={{
+          open: graphicsModalOpen,
+          setOpen: setGraphicsModalOpen
         }}
         unsuspendEditor={unpauseEditor}
         setError={props.setError}

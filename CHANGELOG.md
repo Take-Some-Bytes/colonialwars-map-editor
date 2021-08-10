@@ -4,8 +4,9 @@ Changelog for ``colonialwars-server``.
 The format is based on [Keep a Changelog][1], and this project adheres to [Semantic Versioning][2],
 with the exception that this project does *not* expose a public API.
 
-## [Unreleased]
+## [v0.4.0]
 ### Added:
+- Added new button so maps could now be loaded from the editor toolbar.
 - **PROJECT MAINTAINERS**: Added new ``ItemEditor`` component to make creating modals that edit
 items more convenient.
 - **PROJECT MAINTAINERS**: Added new ``BoundMap`` class, which exposes a ``Map``-like API, except
@@ -13,11 +14,15 @@ all keys must be strings, and storage of values is done in a user-provided objec
 
 ### Changed:
 - Used relative positioning/dimensions in CSS and JSX components where applicable.
+- Made toolbar close all other menus when one is opened.
 - **PROJECT MAINTAINERS**: The ``MapSettingsModal`` has been renamed to ``SettingsModal``.
 - **PROJECT MAINTAINERS**: The ``Button`` component could now be customized with CSS classes.
 - **PROJECT MAINTAINERS**: The ``Menu`` component now accept menu open/close hooks, allowing you to
 run code when a menu opens/closes.
 - **PROJECT MAINTAINERS**: The code for loading maps has now been moved to ``loaders.js``.
+- **PROJECT MAINTAINERS**: Overhauled ``InputManager`` class and input handling.
+- **PROJECT MAINTAINERS**: The row name styles of the ``TwoColTable`` component could now be
+customized.
 
 ### Fixed:
 - Modals used to be able to be dragged by their footer. That is no longer the case.
@@ -94,4 +99,4 @@ immediately displays 50 instead). Now, the inputs only bind their values on blur
 [v0.1.1]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/032e468d5a309f89d984cf74c736b8b40b63fe4e
 [v0.2.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/10b65a0a79d4d1766ec53c0ed9b97b8289524132
 [v0.3.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/17e7411c44c287271522ed3d7c16e0f315e63a25
-[Unreleased]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main
+[v0.4.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main

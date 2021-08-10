@@ -7,6 +7,7 @@ import debugFactory from 'debug'
 
 import constants from '../constants.js'
 import Vector2D from './physics/vector2d.js'
+import BoundMap from '../helpers/bound-map.js'
 
 import * as mathUtils from '../helpers/math-utils.js'
 
@@ -15,12 +16,29 @@ const { MAP_CONFIG_LIMITS } = constants
 
 /**
  * @typedef {Record<'unit'|'building'|'graphics', string>} CWDataFiles
+ * @typedef {Record<'x'|'y'|'w'|'h', number>} StaticImage
+ * @typedef {Record<'x'|'y'|'w'|'h'|'frameSize', number>} DynAnimation
+ * @typedef {'die'|'idle'|'walk'|'attack'|'reload'|'busy'|
+ * 'cast'|'busyDamaged1'|'busyDamaged2'} DynAnimationKeys
+ * @typedef {'mainImg'|'damaged1Img'|'damaged2Img'|'constructing1Img'} StaticImgKeys
  *
  * @typedef {Object} Team
  * @prop {string} name
  * @prop {number} maxPlayers
  * @prop {string} description
  * @prop {import('./physics/vector2d').default} spawnPosition
+ *
+ * @typedef {Object} Graphic
+ * @prop {string} id
+ * @prop {string} name
+ * @prop {string} file
+ * @prop {number} angles
+ * @prop {boolean} hasAnimations
+ * @prop {StaticImage} mainImg
+ * @prop {StaticImage} damaged1Img
+ * @prop {StaticImage} damaged2Img
+ * @prop {StaticImage} constructing1Img
+ * @prop {Record<DynAnimationKeys, DynAnimation>} animations
  */
 
 /**
@@ -54,7 +72,12 @@ export default class MapConfig {
      * Private reference to the map configurations.
      * @private
      */
-    this._config = {}
+    this._config = {
+      meta: {},
+      data: {
+        graphicsData: {}
+      }
+    }
     /**
      * Whether the map configurations has changed.
      * @private
@@ -64,6 +87,11 @@ export default class MapConfig {
     if (config) {
       this._parseConfig(config)
     }
+
+    /**
+     * @type {BoundMap<Graphic>}
+     */
+    this.graphics = new BoundMap(this._config.data.graphicsData)
   }
 
   /**
@@ -85,6 +113,9 @@ export default class MapConfig {
     }
     if (!isObject(config.meta)) {
       throw new TypeError('Invalid data type for meta field!')
+    }
+    if (!isObject(config.data)) {
+      throw new TypeError('Invalid data type for data field!')
     }
 
     fieldIsString('name', config.meta, 'meta.name')
@@ -119,6 +150,38 @@ export default class MapConfig {
       fieldExists('spawnPosition', team, `teams[${i}].spawnPosition`)
       fieldIsNumber('x', team.spawnPosition, `teams[${i}].spawnPosition.x`)
       fieldIsNumber('y', team.spawnPosition, `teams[${i}].spawnPosition.y`)
+    }
+
+    fieldExists('graphicsData', config.data, 'graphicsData')
+    if (!isObject(config.data.graphicsData)) {
+      throw new TypeError('Invalid data type for graphicsData field!')
+    }
+    for (const [id, graphic] of Object.entries(config.data.graphicsData)) {
+      if (!constants.ID_REGEXP.test(id)) {
+        throw new Error('Invalid characters in graphic ID!')
+      }
+
+      fieldIsString('id', graphic, `graphicsData['${id}'].id`)
+      fieldIsString('name', graphic, `graphicsData['${id}'].name`)
+      fieldIsString('file', graphic, `graphicsData['${id}'].file`)
+      fieldIsNumber('angles', graphic, `graphicsData['${id}'].angles`)
+      fieldIsBoolean('hasAnimations', graphic, `graphicsData['${id}'].hasAnimations`)
+      if (id !== graphic.id) {
+        throw new Error('Graphic IDs do not match!')
+      }
+
+      fieldExists('mainImg', graphic, `graphicsData['${id}'].mainImg`)
+      // graphic.mainImg is required and cannot be null.
+      if (!isObject(graphic.mainImg)) {
+        throw new TypeError(`Invalid data type for graphicsData['${id}'].mainImg!`)
+      }
+      for (const key of Object.keys(graphic.mainImg)) {
+        fieldIsNumber(key, graphic.mainImg, `graphic.mainImg['${key}']`)
+      }
+
+      /**
+       * TODO: Validate graphic fields.
+       * (08/09/2021) Take-Some-Bytes */
     }
   }
 
@@ -203,12 +266,6 @@ export default class MapConfig {
     config._setConstantConfig(worldLimits, tileType, defaultHeight, mode)
     config.setTeam('Red', Vector2D.zero(), 1, 'Team Red')
     config.setTeam('Blue', Vector2D.fromObject(worldLimits), 1, 'Team Blue')
-    /**
-     * XXX: The below currently sets a property that is not supposed to be publicly set.
-     * We do this so that the ``config.exportAsJson`` method doesn't complain about
-     * a missing ``data`` field.
-     * (05/21/2021) Take-Some-Bytes */
-    config._config.data = {}
 
     config._configChanged = false
 
@@ -276,7 +333,7 @@ export default class MapConfig {
     if (!this._config.meta || typeof this._config.meta !== 'object') {
       this._config.meta = {}
     }
-    if (!/^(?:\w| |-){0,30}$/i.test(name)) {
+    if (!constants.NAME_REGEXP.test(name)) {
       throw new TypeError('Invalid characters in map name!')
     }
 
@@ -462,6 +519,23 @@ function fieldIsNumber (field, object, actualFieldName) {
   fieldExists(field, object, actualFieldName)
   if (typeof object[field] !== 'number') {
     throw new TypeError(`Field ${actualFieldName} must be a number!`)
+  }
+  return true
+}
+/**
+ * Checks if a field of a given object is a boolean.
+ * @param {string} field The field to check.
+ * @param {any} object The object that the field belongs to.
+ * @param {string} [actualFieldName] The name to call the field being
+ * checked if an error needs to be thrown.
+ * @returns {true}
+ */
+function fieldIsBoolean (field, object, actualFieldName) {
+  actualFieldName = actualFieldName || field
+
+  fieldExists(field, object, actualFieldName)
+  if (typeof object[field] !== 'boolean') {
+    throw new TypeError(`Field ${actualFieldName} must be a boolean!`)
   }
   return true
 }

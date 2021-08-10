@@ -8,9 +8,11 @@ import React from 'react'
 
 import ErrorModal from './error-modal.jsx'
 import NewMapModal from './new-map-modal.jsx'
-import MapTeamsModal from './teams-modal.jsx'
+import TeamsModal from './teams-modal.jsx'
 import NewTeamModal from './new-team-modal.jsx'
-import MapSettingsModal from './settings-modal.jsx'
+import SettingsModal from './settings-modal.jsx'
+import GraphicsModal from './graphics-modal.jsx'
+import NewGraphicModal from './new-graphic-modal.jsx'
 
 import MapConfig from '../../editor/map-config.js'
 
@@ -24,12 +26,12 @@ import MapConfig from '../../editor/map-config.js'
  * @prop {Error|null} errorModalOpts.error
  * @prop {React.Dispatch<any>} errorModalOpts.setError
  * @prop {OpenClosable} newMapModal
- * @prop {OpenClosable} mapTeamsModal
  * @prop {import('../../helpers/display-utils').ViewportDimensions} vwDimensions
  *
  * @typedef {Object} EditorModalsProps
  * @prop {OpenClosable} teamsModal
- * @prop {OpenClosable} mapSettingsModal
+ * @prop {OpenClosable} graphicsModal
+ * @prop {OpenClosable} settingsModal
  * @prop {() => void} unsuspendEditor
  * @prop {React.Dispatch<any>} setError
  * @prop {React.DispatchWithoutAction} forceUpdate
@@ -44,9 +46,11 @@ import MapConfig from '../../editor/map-config.js'
  */
 export function EditorModals (props) {
   const [newTeamModalOpen, setNewTeamModalOpen] = React.useState(false)
+  const [newGraphicModalOpen, setNewGraphicModalOpen] = React.useState(false)
   const { mapConfig, forceUpdate } = props
   const { open: teamsModalOpen, setOpen: setTeamsModalOpen } = props.teamsModal
-  const { open: settingsModalOpen, setOpen: setSettingsModalOpen } = props.mapSettingsModal
+  const { open: settingsModalOpen, setOpen: setSettingsModalOpen } = props.settingsModal
+  const { open: graphicsModalOpen, setOpen: setGraphicsModalOpen } = props.graphicsModal
 
   /**
    * Safely call ``func`` and force update this component.
@@ -64,17 +68,27 @@ export function EditorModals (props) {
        * CONSIDER: Should we find a way to not have to force re-render?
        * Force updates go against React's philosophy (I think).
        * (06/20/2021) Take-Some-Bytes */
-      // Force update here so teams modal would re-render and show
-      // the updated map team configurations.
+      // Force update here so modals would re-render and
+      // show the updated map configurations.
       forceUpdate()
     }
   }
+  /**
+   * Show an error.
+   * @param {string} msg The error message to show.
+   */
+  function showError (msg) {
+    props.setError(new Error(msg))
+  }
+
   const setTeam = safeCall(mapConfig?.setTeam?.bind?.(mapConfig))
   const deleteTeam = safeCall(mapConfig?.deleteTeam?.bind?.(mapConfig))
+  const setGraphic = safeCall(mapConfig?.graphics?.set?.bind?.(mapConfig?.graphics))
+  const deleteGraphic = safeCall(mapConfig?.graphics?.del?.bind?.(mapConfig?.graphics))
 
   return (
     <>
-      <MapTeamsModal
+      <TeamsModal
         teams={(() => {
           if (
             !(mapConfig instanceof MapConfig) ||
@@ -94,7 +108,7 @@ export function EditorModals (props) {
         setTeam={setTeam}
         deleteTeam={deleteTeam}
         mapLimits={mapConfig?.worldLimits}
-        openNewTeamsModal={() => {
+        openNewTeamModal={() => {
           setNewTeamModalOpen(true)
         }}
         setError={props.setError}
@@ -110,7 +124,37 @@ export function EditorModals (props) {
         mapLimits={mapConfig?.worldLimits}
         newTeam={setTeam}
       />
-      <MapSettingsModal
+      <GraphicsModal
+        isOpen={graphicsModalOpen}
+        closeModal={() => {
+          props.unsuspendEditor()
+          setGraphicsModalOpen(false)
+        }}
+        graphics={mapConfig?.graphics?.all?.() || []}
+        openNewGraphicModal={() => { setNewGraphicModalOpen(true) }}
+        deleteGraphic={deleteGraphic}
+        setGraphic={setGraphic}
+        vwDimensions={props.vwDimensions}
+      />
+      <NewGraphicModal
+        isOpen={newGraphicModalOpen}
+        newGraphic={(id, opts) => {
+          if (!(mapConfig instanceof MapConfig)) {
+            // Do nothing.
+            return
+          }
+          if (mapConfig.graphics.has(id)) {
+            showError('Graphic already exists.')
+            return
+          }
+
+          setGraphic(id, opts)
+        }}
+        closeModal={() => { setNewGraphicModalOpen(false) }}
+        vwDimensions={props.vwDimensions}
+        showError={showError}
+      />
+      <SettingsModal
         isOpen={settingsModalOpen}
         closeModal={() => {
           props.unsuspendEditor()
@@ -130,10 +174,6 @@ export function EditorModals (props) {
  * @returns {JSX.Element}
  */
 export default function Modals (props) {
-  const modalPosition = {
-    x: Math.round(props.vwDimensions.width / 2) - 550 / 2,
-    y: Math.round(props.vwDimensions.height / 2) - 550 / 2
-  }
   const { error, setError } = props.errorModalOpts
   const { open: mapModalOpen, setOpen: setMapModalOpen, ...mapRest } = props.newMapModal
 
@@ -147,7 +187,7 @@ export default function Modals (props) {
       />
       <NewMapModal
         isOpen={mapModalOpen}
-        position={modalPosition}
+        vwDimensions={props.vwDimensions}
         closeModal={() => setMapModalOpen(false)}
         {...mapRest}
       />

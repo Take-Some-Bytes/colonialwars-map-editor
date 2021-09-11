@@ -316,7 +316,6 @@ function createHandleImgInputs (setGraphic, graphic, imgName, isBlurHandler, isS
       debug("Didn't find dot in target name--no op.")
       return
     }
-    debug(targetVal, targetName)
 
     const field = targetName.slice(dotIndex + 1)
     switch (field) {

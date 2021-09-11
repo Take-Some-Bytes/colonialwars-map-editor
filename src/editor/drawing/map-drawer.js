@@ -21,7 +21,7 @@ const debug = debugFactory('cw-map-editor:map-drawer')
  * @typedef {Object} MapDrawerOptions
  * @prop {MapConfig} mapConfig
  * @prop {import('../viewport').default} viewport
- * @prop {import('../../helpers/image-helpers').ImageLoader} imgLoader
+ * @prop {import('../../helpers/loaders').ImageLoader} imgLoader
  * ImageLoader class to load images.
  * @prop {CanvasRenderingContext2D} gameCanvasContext The actual canvas context
  * to draw the map on.

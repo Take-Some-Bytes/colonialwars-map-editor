@@ -362,9 +362,6 @@ export default class MapConfig {
     if (descrp.length > 5000) {
       throw new RangeError('Map description too long!')
     }
-    if (!/[^]{0,5000}/im.test(descrp)) {
-      throw new TypeError('Invalid characters in map description!')
-    }
 
     this._config.meta.description = descrp
     this._configChanged = true

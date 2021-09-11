@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog][1], and this project adheres to [Seman
 with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
+### Changed:
+- Put the text ``PROJECT MAINTAINERS`` before any changes that are only interesting to project
+maintainers.
 ### Fixed:
 - The map editor used to crash when an invalid character is entered into the map name input. That
 no longer happens--instead, the invalid character is silently ignored.
@@ -41,21 +44,21 @@ customized.
 
   Teams are limited to 8 per map.
 - Added a modal to modify general map settings (map name and description).
-- Added tooltips (via [``react-tooltip``](https://www.npmjs.com/package/react-tooltip))
+- **PROJECT MAINTAINERS**: Added tooltips (via [``react-tooltip``](https://www.npmjs.com/package/react-tooltip))
 to various components of the editor.
-- Added more UI components for React:
+- **PROJECT MAINTAINERS**: Added more UI components for React:
   * ``TwoColTable``, which renders a table that only has two rows.
   * ``RadioList``, which renders a list of radio buttons.
 ### Changed:
-- ***PROJECT CONTRIBUTORS ONLY***: The ``Button`` React component is now a bit more
+- **PROJECT MAINTAINERS**: The ``Button`` React component is now a bit more
 customizable, providing you with the ability to specify button size, additional CSS
 class names, and additional CSS styles.
-- ***PROJECT CONTRIBUTORS ONLY***: Modals now could find their own positions, by
+- **PROJECT MAINTAINERS**: Modals now could find their own positions, by
 doing some math with their dimensions and the current screen dimensions.
-- ***PROJECT CONTRIBUTORS ONLY***: Editor input tracker does not prevent the default
+- **PROJECT MAINTAINERS**: Editor input tracker does not prevent the default
 behaviour of ``keydown``, ``keyup``, ``mousedown``, and ``mouseup`` anymore.
 ### Deprecated:
-- ***PROJECT CONTRIBUTORS ONLY***: Non-[BEM](http://getbem.com)-styled CSS classes are
+- **PROJECT MAINTAINERS**: Non-[BEM](http://getbem.com)-styled CSS classes are
 now *deprecated*. New CSS classes MUST follow the BEM methodology.
 
 ## [v0.2.0] - 2021-05-30
@@ -67,22 +70,22 @@ now *deprecated*. New CSS classes MUST follow the BEM methodology.
 and save your map that you created.
 - Added a loading screen that shows when the editor is initializing.
 - Added new icons for the editor toolbar.
-- Added a ``detachEventListeners`` on the ``InputTracker`` and ``InputManager``
+- **PROJECT MAINTAINERS**: Added a ``detachEventListeners`` on the ``InputTracker`` and ``InputManager``
 classes--this way, the application could decided to stop tracking input at any time.
-- Added a ``MapConfig`` class to manage Colonial Wars Map Configurations, conforming to
+- **PROJECT MAINTAINERS**: Added a ``MapConfig`` class to manage Colonial Wars Map Configurations, conforming to
 [Draft Revision 3 of CW File Structures](
   https://github.com/Take-Some-Bytes/specifications/blob/670516e5ce46eee98c5843365c1f21e7eecb4ae0/colonialwars/cw-file-structures.md
 ).
-- Added methods to suspend and unsuspend the map editor.
+- **PROJECT MAINTAINERS**: Added methods to suspend and unsuspend the map editor.
 ### Changed:
-- Changed project layout a bit.
-- Changed HTML structure of custom React select menu.
-- Changed map drawing logic, and removed unneeded complexity.
-- Started using the ``debug`` module in our code. Also removed all instances of ``console.debug``
+- **PROJECT MAINTAINERS**: Changed project layout a bit.
+- **PROJECT MAINTAINERS**: Changed HTML structure of custom React select menu.
+- **PROJECT MAINTAINERS**: Changed map drawing logic, and removed unneeded complexity.
+- **PROJECT MAINTAINERS**: Started using the ``debug`` module in our code. Also removed all instances of ``console.debug``
 with calls to the ``debug ``module.
-- Re-structured the code for the new map modal.
+- **PROJECT MAINTAINERS**: Re-structured the code for the new map modal.
 ### Fixed:
-- Fixed a potential memory leak in the ``openFiles`` method--before, the promise that was
+- **PROJECT MAINTAINERS**: Fixed a potential memory leak in the ``openFiles`` method--before, the promise that was
 returned would stay pending indefinitely because it didn't have a way of knowing
 if the user clicked Cancel.
 

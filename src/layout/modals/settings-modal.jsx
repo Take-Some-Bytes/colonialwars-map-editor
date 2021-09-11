@@ -39,7 +39,12 @@ export default function SettingsModal (props) {
    */
   function onChange (e) {
     if (e.target.name === 'mapName') {
-      props.mapConfig.mapName = e.target.value
+      try {
+        props.mapConfig.mapName = e.target.value
+      } catch (ex) {
+        // Invalid character in map name, ignore.
+        return
+      }
     } else if (e.target.name === 'mapDescription') {
       props.mapConfig.description = String(
         e.target.value

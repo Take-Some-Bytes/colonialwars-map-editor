@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog][1], and this project adheres to [Seman
 with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
+### Fixed:
+- The map editor used to crash when an invalid character is entered into the map name input. That
+no longer happens--instead, the invalid character is silently ignored.
 
 ## [v0.4.0]
 ### Added:

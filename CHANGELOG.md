@@ -10,6 +10,7 @@ with the exception that this project does *not* expose a public API.
 be displayed as ``60.00`` (without the trailing zeroes).
 - Put the text ``PROJECT MAINTAINERS`` before any changes that are only interesting to project
 maintainers.
+- Actually documented the fact that graphics editing was added back in v0.4.0. Somehow I forgot.
 ### Fixed:
 - The map editor used to crash when an invalid character is entered into the map name input. That
 no longer happens--instead, the invalid character is silently ignored.
@@ -18,6 +19,11 @@ DOM tree. The file input is now removed correctly.
 
 ## [v0.4.0]
 ### Added:
+- Added functionality to edit the graphics of a Colonial Wars map.
+  * The "Map Graphics" modal was added to display and make it possible to edit map graphics.
+  * The "New Graphic" modal was added to allow users to add graphics.
+
+  Graphics are limited to 1500 per map. Graphics may only use images that the application provides.
 - Added new button so maps could now be loaded from the editor toolbar.
 - **PROJECT MAINTAINERS**: Added new ``ItemEditor`` component to make creating modals that edit
 items more convenient.

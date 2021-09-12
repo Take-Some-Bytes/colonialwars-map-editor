@@ -11,6 +11,8 @@ maintainers.
 ### Fixed:
 - The map editor used to crash when an invalid character is entered into the map name input. That
 no longer happens--instead, the invalid character is silently ignored.
+- If the user clicked cancel while selecting a file, the hidden file input will still exist in the
+DOM tree. The file input is now removed correctly.
 
 ## [v0.4.0]
 ### Added:

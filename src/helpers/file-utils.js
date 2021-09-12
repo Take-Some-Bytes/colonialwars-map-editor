@@ -53,6 +53,7 @@ export function openFiles (options) {
     window.addEventListener('focus', function checkFilePicked () {
       setTimeout(() => {
         window.removeEventListener('focus', checkFilePicked)
+        document.body.removeChild(fileInput)
         debug('Number of files picked: %d', fileInput.files.length)
         if (fileInput.files.length < 1) {
           reject(createError('No file picked!', 'ENOFILE'))

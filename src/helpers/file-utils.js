@@ -35,7 +35,6 @@ export function openFiles (options) {
 
     fileInput.addEventListener('change', () => {
       let files = Array.from(fileInput.files)
-      document.body.removeChild(fileInput)
       debug('File input change!')
 
       if (!options.multiple) {

@@ -106,12 +106,12 @@ function createTeamRenderer (mapLimits, setTeam) {
             type='number'
             name='teamSpawnPoint.x'
             min={0}
-            max={mapLimits.x}
-            value={team.spawnPosition.x}
+            max={mapLimits.x / 100}
+            value={team.spawnPosition.x / 100}
             style={{ width: '80px' }}
             onChange={e => {
               const newPos = {
-                x: Number(e.target.value),
+                x: Number(e.target.value) * 100,
                 y: team.spawnPosition.y
               }
               setTeam(team.name, newPos, null, null)
@@ -119,7 +119,7 @@ function createTeamRenderer (mapLimits, setTeam) {
             onBlur={e => {
               // Bind the value.
               const newPos = {
-                x: bound(Number(e.target.value), 0, mapLimits.x),
+                x: Math.round(bound(Number(e.target.value) * 100, 0, mapLimits.x)),
                 y: team.spawnPosition.y
               }
               setTeam(team.name, newPos, null, null)
@@ -130,13 +130,13 @@ function createTeamRenderer (mapLimits, setTeam) {
             type='number'
             name='teamSpawnPoint.y'
             min={0}
-            max={mapLimits.y}
-            value={team.spawnPosition.y}
+            max={mapLimits.y / 100}
+            value={team.spawnPosition.y / 100}
             style={{ width: '80px' }}
             onChange={e => {
               const newPos = {
                 x: team.spawnPosition.x,
-                y: Number(e.target.value)
+                y: Number(e.target.value) * 100
               }
               setTeam(team.name, newPos, null, null)
             }}
@@ -144,7 +144,7 @@ function createTeamRenderer (mapLimits, setTeam) {
               // Bind the value
               const newPos = {
                 x: team.spawnPosition.x,
-                y: bound(Number(e.target.value), 0, mapLimits.y)
+                y: Math.round(bound(Number(e.target.value) * 100, 0, mapLimits.y))
               }
               setTeam(team.name, newPos, null, null)
             }}

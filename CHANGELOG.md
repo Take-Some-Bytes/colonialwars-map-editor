@@ -6,6 +6,8 @@ with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
 ### Changed:
+- Displayed team spawn coordinates as decimals instead of huge numbers. For example, ``6000`` will now
+be displayed as ``60.00`` (without the trailing zeroes).
 - Put the text ``PROJECT MAINTAINERS`` before any changes that are only interesting to project
 maintainers.
 ### Fixed:

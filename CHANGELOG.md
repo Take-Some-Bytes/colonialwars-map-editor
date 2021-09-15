@@ -11,6 +11,7 @@ be displayed as ``60.00`` (without the trailing zeroes).
 - Put the text ``PROJECT MAINTAINERS`` before any changes that are only interesting to project
 maintainers.
 - Actually documented the fact that graphics editing was added back in v0.4.0. Somehow I forgot.
+- Rework grass tile.
 ### Fixed:
 - The map editor used to crash when an invalid character is entered into the map name input. That
 no longer happens--instead, the invalid character is silently ignored.

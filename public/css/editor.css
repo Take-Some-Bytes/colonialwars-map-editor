@@ -52,6 +52,7 @@
 .editor-toolbar__menu {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.8rem;
+  text-align: left;
 }
 .editor-toolbar__menu__submenu {
   padding: 0.25rem;

@@ -55,7 +55,7 @@ export default function EditorToolBar (props) {
 
   function closeAllMenus () {
     menuStates.forEach(menu => {
-      menu.closeMenu()
+      menu.toggleMenu(false)
     })
   }
   /**
@@ -83,7 +83,7 @@ export default function EditorToolBar (props) {
           // Do not close this menu.
           continue
         }
-        menu.closeMenu()
+        menu.toggleMenu(false)
       }
     }
   }
@@ -155,8 +155,11 @@ export default function EditorToolBar (props) {
         <MenuItem className='editor-toolbar__menu__item' onClick={onNewMap}>New Map...</MenuItem>
         <SubMenu
           label='Save'
-          itemClassName='editor-toolbar__menu__submenu'
-          className='ui-content ui-content--light--no-hover ui-content--radius editor-toolbar__menu'
+          itemProps={{
+            className: 'editor-toolbar__menu__submenu'
+          }}
+          // itemClassName='editor-toolbar__menu__submenu'
+          menuClassName='ui-content ui-content--light--no-hover ui-content--radius editor-toolbar__menu'
           arrow
         >
           <MenuItem className='editor-toolbar__menu__item' onClick={onSaveMap}>Save Map...</MenuItem>
@@ -165,8 +168,11 @@ export default function EditorToolBar (props) {
         </SubMenu>
         <SubMenu
           label='Load'
-          itemClassName='editor-toolbar__menu__submenu'
-          className='ui-content ui-content--light--no-hover ui-content--radius editor-toolbar__menu'
+          itemProps={{
+            className: 'editor-toolbar__menu__submenu'
+          }}
+          // itemClassName='editor-toolbar__menu__submenu'
+          menuClassName='ui-content ui-content--light--no-hover ui-content--radius editor-toolbar__menu'
           arrow
         >
           <MenuItem className='editor-toolbar__menu__item' onClick={onLoadMap}>Load Map...</MenuItem>

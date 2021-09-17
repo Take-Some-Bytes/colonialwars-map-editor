@@ -6,7 +6,7 @@
 
 import React from 'react'
 
-import * as ReactMenu from '@szhsin/react-menu'
+import { ControlledMenu } from '@szhsin/react-menu'
 import '@szhsin/react-menu/dist/core.css'
 
 /**
@@ -22,20 +22,18 @@ import '@szhsin/react-menu/dist/core.css'
  * @prop {string} className The CSS classes to apply to this Menu.
  * @prop {React.CSSProperties} style Any styles to apply to this Menu.
  * @prop {ButtonOpts} buttonOpts Options for the button that opens this Menu.
- * @prop {{
- *  isMounted: boolean;
- *  isOpen: boolean;
- *  menuItemFocus: {
- *      position: ReactMenu.FocusPosition;
- *  };
- *  openMenu: (menuItemFocus?: ReactMenu.FocusPosition) => void;
- *  closeMenu: () => void;
- *  toggleMenu: (menuItemFocus?: ReactMenu.FocusPosition) => void;
- * }} menuState
+ * @prop {ReturnType<import('@szhsin/react-menu').useMenuState>} menuState
  * @prop {{}} buttonProps Any props for the menu button.
  * @prop {VoidFunction} onOpen Function to call when this menu is opened.
  * @prop {VoidFunction} onClose Function to call when this menu is closed.
  */
+
+const MenuStates = Object.freeze({
+  OPENING: 'opening',
+  CLOSING: 'closing',
+  CLOSED: 'closed',
+  OPEN: 'open'
+})
 
 /**
  * The Menu component returns a menu constructed using the ``@szhshin/react-menu``
@@ -53,11 +51,11 @@ export default function Menu (props) {
    * Handler for the ``click`` event of the menu button.
    */
   function onMenuButtonClick () {
-    if (menuState.isOpen) {
-      menuState.closeMenu()
+    if (menuState.state === MenuStates.OPEN) {
+      menuState.toggleMenu(false)
       onClose()
     } else {
-      menuState.openMenu()
+      menuState.toggleMenu(true)
       onOpen()
     }
   }
@@ -75,19 +73,16 @@ export default function Menu (props) {
         {props.buttonOpts.content}
       </button>
 
-      <ReactMenu.ControlledMenu
+      <ControlledMenu
         id={props.name}
-        className={props.className}
-        styles={props.style}
+        menuStyles={props.style}
+        menuClassName={props.className}
         anchorRef={menuButtonRef}
-        isOpen={menuState.isOpen}
-        isMounted={menuState.isMounted}
-        menuItemFocus={menuState.menuItemFocus}
-        animation={false}
+        state={menuState.state}
         arrow={props.arrow}
       >
         {props.children}
-      </ReactMenu.ControlledMenu>
+      </ControlledMenu>
     </>
   )
 }

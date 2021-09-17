@@ -11,6 +11,7 @@ be displayed as ``60.00`` (without the trailing zeroes).
 - Put the text ``PROJECT MAINTAINERS`` before any changes that are only interesting to project
 maintainers.
 - Actually documented the fact that graphics editing was added back in v0.4.0. Somehow I forgot.
+- Actually documented the date of release v0.4.1.
 - Rework grass tile.
 - **PROJECT MAINTAINERS**: Updated [``@szhsin/react-menu``](https://www.npmjs.com/package/@szhsin/react-menu)
 to the 2.x release line. This is a breaking dependency change.
@@ -20,7 +21,7 @@ no longer happens--instead, the invalid character is silently ignored.
 - If the user clicked cancel while selecting a file, the hidden file input will still exist in the
 DOM tree. The file input is now removed correctly.
 
-## [v0.4.0]
+## [v0.4.0] - 2021-08-09
 ### Added:
 - Added functionality to edit the graphics of a Colonial Wars map.
   * The "Map Graphics" modal was added to display and make it possible to edit map graphics.

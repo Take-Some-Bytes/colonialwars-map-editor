@@ -4,6 +4,8 @@ Changelog for ``colonialwars-server``.
 The format is based on [Keep a Changelog][1], and this project adheres to [Semantic Versioning][2],
 with the exception that this project does *not* expose a public API.
 
+## [Unreleased]
+
 ## [v0.4.1] - 2021-09-17
 ### Changed:
 - Displayed team spawn coordinates as decimals instead of huge numbers. For example, ``6000`` will now
@@ -122,4 +124,5 @@ immediately displays 50 instead). Now, the inputs only bind their values on blur
 [v0.2.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/10b65a0a79d4d1766ec53c0ed9b97b8289524132
 [v0.3.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/17e7411c44c287271522ed3d7c16e0f315e63a25
 [v0.4.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/b7b44d16be914311a31a9363b0bba85be4ff6cac
-[v0.4.1]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main
+[v0.4.1]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/0b7553416554695ed5fdeb2949bbc5f7f460d185
+[Unreleased]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main

@@ -64,8 +64,10 @@ export default deepFreeze({
     MAX_DEFAULT_HEIGHT: 2,
     MIN_TEAMS: 2,
     MAX_TEAMS: 8,
+    MIN_PLAYERS_MAP: 2,
     MAX_PLAYERS_ON_TEAM: 20,
     MIN_PLAYERS_ON_TEAM: 1,
+    MAX_TEAM_NAME_LEN: 30,
     MAX_TEAM_DESC_LEN: 150,
     MAX_MAP_NAME_LEN: 30,
     MAX_MAP_DESC_LEN: 5000,
@@ -73,8 +75,22 @@ export default deepFreeze({
     // Set this to a reasonably high amount.
     MAX_MAP_GRAPHICS: 1500
   },
+  REGEXP: {
+    TEAM_NAME: /^[A-Za-z0-9]*$/
+  },
   VALID_TILE_TYPES: ['grass', 'sand', 'rock'],
   VALID_GAME_MODES: ['teams', 'koth', 'siege'],
+  VALID_ANIMATIONS: [
+    'die',
+    'idle',
+    'walk',
+    'busy',
+    'cast',
+    'attack',
+    'reload',
+    'busyDamaged1',
+    'busyDamaged2'
+  ],
   EDITOR_STATE: {
     RUNNING: Symbol('EDITOR_STATE_RUNNING'),
     STARTING: Symbol('EDITOR_STATE_STARTING'),

@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog][1], and this project adheres to [Seman
 with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
+### Changed:
+- **PROJECT MAINTAINERS**: Documented correct version in ``package.json``.
+- **PROJECT MAINTAINERS**: Used [``joi``](https://www.npmjs.com/package/joi) instead of custom
+validation functions.
 
 ## [v0.4.1] - 2021-09-17
 ### Changed:

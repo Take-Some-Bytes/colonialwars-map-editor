@@ -426,9 +426,7 @@ function createGraphicRenderer (setGraphic) {
         graphic = {
           ...graphic,
           animations: Object.fromEntries(animationKeys.map(key => [
-            key, Object.fromEntries(Object.entries(
-              constants.DEFAULT.ANIMATION_CONFIG
-            ))
+            key, { ...constants.DEFAULT.ANIMATION_CONFIG }
           ]))
         }
         setGraphic(graphic.id, graphic)

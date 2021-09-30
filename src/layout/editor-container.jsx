@@ -131,7 +131,6 @@ export default function EditorContainer (props) {
           }}
           openNewMapModal={() => {
             if (editor instanceof Editor) {
-              // Suspend the editor while the user messes with the new map modal.
               pauseEditor()
             }
 
@@ -143,7 +142,6 @@ export default function EditorContainer (props) {
                 return
               }
 
-              // Unsuspend the editor.
               if (editor instanceof Editor) {
                 editorState.current = constants.EDITOR_STATE.RUNNING
                 unpauseEditor()
@@ -186,7 +184,6 @@ export default function EditorContainer (props) {
             setEditor(null)
           }}
           openMapTeamsModal={() => {
-            // Suspend the editor while the user messes with the teams modal.
             pauseEditor()
             setTeamsModalOpen(true)
           }}

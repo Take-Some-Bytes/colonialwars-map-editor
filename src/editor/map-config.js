@@ -9,6 +9,7 @@ import debugFactory from 'debug'
 import constants from '../constants.js'
 import Vector2D from './physics/vector2d.js'
 import BoundMap from '../helpers/bound-map.js'
+import { MapConfigSchema } from './config-schemas.js'
 
 import * as mathUtils from '../helpers/math-utils.js'
 
@@ -58,87 +59,6 @@ export class FieldMissingError extends Error {
   }
 }
 
-const idSchema = Joi.string().pattern(constants.ID_REGEXP, 'id')
-const nameSchema = Joi.string().pattern(constants.NAME_REGEXP, 'name')
-const vector2dSchema = Joi.object({
-  x: Joi.number().integer(),
-  y: Joi.number().integer()
-})
-const staticImgSchema = Joi.object().pattern(
-  Joi.string().valid('x', 'y', 'w', 'h'),
-  Joi.number().integer()
-)
-const dynAnimationSchema = staticImgSchema.keys({
-  frameSie: Joi.number().integer()
-})
-const teamSchema = Joi.object({
-  name: Joi
-    .string()
-    .max(MAP_CONFIG_LIMITS.MAX_TEAM_NAME_LEN)
-    .pattern(constants.REGEXP.TEAM_NAME, 'team name'),
-  description: Joi
-    .string()
-    .max(MAP_CONFIG_LIMITS.MAX_TEAM_DESC_LEN),
-  maxPlayers: Joi
-    .number()
-    .integer()
-    .min(MAP_CONFIG_LIMITS.MIN_PLAYERS_ON_TEAM)
-    .max(MAP_CONFIG_LIMITS.MAX_PLAYERS_ON_TEAM),
-
-  spawnPosition: vector2dSchema
-})
-const mapConfigSchema = Joi.object({
-  meta: Joi.object({
-    name: nameSchema,
-    mode: Joi.string().valid(...constants.VALID_GAME_MODES),
-    tileType: Joi.string().valid(...constants.VALID_TILE_TYPES),
-    description: Joi.string().max(MAP_CONFIG_LIMITS.MAX_MAP_DESC_LEN),
-    unitDataExtends: Joi.string(),
-    buildingDataExtends: Joi.string(),
-    graphicsDataExtends: Joi.string(),
-    maxPlayers: Joi
-      .number()
-      .integer()
-      .min(MAP_CONFIG_LIMITS.MIN_PLAYERS_MAP),
-    defaultHeight: Joi
-      .number()
-      .integer()
-      .min(MAP_CONFIG_LIMITS.MIN_DEFAULT_HEIGHT)
-      .max(MAP_CONFIG_LIMITS.MAX_DEFAULT_HEIGHT),
-    worldLimits: vector2dSchema,
-    teams: Joi
-      .array()
-      .min(MAP_CONFIG_LIMITS.MIN_TEAMS)
-      .max(MAP_CONFIG_LIMITS.MAX_TEAMS)
-      .items(teamSchema)
-  }),
-  data: Joi.object({
-    graphicsData: Joi.object().pattern(idSchema, Joi.object({
-      id: idSchema,
-      name: nameSchema,
-      file: Joi.string(),
-      angles: Joi.number().integer().valid(1, 2, 4, 8),
-      hasAnimations: Joi.boolean(),
-      mainImg: staticImgSchema,
-      // The following three images are optional.
-      damaged1Img: staticImgSchema.allow(null).optional(),
-      damaged2Img: staticImgSchema.allow(null).optional(),
-      constructing1Img: staticImgSchema.allow(null).optional(),
-      // Animations are only required if hasAnimations is true.
-      animations: Joi
-        .when('hasAnimations', {
-          is: Joi.equal(true),
-          then: Joi.object().pattern(
-            Joi.string().valid(...constants.VALID_ANIMATIONS),
-            dynAnimationSchema
-          ),
-          otherwise: Joi.any().allow(null).optional()
-        })
-    }))
-  }),
-  configType: Joi.string().valid('map-config')
-}).prefs({ presence: 'required', convert: false })
-
 /**
  * MapConfig class to manage parsing and exporting map configurations.
  */
@@ -184,7 +104,7 @@ export default class MapConfig {
   _parseConfig (rawConfig) {
     const config = JSON.parse(rawConfig)
 
-    Joi.assert(config, mapConfigSchema)
+    Joi.assert(config, MapConfigSchema)
 
     // Welp, the config passed validation.
     this._config = config

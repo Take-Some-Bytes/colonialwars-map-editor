@@ -7,10 +7,13 @@ import Joi from 'joi'
 
 import constants from '../constants.js'
 
-const { ID_REGEXP, NAME_REGEXP, MAP_CONFIG_LIMITS } = constants
+const { ID_REGEXP, NAME_REGEXP, MAP_CONFIG_LIMITS, REGEXP } = constants
+const { DESCRIPTION_MULTI_LINE, DESCRIPTION_SINGLE_LINE } = REGEXP
 
 const IdSchema = Joi.string().pattern(ID_REGEXP, 'id')
 const NameSchema = Joi.string().pattern(NAME_REGEXP, 'name')
+const MultiLineDescSchema = Joi.string().pattern(DESCRIPTION_MULTI_LINE, 'multi-line-desc')
+const SingleLineDescSchema = Joi.string().pattern(DESCRIPTION_SINGLE_LINE, 'single-line-desc')
 const Vector2dSchema = Joi.object({
   x: Joi.number().integer(),
   y: Joi.number().integer()
@@ -27,9 +30,7 @@ const TeamSchema = Joi.object({
     .string()
     .max(MAP_CONFIG_LIMITS.MAX_TEAM_NAME_LEN)
     .pattern(constants.REGEXP.TEAM_NAME, 'team name'),
-  description: Joi
-    .string()
-    .max(MAP_CONFIG_LIMITS.MAX_TEAM_DESC_LEN),
+  description: SingleLineDescSchema.max(MAP_CONFIG_LIMITS.MAX_TEAM_DESC_LEN),
   maxPlayers: Joi
     .number()
     .integer()
@@ -66,7 +67,7 @@ export const MapConfigSchema = Joi.object({
     name: NameSchema,
     mode: Joi.string().valid(...constants.VALID_GAME_MODES),
     tileType: Joi.string().valid(...constants.VALID_TILE_TYPES),
-    description: Joi.string().max(MAP_CONFIG_LIMITS.MAX_MAP_DESC_LEN),
+    description: MultiLineDescSchema.max(MAP_CONFIG_LIMITS.MAX_MAP_DESC_LEN),
     unitDataExtends: Joi.string(),
     buildingDataExtends: Joi.string(),
     graphicsDataExtends: Joi.string(),

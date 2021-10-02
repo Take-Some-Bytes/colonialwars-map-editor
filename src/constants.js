@@ -76,7 +76,9 @@ export default deepFreeze({
     MAX_MAP_GRAPHICS: 1500
   },
   REGEXP: {
-    TEAM_NAME: /^[A-Za-z0-9]*$/
+    TEAM_NAME: /^[A-Za-z0-9]*$/,
+    DESCRIPTION_SINGLE_LINE: /^[A-z (),.&!?;:0-9]*$/,
+    DESCRIPTION_MULTI_LINE: /^(?:[A-z (),.&!?;:0-9]|(?:\r\n|\r|\n))*$/
   },
   VALID_TILE_TYPES: ['grass', 'sand', 'rock'],
   VALID_GAME_MODES: ['teams', 'koth', 'siege'],

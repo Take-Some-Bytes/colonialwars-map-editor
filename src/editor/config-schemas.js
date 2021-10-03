@@ -23,7 +23,7 @@ const StaticImgSchema = Joi.object().pattern(
   Joi.number().integer()
 )
 const DynAnimationSchema = StaticImgSchema.keys({
-  frameSie: Joi.number().integer()
+  frameSize: Joi.number().integer()
 })
 const TeamSchema = Joi.object({
   name: Joi

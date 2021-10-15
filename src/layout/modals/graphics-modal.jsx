@@ -444,6 +444,9 @@ function createGraphicRenderer (setGraphic) {
 
     return (
       <>
+        <ItemDisplayRow name='ID'>
+          {graphic.id}
+        </ItemDisplayRow>
         <ItemDisplayRow name='Name'>
           {graphic.name}
         </ItemDisplayRow>

@@ -304,7 +304,7 @@ function createHandleImgInputs (setGraphic, graphic, imgName, isBlurHandler, isS
 
   let processVal = () => {}
   if (isBlurHandler) {
-    processVal = (val) => bound(Number(val), 0, Infinity)
+    processVal = (val) => Math.round(bound(Number(val), 0, Infinity))
   } else {
     processVal = (val) => Number(val)
   }

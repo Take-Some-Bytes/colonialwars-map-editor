@@ -6,11 +6,13 @@ with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
 ### Changed:
-- Scrollbars are now showed only if needed in the display section of item editors.
+- Reworked sand tile.
 - Graphics modal now automatically removes decimal points when user stops editing numerical inputs.
 - **PROJECT MAINTAINERS**: Documented correct version in ``package.json``.
 - **PROJECT MAINTAINERS**: Used [``joi``](https://www.npmjs.com/package/joi) instead of custom
 validation functions.
+### Fixed:
+- Scrollbars are now showed only if needed in the display section of item editors.
 
 ## [v0.4.1] - 2021-09-17
 ### Changed:

@@ -67,7 +67,10 @@ export const MapConfigSchema = Joi.object({
     name: NameSchema,
     mode: Joi.string().valid(...constants.VALID_GAME_MODES),
     tileType: Joi.string().valid(...constants.VALID_TILE_TYPES),
-    description: MultiLineDescSchema.max(MAP_CONFIG_LIMITS.MAX_MAP_DESC_LEN),
+    description: MultiLineDescSchema
+      .allow('')
+      .min(0)
+      .max(MAP_CONFIG_LIMITS.MAX_MAP_DESC_LEN),
     unitDataExtends: Joi.string(),
     buildingDataExtends: Joi.string(),
     graphicsDataExtends: Joi.string(),

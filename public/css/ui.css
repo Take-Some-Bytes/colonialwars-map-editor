@@ -114,8 +114,8 @@
   text-overflow: ellipsis;
 }
 .custom-modal-close-span {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.9rem;
+  height: 0.9rem;
   padding: 0.05rem;
   display: inline-block;
 
@@ -132,7 +132,7 @@
   border: 1px solid rgb(197, 197, 197);
   background-color: rgb(244, 244, 244);
   font-weight: bold;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
 }
 .custom-modal-close-button:hover {
   background-color: rgb(233, 233, 233);

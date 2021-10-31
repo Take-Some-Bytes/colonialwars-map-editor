@@ -71,7 +71,7 @@ export default function CustomModal (props) {
                 onClick={props.onCloseRequest}
               >
                 <span id={`${props.id}-dialog-close-span`} className='custom-modal-close-span'>
-                  x
+                  &times;
                 </span>
               </button>
             </header>

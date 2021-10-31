@@ -7,6 +7,7 @@ with the exception that this project does *not* expose a public API.
 ## [Unreleased]
 ### Changed:
 - Reworked sand tile.
+- Improved look of modal close buttons.
 - Graphics modal now automatically removes decimal points when user stops editing numerical inputs.
 - **PROJECT MAINTAINERS**: Documented correct version in ``package.json``.
 - **PROJECT MAINTAINERS**: Used [``joi``](https://www.npmjs.com/package/joi) instead of custom

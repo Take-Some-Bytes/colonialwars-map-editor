@@ -113,31 +113,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.custom-modal-close-span {
-  width: 0.9rem;
-  height: 0.9rem;
-  padding: 0.05rem;
-  display: inline-block;
-
-  text-align: center;
-}
-.custom-modal-close-button {
-  width: 1.1rem;
-  height: 1.1rem;
-  position: absolute;
-  top: 25%;
-  right: 1em;
-  padding: 0.05rem;
-
-  border: 1px solid rgb(197, 197, 197);
-  background-color: rgb(244, 244, 244);
-  font-weight: bold;
-  font-size: 0.8rem;
-}
-.custom-modal-close-button:hover {
-  background-color: rgb(233, 233, 233);
-  cursor: pointer;
-}
 .custom-modal-content {
   display: block;
   padding: 0.5em 1em;
@@ -317,4 +292,31 @@
 }
 .ui-item-editor__item-display__row:nth-child(odd) {
   background-color: rgb(243, 243, 243);
+}
+
+/********** Delete Button **********/
+.ui-delete-button {
+  width: 1.1rem;
+  height: 1.1rem;
+  position: absolute;
+  top: 25%;
+  right: 1em;
+  padding: 0.05rem;
+
+  border: 1px solid rgb(197, 197, 197);
+  background-color: rgb(244, 244, 244);
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+.ui-delete-button:hover {
+  background-color: rgb(233, 233, 233);
+  cursor: pointer;
+}
+.ui-delete-button__span {
+  width: 0.9rem;
+  height: 0.9rem;
+  padding: 0.05rem;
+  display: inline-block;
+
+  text-align: center;
 }

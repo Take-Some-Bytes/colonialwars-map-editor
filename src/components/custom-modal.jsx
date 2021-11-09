@@ -7,6 +7,8 @@ import React from 'react'
 import Modal from 'react-modal'
 import Draggable from 'react-draggable'
 
+import DeleteButton from './del-button.jsx'
+
 /**
  * @typedef {Record<'width'|'height', number>} Dimensions
  * @typedef {Record<'x'|'y', number>} Position
@@ -65,15 +67,10 @@ export default function CustomModal (props) {
               <span id={`${props.id}-dialog-header-span`} className='custom-modal-header-span'>
                 <h3>{props.headerContent}</h3>
               </span>
-              <button
+              <DeleteButton
                 id={`${props.id}-dialog-close-button`}
-                className='custom-modal-close-button'
                 onClick={props.onCloseRequest}
-              >
-                <span id={`${props.id}-dialog-close-span`} className='custom-modal-close-span'>
-                  &times;
-                </span>
-              </button>
+              />
             </header>
             <div id={`${props.id}-dialog-content`} className='custom-modal-content'>
               {props.children}

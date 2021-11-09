@@ -12,6 +12,7 @@ with the exception that this project does *not* expose a public API.
 - **PROJECT MAINTAINERS**: Documented correct version in ``package.json``.
 - **PROJECT MAINTAINERS**: Used [``joi``](https://www.npmjs.com/package/joi) instead of custom
 validation functions.
+- **PROJECT MAINTAINERS**: Refactored delete/close button code into different file.
 ### Fixed:
 - Scrollbars are now showed only if needed in the display section of item editors.
 

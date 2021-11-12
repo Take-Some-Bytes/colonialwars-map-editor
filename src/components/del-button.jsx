@@ -10,6 +10,7 @@ import React from 'react'
  *
  * @typedef {Object} DeleteButtonProps
  * @prop {string} id
+ * @prop {React.CSSProperties} buttonStyle
  * @prop {import('./button').ButtonClickCallback} onClick
  */
 
@@ -22,6 +23,7 @@ export default function DeleteButton (props) {
     <button
       id={props.id}
       className='ui-delete-button'
+      style={props.buttonStyle}
       onClick={props.onClick}
     >
       <span

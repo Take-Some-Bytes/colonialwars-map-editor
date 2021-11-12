@@ -70,6 +70,11 @@ export default function CustomModal (props) {
               <DeleteButton
                 id={`${props.id}-dialog-close-button`}
                 onClick={props.onCloseRequest}
+                buttonStyle={{
+                  position: 'absolute',
+                  top: '25%',
+                  right: '1em'
+                }}
               />
             </header>
             <div id={`${props.id}-dialog-content`} className='custom-modal-content'>

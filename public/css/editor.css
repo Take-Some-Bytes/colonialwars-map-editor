@@ -59,7 +59,7 @@
   padding-right: 2.5rem;
 }
 .editor-toolbar__menu__submenu::after {
-  content: "❯";
+  content: "\0276F";
   position: absolute;
   right: 0.5rem;
 }

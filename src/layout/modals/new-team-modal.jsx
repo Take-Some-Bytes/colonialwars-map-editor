@@ -192,6 +192,7 @@ export default function NewTeamModal (props) {
         value={teamConfig.spawnPosition.x}
         onChange={onUpdate}
         onBlur={onBlur}
+        step={0.01}
       />
       &nbsp;&nbsp;&nbsp;&nbsp;Y:&nbsp;
       <input
@@ -202,6 +203,7 @@ export default function NewTeamModal (props) {
         value={teamConfig.spawnPosition.y}
         onChange={onUpdate}
         onBlur={onBlur}
+        step={0.01}
       />
     </CustomModal>
   )

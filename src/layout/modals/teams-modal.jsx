@@ -124,6 +124,7 @@ function createTeamRenderer (mapLimits, setTeam) {
               }
               setTeam(team.name, newPos, null, null)
             }}
+            step={0.01}
           /><br />
           y:&nbsp;
           <input
@@ -148,6 +149,7 @@ function createTeamRenderer (mapLimits, setTeam) {
               }
               setTeam(team.name, newPos, null, null)
             }}
+            step={0.01}
           />
         </ItemDisplayRow>
       </>

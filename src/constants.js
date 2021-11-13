@@ -120,6 +120,33 @@ export default deepFreeze({
       constructing1Img: { x: 0, y: 0, w: 0, h: 0 },
       animations: null
     },
+    MODIFIER_CONFIG: {
+      id: 'modifier_none',
+      name: 'None',
+      description: '',
+      duration: -1,
+      maxStack: 1,
+      modifications: [],
+      auras: [],
+      auraHitsSelf: false,
+      auraHitsFriendly: false,
+      auraHitsAllied: false,
+      auraHitsEnemy: false,
+      auraColour: {
+        r: 255, g: 255, b: 255, a: 0.5
+      },
+      auraTargetFilters: [],
+      auraTargetFiltersExclude: [],
+      disableCommands: [],
+      changeEntityImg: false,
+      entityImg: 'none',
+      changeAtkEffect: false,
+      atkEffect: 'none',
+      effects: [],
+      sound: 'none',
+      soundVolume: 1,
+      killModifiers: []
+    },
     IMG_CONFIG: { x: 0, y: 0, w: 0, h: 0 },
     ANIMATION_CONFIG: { x: 0, y: 0, w: 0, h: 0, frameSize: 0 }
   },

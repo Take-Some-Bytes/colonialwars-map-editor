@@ -276,7 +276,8 @@
 .ui-item-editor__item-display__table {
   border-collapse: collapse;
   padding: 0;
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
 }
 .ui-item-editor__item-display__item {
   padding: 0.3rem;

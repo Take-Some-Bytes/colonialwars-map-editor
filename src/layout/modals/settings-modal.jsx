@@ -28,8 +28,8 @@ import { centerPos } from '../../helpers/math-utils.js'
  */
 export default function SettingsModal (props) {
   const dimensions = {
-    width: constants.ROOT_FONT_SIZE * 32.5,
-    height: constants.ROOT_FONT_SIZE * 25
+    width: constants.ROOT_FONT_SIZE * 40,
+    height: constants.ROOT_FONT_SIZE * 27.5
   }
   const position = centerPos(dimensions, props.vwDimensions)
 

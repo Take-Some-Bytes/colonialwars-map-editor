@@ -163,7 +163,7 @@ function createTeamRenderer (mapLimits, setTeam) {
 export default function TeamsModal (props) {
   const dimensions = {
     width: constants.ROOT_FONT_SIZE * 40,
-    height: constants.ROOT_FONT_SIZE * 30
+    height: constants.ROOT_FONT_SIZE * 27.5
   }
   const position = centerPos(dimensions, props.vwDimensions)
   const renderTeam = createTeamRenderer(props.mapLimits, props.setTeam)

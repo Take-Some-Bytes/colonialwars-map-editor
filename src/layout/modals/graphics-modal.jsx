@@ -500,8 +500,8 @@ function createGraphicRenderer (setGraphic) {
  */
 export default function GraphicsModal (props) {
   const dimensions = {
-    width: constants.ROOT_FONT_SIZE * 45,
-    height: constants.ROOT_FONT_SIZE * 32.5
+    width: constants.ROOT_FONT_SIZE * 40,
+    height: constants.ROOT_FONT_SIZE * 27.5
   }
   const position = centerPos(dimensions, props.vwDimensions)
   const renderGraphic = createGraphicRenderer(props.setGraphic)

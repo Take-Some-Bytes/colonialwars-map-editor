@@ -63,7 +63,7 @@ export default function NewTeamModal (props) {
         ...prevConf,
         spawnPosition: Vector2D.fromObject({
           ...prevConf.spawnPosition.asObject(),
-          [e.target.name.slice(14)]: Number(e.target.value)
+          [e.target.name.slice(14)]: Number(e.target.value) * 100
         })
       }))
     } else {
@@ -93,7 +93,7 @@ export default function NewTeamModal (props) {
         spawnPosition: Vector2D.fromObject({
           ...prevConf.spawnPosition.asObject(),
           [axis]: bound(
-            Number(e.target.value), 0, props.mapLimits[axis]
+            Number(e.target.value) * 100, 0, props.mapLimits[axis]
           )
         })
       }))
@@ -189,7 +189,7 @@ export default function NewTeamModal (props) {
         name='spawnPosition.x'
         min={0}
         max={props.mapLimits?.x}
-        value={teamConfig.spawnPosition.x}
+        value={teamConfig.spawnPosition.x / 100}
         onChange={onUpdate}
         onBlur={onBlur}
         step={0.01}
@@ -200,7 +200,7 @@ export default function NewTeamModal (props) {
         name='spawnPosition.y'
         min={0}
         max={props.mapLimits?.y}
-        value={teamConfig.spawnPosition.y}
+        value={teamConfig.spawnPosition.y / 100}
         onChange={onUpdate}
         onBlur={onBlur}
         step={0.01}

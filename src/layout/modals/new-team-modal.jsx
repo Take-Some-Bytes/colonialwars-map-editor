@@ -42,7 +42,7 @@ import { bound, centerPos } from '../../helpers/math-utils.js'
  */
 export default function NewTeamModal (props) {
   const [teamConfig, setTeamConfig] = React.useState({
-    name: 'New Team',
+    name: 'NewTeam',
     maxPlayers: 1,
     description: 'New Team',
     spawnPosition: Vector2D.zero()

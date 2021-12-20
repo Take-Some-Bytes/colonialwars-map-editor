@@ -7,14 +7,20 @@ with the exception that this project does *not* expose a public API.
 ## [Unreleased]
 ### Changed:
 - Reworked sand tile.
+- Downsized modal sizes.
 - Improved look of modal close buttons.
 - Graphics modal now automatically removes decimal points when user stops editing numerical inputs.
-- **PROJECT MAINTAINERS**: Documented correct version in ``package.json``.
+- Scrollbars are now shown only if needed in the display section of item editors.
+- Displayed team spawn coordinates in the "New Team Modal" the same way as the "Teams Modal" (decimals
+instead of huge numbers.)
 - **PROJECT MAINTAINERS**: Used [``joi``](https://www.npmjs.com/package/joi) instead of custom
 validation functions.
 - **PROJECT MAINTAINERS**: Refactored delete/close button code into different file.
+
 ### Fixed:
-- Scrollbars are now showed only if needed in the display section of item editors.
+- The "New Team" modal now creates completely valid teams.
+- The striped input tables of all item editors (i.e. teams modal, graphics modal) have been fixed.
+Their background stripes now extend all the way past the widest row in the table.
 
 ## [v0.4.1] - 2021-09-17
 ### Changed:
@@ -27,6 +33,7 @@ maintainers.
 - Rework grass tile.
 - **PROJECT MAINTAINERS**: Updated [``@szhsin/react-menu``](https://www.npmjs.com/package/@szhsin/react-menu)
 to the 2.x release line. This is a breaking dependency change.
+
 ### Fixed:
 - The map editor used to crash when an invalid character is entered into the map name input. That
 no longer happens--instead, the invalid character is silently ignored.

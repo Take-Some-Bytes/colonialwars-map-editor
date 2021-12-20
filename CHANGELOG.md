@@ -82,6 +82,7 @@ to various components of the editor.
 - **PROJECT MAINTAINERS**: Added more UI components for React:
   * ``TwoColTable``, which renders a table that only has two rows.
   * ``RadioList``, which renders a list of radio buttons.
+
 ### Changed:
 - **PROJECT MAINTAINERS**: The ``Button`` React component is now a bit more
 customizable, providing you with the ability to specify button size, additional CSS
@@ -90,6 +91,7 @@ class names, and additional CSS styles.
 doing some math with their dimensions and the current screen dimensions.
 - **PROJECT MAINTAINERS**: Editor input tracker does not prevent the default
 behaviour of ``keydown``, ``keyup``, ``mousedown``, and ``mouseup`` anymore.
+
 ### Deprecated:
 - **PROJECT MAINTAINERS**: Non-[BEM](http://getbem.com)-styled CSS classes are
 now *deprecated*. New CSS classes MUST follow the BEM methodology.
@@ -110,6 +112,7 @@ classes--this way, the application could decided to stop tracking input at any t
   https://github.com/Take-Some-Bytes/specifications/blob/670516e5ce46eee98c5843365c1f21e7eecb4ae0/colonialwars/cw-file-structures.md
 ).
 - **PROJECT MAINTAINERS**: Added methods to suspend and unsuspend the map editor.
+
 ### Changed:
 - **PROJECT MAINTAINERS**: Changed project layout a bit.
 - **PROJECT MAINTAINERS**: Changed HTML structure of custom React select menu.
@@ -124,14 +127,15 @@ if the user clicked Cancel.
 
 ## [v0.1.1] - 2021-03-26
 ### Fixed:
-- Fixed the very annoying number inputs--before, they would bind a number to its
-bounds immediately, after every change, which produced some very annoying results
-(e.g. I try to enter 100, but when I select the number and press backspace, it
-immediately displays 50 instead). Now, the inputs only bind their values on blur.
-- Fixed the selectable canvas. The canvas is now unselectable.
+- \[[8dc4cb75](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/8dc4cb75)\] Fixed the very
+annoying number inputs--before, they would bind a number to its bounds immediately after every change, which
+produced some very annoying results (e.g. I try to enter 100, but when I select the number and press backspace,
+it immediately displays 50 instead). Now, the inputs only bind their values on blur.
+- \[[9a10661d](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/9a10661d)\] Fixed the selectable 
+canvas. The canvas is now unselectable.
 
 ## [v0.1.0] - 2021-02-14
-- \[[c6b6c55](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/c6b6c55a)\]: Initial (pre-)release.
+- \[[c6b6c55a](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/c6b6c55a)\] Initial (pre-)release.
 
 [1]: https://keepachangelog.com/
 [2]: https://semver.org

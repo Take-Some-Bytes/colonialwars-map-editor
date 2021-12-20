@@ -131,7 +131,7 @@ immediately displays 50 instead). Now, the inputs only bind their values on blur
 - Fixed the selectable canvas. The canvas is now unselectable.
 
 ## [v0.1.0] - 2021-02-14
-- [c6b6c55](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/c6b6c55af7cedfb84a5db9ea94ccecf02b07cfd1): Initial (pre-)release.
+- c6b6c55a: Initial (pre-)release.
 
 [1]: https://keepachangelog.com/
 [2]: https://semver.org

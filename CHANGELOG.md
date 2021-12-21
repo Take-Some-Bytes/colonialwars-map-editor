@@ -98,32 +98,40 @@ now *deprecated*. New CSS classes MUST follow the BEM methodology.
 
 ## [v0.2.0] - 2021-05-30
 ### Added:
-- Added more map configuration options:
+- \[[90038b87](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/90038b87)\] 
+Added more map configuration options:
   * Game mode: specify the game mode of the map;
   * Unit, Building, Graphics data: specify whatever unit, building, or graphics data the map needs.
-- Added the editor toolbar. Now you could quit the editor, create new maps while in the editor,
+- \[[7400d335](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/7400d335)\]
+Added the editor toolbar. Now you could quit the editor, create new maps while in the editor,
 and save your map that you created.
-- Added a loading screen that shows when the editor is initializing.
-- Added new icons for the editor toolbar.
-- **PROJECT MAINTAINERS**: Added a ``detachEventListeners`` on the ``InputTracker`` and ``InputManager``
+- \[[133edb41](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/133edb41)\]
+Added a loading screen that shows when the editor is initializing.
+- \[[4a344e7b](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/4a344e7b)\] **PROJECT MAINTAINERS**:
+Added ``debug`` module for debug output.
+- \[[5d62bfc4](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/5d62bfc4)\] **PROJECT MAINTAINERS**:
+Added a ``detachEventListeners`` on the ``InputTracker`` and ``InputManager``
 classes--this way, the application could decided to stop tracking input at any time.
-- **PROJECT MAINTAINERS**: Added a ``MapConfig`` class to manage Colonial Wars Map Configurations, conforming to
+- \[[f62f9f6a](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/f62f9f6a)\] **PROJECT MAINTAINERS**:
+Added a ``MapConfig`` class to manage Colonial Wars Map Configurations, conforming to
 [Draft Revision 3 of CW File Structures](
   https://github.com/Take-Some-Bytes/specifications/blob/670516e5ce46eee98c5843365c1f21e7eecb4ae0/colonialwars/cw-file-structures.md
 ).
-- **PROJECT MAINTAINERS**: Added methods to suspend and unsuspend the map editor.
+- \[[6b698559](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/6b698559)\] **PROJECT MAINTAINERS**:
+Added methods to suspend and unsuspend the map editor.
 
 ### Changed:
-- **PROJECT MAINTAINERS**: Changed project layout a bit.
-- **PROJECT MAINTAINERS**: Changed HTML structure of custom React select menu.
-- **PROJECT MAINTAINERS**: Changed map drawing logic, and removed unneeded complexity.
-- **PROJECT MAINTAINERS**: Started using the ``debug`` module in our code. Also removed all instances of ``console.debug``
-with calls to the ``debug ``module.
-- **PROJECT MAINTAINERS**: Re-structured the code for the new map modal.
+- \[[608c6341](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/608c6341)\] **PROJECT MAINTAINERS**:
+Changed HTML structure of custom React select menu.
+- \[[c3d6b389](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/c3d6b389)\] **PROJECT MAINTAINERS**:
+Changed map drawing logic, and removed unneeded complexity.
+- \[[90038b87](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/90038b87)\] **PROJECT MAINTAINERS**:
+Re-structured the code for the new map modal.
+
 ### Fixed:
-- **PROJECT MAINTAINERS**: Fixed a potential memory leak in the ``openFiles`` method--before, the promise that was
-returned would stay pending indefinitely because it didn't have a way of knowing
-if the user clicked Cancel.
+- \[[f94bc534](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/f94bc534)\] **PROJECT MAINTAINERS**: 
+Fixed a potential memory leak in the ``openFiles`` method--before, the promise that was returned would
+stay pending indefinitely because it didn't have a way of knowing if the user clicked Cancel.
 
 ## [v0.1.1] - 2021-03-26
 ### Fixed:

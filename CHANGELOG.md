@@ -98,52 +98,52 @@ now *deprecated*. New CSS classes MUST follow the BEM methodology.
 
 ## [v0.2.0] - 2021-05-30
 ### Added:
-- \[[90038b87](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/90038b87)\] 
+- \[[``90038b87``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/90038b87)\] 
 Added more map configuration options:
   * Game mode: specify the game mode of the map;
   * Unit, Building, Graphics data: specify whatever unit, building, or graphics data the map needs.
-- \[[7400d335](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/7400d335)\]
+- \[[``7400d335``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/7400d335)\]
 Added the editor toolbar. Now you could quit the editor, create new maps while in the editor,
 and save your map that you created.
-- \[[133edb41](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/133edb41)\]
+- \[[``133edb41``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/133edb41)\]
 Added a loading screen that shows when the editor is initializing.
-- \[[4a344e7b](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/4a344e7b)\] **PROJECT MAINTAINERS**:
+- \[[``4a344e7b``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/4a344e7b)\] **PROJECT MAINTAINERS**:
 Added ``debug`` module for debug output.
-- \[[5d62bfc4](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/5d62bfc4)\] **PROJECT MAINTAINERS**:
+- \[[``5d62bfc4``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/5d62bfc4)\] **PROJECT MAINTAINERS**:
 Added a ``detachEventListeners`` on the ``InputTracker`` and ``InputManager``
 classes--this way, the application could decided to stop tracking input at any time.
-- \[[f62f9f6a](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/f62f9f6a)\] **PROJECT MAINTAINERS**:
+- \[[``f62f9f6a``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/f62f9f6a)\] **PROJECT MAINTAINERS**:
 Added a ``MapConfig`` class to manage Colonial Wars Map Configurations, conforming to
 [Draft Revision 3 of CW File Structures](
   https://github.com/Take-Some-Bytes/specifications/blob/670516e5ce46eee98c5843365c1f21e7eecb4ae0/colonialwars/cw-file-structures.md
 ).
-- \[[6b698559](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/6b698559)\] **PROJECT MAINTAINERS**:
+- \[[``6b698559``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/6b698559)\] **PROJECT MAINTAINERS**:
 Added methods to suspend and unsuspend the map editor.
 
 ### Changed:
-- \[[608c6341](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/608c6341)\] **PROJECT MAINTAINERS**:
+- \[[``608c6341``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/608c6341)\] **PROJECT MAINTAINERS**:
 Changed HTML structure of custom React select menu.
-- \[[c3d6b389](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/c3d6b389)\] **PROJECT MAINTAINERS**:
+- \[[``c3d6b389``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/c3d6b389)\] **PROJECT MAINTAINERS**:
 Changed map drawing logic, and removed unneeded complexity.
-- \[[90038b87](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/90038b87)\] **PROJECT MAINTAINERS**:
+- \[[``90038b87``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/90038b87)\] **PROJECT MAINTAINERS**:
 Re-structured the code for the new map modal.
 
 ### Fixed:
-- \[[f94bc534](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/f94bc534)\] **PROJECT MAINTAINERS**: 
+- \[[``f94bc534``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/f94bc534)\] **PROJECT MAINTAINERS**: 
 Fixed a potential memory leak in the ``openFiles`` method--before, the promise that was returned would
 stay pending indefinitely because it didn't have a way of knowing if the user clicked Cancel.
 
 ## [v0.1.1] - 2021-03-26
 ### Fixed:
-- \[[8dc4cb75](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/8dc4cb75)\] Fixed the very
+- \[[``8dc4cb75``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/8dc4cb75)\] Fixed the very
 annoying number inputs--before, they would bind a number to its bounds immediately after every change, which
 produced some very annoying results (e.g. I try to enter 100, but when I select the number and press backspace,
 it immediately displays 50 instead). Now, the inputs only bind their values on blur.
-- \[[9a10661d](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/9a10661d)\] Fixed the selectable 
+- \[[``9a10661d``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/9a10661d)\] Fixed the selectable 
 canvas. The canvas is now unselectable.
 
 ## [v0.1.0] - 2021-02-14
-- \[[c6b6c55a](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/c6b6c55a)\] Initial (pre-)release.
+- \[[``c6b6c55a``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/c6b6c55a)\] Initial (pre-)release.
 
 [1]: https://keepachangelog.com/
 [2]: https://semver.org

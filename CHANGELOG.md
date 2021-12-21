@@ -71,30 +71,34 @@ customized.
 
 ## [v0.3.0] - 2021-06-26
 ### Added:
-- Added functionality to edit the teams of a Colonial Wars map.
+- \[[``eb0f9763``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/eb0f9763)\]
+Added functionality to edit the teams of a Colonial Wars map.
   * The "Map Teams" modal was added to display and make it possible to edit map teams.
   * The "New Team" modal was added to allow users to add teams.
 
   Teams are limited to 8 per map.
-- Added a modal to modify general map settings (map name and description).
-- **PROJECT MAINTAINERS**: Added tooltips (via [``react-tooltip``](https://www.npmjs.com/package/react-tooltip))
+- \[[``e11ba659``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/e11ba659)\]
+Added a modal to modify general map settings (map name and description).
+- \[[``922bbe3a``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/922bbe3a)\] **PROJECT MAINTAINERS**:
+Added tooltips (via [``react-tooltip``](https://www.npmjs.com/package/react-tooltip))
 to various components of the editor.
-- **PROJECT MAINTAINERS**: Added more UI components for React:
+- \[[``eef9975a``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/eef9975a)\] **PROJECT MAINTAINERS**:
+Added more UI components for React:
   * ``TwoColTable``, which renders a table that only has two rows.
   * ``RadioList``, which renders a list of radio buttons.
 
 ### Changed:
-- **PROJECT MAINTAINERS**: The ``Button`` React component is now a bit more
-customizable, providing you with the ability to specify button size, additional CSS
-class names, and additional CSS styles.
-- **PROJECT MAINTAINERS**: Modals now could find their own positions, by
-doing some math with their dimensions and the current screen dimensions.
-- **PROJECT MAINTAINERS**: Editor input tracker does not prevent the default
-behaviour of ``keydown``, ``keyup``, ``mousedown``, and ``mouseup`` anymore.
+- \[[``9e1c0394``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/9e1c0394)\] **PROJECT MAINTAINERS**:
+The ``Button`` React component is now a bit more customizable, providing you with the
+ability to specify button size, additional CSS class names, and additional CSS styles.
+- \[[``e6243dd9``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/e6243dd9)\] **PROJECT MAINTAINERS**:
+Editor input tracker does not prevent the default behaviour of ``keydown``, ``keyup``,
+``mousedown``, and ``mouseup`` anymore.
 
 ### Deprecated:
-- **PROJECT MAINTAINERS**: Non-[BEM](http://getbem.com)-styled CSS classes are
-now *deprecated*. New CSS classes MUST follow the BEM methodology.
+- \[[``5a4ab903``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/5a4ab903)\] **PROJECT MAINTAINERS**:
+Non-[BEM](http://getbem.com)-styled CSS classes are now *deprecated*. New CSS classes MUST follow
+the BEM methodology.
 
 ## [v0.2.0] - 2021-05-30
 ### Added:

@@ -42,32 +42,42 @@ DOM tree. The file input is now removed correctly.
 
 ## [v0.4.0] - 2021-08-09
 ### Added:
-- Added functionality to edit the graphics of a Colonial Wars map.
+- \[[``e98b711c``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/e98b711c)\]
+Added functionality to edit the graphics of a Colonial Wars map.
   * The "Map Graphics" modal was added to display and make it possible to edit map graphics.
   * The "New Graphic" modal was added to allow users to add graphics.
 
   Graphics are limited to 1500 per map. Graphics may only use images that the application provides.
-- Added new button so maps could now be loaded from the editor toolbar.
-- **PROJECT MAINTAINERS**: Added new ``ItemEditor`` component to make creating modals that edit
-items more convenient.
-- **PROJECT MAINTAINERS**: Added new ``BoundMap`` class, which exposes a ``Map``-like API, except
-all keys must be strings, and storage of values is done in a user-provided object.
+- \[[``9be51bcd``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/9be51bcd)\]
+Added new button so maps could now be loaded from the editor toolbar.
+- \[[``1876d3cc``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/1876d3cc)\] **PROJECT MAINTAINERS**:
+Added new ``ItemEditor`` component to make creating modals that edit items more convenient.
+- \[[``6db5f15f``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/6db5f15f)\] **PROJECT MAINTAINERS**:
+Added new ``BoundMap`` class, which exposes a ``Map``-like API, except all keys must be
+strings, and storage of values is done in a user-provided object.
 
 ### Changed:
-- Used relative positioning/dimensions in CSS and JSX components where applicable.
-- Made toolbar close all other menus when one is opened.
-- **PROJECT MAINTAINERS**: The ``MapSettingsModal`` has been renamed to ``SettingsModal``.
-- **PROJECT MAINTAINERS**: The ``Button`` component could now be customized with CSS classes.
-- **PROJECT MAINTAINERS**: The ``Menu`` component now accept menu open/close hooks, allowing you to
+- \[[``95b9edef``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/95b9edef)\]
+Used relative positioning/dimensions in CSS where applicable.
+- \[[``fc323a3a``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/fc323a3a)\]
+Used relative positioning/dimensions in CSS and JSX components where applicable.
+- \[[``d3befd20``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/d3befd20)\]
+Menus in the editor toolbar now close whenever another menu is opened.
+- \[[``aada89b1``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/aada89b1)\] **PROJECT MAINTAINERS**:
+The ``MapSettingsModal`` has been renamed to ``SettingsModal``.
+- \[[``b2cebb79``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/b2cebb79)\] **PROJECT MAINTAINERS**:
+The ``Menu`` component now accepts menu open/close hooks, allowing you to
 run code when a menu opens/closes.
-- **PROJECT MAINTAINERS**: The code for loading maps has now been moved to ``loaders.js``.
-- **PROJECT MAINTAINERS**: Overhauled ``InputManager`` class and input handling.
-- **PROJECT MAINTAINERS**: The row name styles of the ``TwoColTable`` component could now be
-customized.
+- \[[``685ac4ac``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/685ac4ac)\] **PROJECT MAINTAINERS**:
+The code for loading maps has now been moved to ``loaders.js``.
+- \[[``1a9c5408``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/1a9c5408)\] **PROJECT MAINTAINERS**:
+Overhauled ``InputManager`` class and input handling.
+- \[[``5193f288``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/5193f288)\] **PROJECT MAINTAINERS**:
+The row name styles of the ``TwoColTable`` component could now be customized.
 
 ### Fixed:
-- Modals used to be able to be dragged by their footer. That is no longer the case.
-- Menus in the editor toolbar now close whenever another menu is opened.
+- \[[``23ba0cde``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/23ba0cde)\]
+Modals used to be able to be dragged by their footer. That is no longer the case.
 
 ## [v0.3.0] - 2021-06-26
 ### Added:

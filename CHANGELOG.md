@@ -6,20 +6,30 @@ with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
 ### Changed:
-- Reworked sand tile.
-- Downsized modal sizes.
-- Improved look of modal close buttons.
-- Graphics modal now automatically removes decimal points when user stops editing numerical inputs.
-- Scrollbars are now shown only if needed in the display section of item editors.
-- Displayed team spawn coordinates in the "New Team Modal" the same way as the "Teams Modal" (decimals
-instead of huge numbers.)
-- **PROJECT MAINTAINERS**: Used [``joi``](https://www.npmjs.com/package/joi) instead of custom
+- \[[``a66bee44``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/a66bee44)\]
+Reworked sand tile.
+- \[[``d6f6121b``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/d6f6121b)\]
+Downsized modal sizes.
+- \[[``e0dc6753``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/e0dc6753)\]
+Improved look of modal close buttons.
+- \[[``cc32c412``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/cc32c412)\]
+Graphics modal now automatically removes decimal points when user stops editing numerical inputs of a graphic.
+- \[[``b96866de``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/b96866de)\]
+Scrollbars are now shown only if needed in the display section of item editors.
+- \[[``212bca97``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/212bca97)\]
+Displayed team spawn coordinates in the "New Team Modal" the same way as the "Teams Modal" 
+(decimals instead of huge numbers.)
+- \[[``dda78eaa``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/dda78eaa)\]
+**PROJECT MAINTAINERS**: Used [``joi``](https://www.npmjs.com/package/joi) instead of custom
 validation functions.
-- **PROJECT MAINTAINERS**: Refactored delete/close button code into different file.
+- \[[``edd971fa``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/edd971fa)\] **PROJECT MAINTAINERS**:
+Refactored delete/close button code into different file.
 
 ### Fixed:
-- The "New Team" modal now creates completely valid teams.
-- The striped input tables of all item editors (i.e. teams modal, graphics modal) have been fixed.
+- \[[``5fbbb2c5``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/5fbbb2c5)\]
+The "New Team" modal now creates completely valid teams.
+- \[[``dd235754``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/dd235754)\]
+The striped input tables of all item editors (i.e. teams modal, graphics modal) have been fixed.
 Their background stripes now extend all the way past the widest row in the table.
 
 ## [v0.4.1] - 2021-09-17

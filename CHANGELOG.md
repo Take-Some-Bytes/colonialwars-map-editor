@@ -24,21 +24,29 @@ Their background stripes now extend all the way past the widest row in the table
 
 ## [v0.4.1] - 2021-09-17
 ### Changed:
-- Displayed team spawn coordinates as decimals instead of huge numbers. For example, ``6000`` will now
-be displayed as ``60.00`` (without the trailing zeroes).
-- Put the text ``PROJECT MAINTAINERS`` before any changes that are only interesting to project
-maintainers.
-- Actually documented the fact that graphics editing was added back in v0.4.0. Somehow I forgot.
-- Actually documented the date of release v0.4.1.
-- Rework grass tile.
-- **PROJECT MAINTAINERS**: Updated [``@szhsin/react-menu``](https://www.npmjs.com/package/@szhsin/react-menu)
+- \[[``b6f9825f``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/b6f9825f)\]
+Displayed team spawn coordinates as decimals instead of huge numbers. For example, ``6000``
+will now be displayed as ``60.00`` (without the trailing zeroes).
+- \[[``76834f98``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/76834f98)\]
+Put the text ``PROJECT MAINTAINERS`` before any changes that are only interesting to
+project maintainers.
+- \[[``5e9d7126``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/5e9d7126)\]
+Rework grass tile.
+- \[[``77342d80``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/77342d80)\]
+**PROJECT MAINTAINERS**: Updated [``@szhsin/react-menu``](https://www.npmjs.com/package/@szhsin/react-menu)
 to the 2.x release line. This is a breaking dependency change.
 
 ### Fixed:
-- The map editor used to crash when an invalid character is entered into the map name input. That
-no longer happens--instead, the invalid character is silently ignored.
-- If the user clicked cancel while selecting a file, the hidden file input will still exist in the
-DOM tree. The file input is now removed correctly.
+- \[[``e9057577``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/e9057577)\]
+The map editor used to crash when an invalid character is entered into the map name input.
+That no longer happens--instead, the invalid character is silently ignored.
+- \[[``fd53e81f``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/fd53e81f)\]
+If the user clicked cancel while selecting a file, the hidden file input will still exist
+in the DOM tree. The file input is now removed correctly.
+- \[[``432271c1``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/432271c1)\]
+Release notes of v0.4.0 now state that graphics editing were added.
+- \[[``a37377fe``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/a37377fe)\]
+Date of release v0.4.0 was actually documented.
 
 ## [v0.4.0] - 2021-08-09
 ### Added:

@@ -30,7 +30,6 @@ import TwoColTable, { Row } from './two-col-table.jsx'
  * @typedef {Object} ItemEditorProps
  * @prop {(name: string) => void} deleteItem
  * @prop {RenderItem<T>} renderItem
- * @prop {React.Dispatch<any>} setError
  * @prop {React.CSSProperties} listItemStyle
  * @prop {Dimensions} listItemDimensions
  * @prop {VoidFunction} closeModal
@@ -40,8 +39,6 @@ import TwoColTable, { Row } from './two-col-table.jsx'
  * @prop {string} itemName
  * @prop {Position} position
  * @prop {Array<T>} items
- * @prop {number} maxItems
- * @prop {number} minItems
  * @prop {boolean} isOpen
  * @prop {string} id
  * @template {BaseItem} T
@@ -49,13 +46,11 @@ import TwoColTable, { Row } from './two-col-table.jsx'
 /**
  * @typedef {Object} ItemsListProps
  * @prop {(itemName: string) => void} setSelectedItem
- * @prop {(msg: string) => void} showError
  * @prop {React.CSSProperties} itemStyle
  * @prop {Dimensions} itemDimensions
  * @prop {Array<T>} items
  * @prop {VoidFunction} newItem
  * @prop {string} itemName A collective name to refer to an item
- * @prop {number} maxItems
  * @prop {string} id
  * @template {BaseItem} T
  */
@@ -64,19 +59,13 @@ import TwoColTable, { Row } from './two-col-table.jsx'
  * @prop {RenderItem<T>} renderItem
  * @prop {boolean} itemSelected
  * @prop {string} itemName
- * @prop {(msg: string) => void} showError
  * @prop {(name: string) => void} deleteItem
  * @prop {T} item
- * @prop {number} numItems
- * @prop {number} minItems
  * @template {BaseItem} T
  */
 /**
  * @typedef {Object} DeleteItemButtonProps
  * @prop {() => void} deleteCurrentItem
- * @prop {(msg: string) => void} showError
- * @prop {number} numItems
- * @prop {number} minItems
  * @prop {string} itemName A collective name to refer to an item
 */
 /**
@@ -91,27 +80,9 @@ import TwoColTable, { Row } from './two-col-table.jsx'
  * @returns {JSX.Element}
  */
 function DeleteItemButton (props) {
-  /**
-   * Handles the click of the delete button.
-   * @param {React.MouseEvent<HTMLButtonElement>} e The event.
-   */
-  function handleClick (e) {
-    e.preventDefault()
-    e.stopPropagation()
-
-    if (props.numItems - 1 < props.minItems) {
-      props.showError(
-        `Minimum ${props.minItems} ${props.itemName.toLowerCase()}s per map.`
-      )
-      return
-    }
-
-    props.deleteCurrentItem()
-  }
-
   return (
     <Button
-      onClick={handleClick}
+      onClick={() => props.deleteCurrentItem()}
       className='float-right'
       style={{
         width: '10rem',
@@ -155,9 +126,6 @@ function ItemDisplay (props) {
           deleteCurrentItem={() => {
             props.deleteItem(props.item.id)
           }}
-          showError={props.showError}
-          numItems={props.numItems}
-          minItems={props.minItems}
           itemName={props.itemName}
         />
         <TwoColTable className='ui-item-editor__item-display__table'>
@@ -181,15 +149,7 @@ function ItemsList (props) {
       className='ui-item-editor__items-list'
     >
       <Button
-        onClick={() => {
-          if (props.items.length + 1 > props.maxItems) {
-            props.showError(
-              `Maximum ${props.maxItems} ${props.itemName.toLowerCase()}s per map.`
-            )
-            return
-          }
-          props.newItem()
-        }}
+        onClick={() => props.newItem()}
         style={{
           width: '10.5rem',
           height: '2.25rem',
@@ -248,14 +208,6 @@ export default function ItemEditor (props) {
   const [selectedItem, setSelectedItem] = React.useState(null)
   const itemToDisplay = props.items.find(item => item.id === selectedItem) || null
 
-  /**
-   * Shows an error on the error modal.
-   * @param {string} msg The error message.
-   */
-  function showError (msg) {
-    props.setError(new Error(msg))
-  }
-
   return (
     <CustomModal
       id={`${props.id}-modal`}
@@ -278,20 +230,15 @@ export default function ItemEditor (props) {
             setSelectedItem(itemName)
           }}
           itemStyle={props.listItemStyle}
-          showError={showError}
           items={props.items}
           itemName={props.itemName}
           newItem={props.newItem}
-          maxItems={props.maxItems}
         />
         <ItemDisplay
           itemSelected={!!selectedItem}
           itemName={props.itemName}
           item={itemToDisplay}
           renderItem={props.renderItem}
-          showError={showError}
-          minItems={props.minItems}
-          numItems={props.items.length}
           deleteItem={(...args) => {
             setSelectedItem(null)
             props.deleteItem(...args)

@@ -135,6 +135,7 @@ export function EditorModals (props) {
         deleteGraphic={deleteGraphic}
         setGraphic={setGraphic}
         vwDimensions={props.vwDimensions}
+        setError={props.setError}
       />
       <NewGraphicModal
         isOpen={newGraphicModalOpen}

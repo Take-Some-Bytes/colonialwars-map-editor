@@ -35,6 +35,7 @@ const animationNames = [
   'Reload', 'Busy Animation', 'Cast Animation', 'Busy/Damaged Animation',
   'Busy/Heavily Damaged Animation'
 ]
+const MAX_GRAPHICS = constants.MAP_CONFIG_LIMITS.MAX_MAP_GRAP
 
 /**
  * XXX: Some of the names below are a little ambiguous--maybe change them?
@@ -79,6 +80,7 @@ function * zip (...args) {
  * @prop {Array<Graphic>} graphics
  * @prop {VoidFunction} openNewGraphicModal
  * @prop {(name: string) => void} deleteGraphic
+ * @prop {React.Dispatch<any>} setError
  * @prop {(id: string, opts: Omit<Graphic, 'id'>) => void} setGraphic
  * @prop {import('../../helpers/display-utils').ViewportDimensions} vwDimensions
  *
@@ -523,9 +525,14 @@ export default function GraphicsModal (props) {
       items={props.graphics}
       listItemDimensions={ITEM_DIMENSIONS}
       renderItem={renderGraphic}
-      minItems={constants.MAP_CONFIG_LIMITS.MIN_MAP_GRAPHICS}
-      maxItems={constants.MAP_CONFIG_LIMITS.MAX_MAP_GRAPHICS}
-      newItem={props.openNewGraphicModal}
+      newItem={() => {
+        if (props.graphics.length + 1 > MAX_GRAPHICS) {
+          props.setError(new Error(`Maximum of ${MAX_GRAPHICS} graphics per map.`))
+          return
+        }
+
+        props.openNewGraphicModal()
+      }}
       deleteItem={props.deleteGraphic}
     />
   )

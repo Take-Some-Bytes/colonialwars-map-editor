@@ -14,6 +14,8 @@ const ITEM_DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 10.5,
   height: constants.ROOT_FONT_SIZE * 2.25
 })
+const MAX_TEAMS = constants.MAP_CONFIG_LIMITS.MAX_TEAMS
+const MIN_TEAMS = constants.MAP_CONFIG_LIMITS.MIN_TEAMS
 
 /**
  * @callback SetTeam
@@ -190,12 +192,23 @@ export default function TeamsModal (props) {
       }}
       listItemDimensions={ITEM_DIMENSIONS}
       items={teams}
-      setError={props.setError}
-      newItem={props.openNewTeamModal}
       renderItem={renderTeam}
-      maxItems={constants.MAP_CONFIG_LIMITS.MAX_TEAMS}
-      minItems={constants.MAP_CONFIG_LIMITS.MIN_TEAMS}
-      deleteItem={props.deleteTeam}
+      newItem={() => {
+        if (teams.length + 1 > MAX_TEAMS) {
+          props.setError(new Error(`Maximum of ${MAX_TEAMS} teams per map.`))
+          return
+        }
+
+        props.openNewTeamModal()
+      }}
+      deleteItem={name => {
+        if (teams.length - 1 < MIN_TEAMS) {
+          props.setError(new Error(`Minimum of ${MIN_TEAMS} teams per map.`))
+          return
+        }
+
+        props.deleteTeam(name)
+      }}
     />
   )
 }

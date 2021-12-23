@@ -13,15 +13,15 @@ Downsized modal sizes.
 - \[[``e0dc6753``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/e0dc6753)\]
 Improved look of modal close buttons.
 - \[[``cc32c412``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/cc32c412)\]
-Graphics modal now automatically removes decimal points when user stops editing numerical inputs of a graphic.
+Graphics modal now automatically removes decimal points when user stops editing numerical inputs
+of a graphic.
 - \[[``b96866de``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/b96866de)\]
 Scrollbars are now shown only if needed in the display section of item editors.
 - \[[``212bca97``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/212bca97)\]
 Displayed team spawn coordinates in the "New Team Modal" the same way as the "Teams Modal" 
 (decimals instead of huge numbers.)
-- \[[``dda78eaa``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/dda78eaa)\]
-**PROJECT MAINTAINERS**: Used [``joi``](https://www.npmjs.com/package/joi) instead of custom
-validation functions.
+- \[[``dda78eaa``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/dda78eaa)\] **PROJECT MAINTAINERS**: 
+Used [``joi``](https://www.npmjs.com/package/joi) instead of custom validation functions.
 - \[[``edd971fa``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/edd971fa)\] **PROJECT MAINTAINERS**:
 Refactored delete/close button code into different file.
 
@@ -31,6 +31,11 @@ The "New Team" modal now creates completely valid teams.
 - \[[``dd235754``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/dd235754)\]
 The striped input tables of all item editors (i.e. teams modal, graphics modal) have been fixed.
 Their background stripes now extend all the way past the widest row in the table.
+
+### Removed:
+- \[[``d10812e5``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/d10812e5)\] **PROJECT MAINTAINERS**:
+Removed item limiting logic from the ``ItemEditor`` component. The ``ItemEditor`` no longer allows
+users to configure a maximum or minimum for items.
 
 ## [v0.4.1] - 2021-09-17
 ### Changed:

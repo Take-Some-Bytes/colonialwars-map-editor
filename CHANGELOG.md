@@ -4,6 +4,8 @@ Changelog for ``colonialwars-server``.
 The format is based on [Keep a Changelog][1], and this project adheres to [Semantic Versioning][2],
 with the exception that this project does *not* expose a public API.
 
+## [Unreleased]
+
 ## [v0.4.2] - 2021-12-24
 ### Changed:
 - \[[``a66bee44``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/a66bee44)\]
@@ -191,4 +193,5 @@ canvas. The canvas is now unselectable.
 [v0.3.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/17e7411c44c287271522ed3d7c16e0f315e63a25
 [v0.4.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/b7b44d16be914311a31a9363b0bba85be4ff6cac
 [v0.4.1]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/0b7553416554695ed5fdeb2949bbc5f7f460d185
-[v0.4.2]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main
+[v0.4.2]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/8b5600303d046fc515796f866fdbf4e785401d00
+[Unreleased]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main

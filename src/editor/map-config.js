@@ -23,7 +23,9 @@ const { MAP_CONFIG_LIMITS } = constants
  * @typedef {'die'|'idle'|'walk'|'attack'|'reload'|'busy'|
  * 'cast'|'busyDamaged1'|'busyDamaged2'} DynAnimationKeys
  * @typedef {'mainImg'|'damaged1Img'|'damaged2Img'|'constructing1Img'} StaticImgKeys
- *
+ * @typedef {Record<'r'|'g'|'b'|'a', number} Rgba
+ */
+/**
  * @typedef {Object} Team
  * @prop {string} name
  * @prop {number} maxPlayers
@@ -41,6 +43,40 @@ const { MAP_CONFIG_LIMITS } = constants
  * @prop {StaticImage} damaged2Img
  * @prop {StaticImage} constructing1Img
  * @prop {Record<DynAnimationKeys, DynAnimation>} animations
+ *
+ * @typedef {Object} Modification
+ * @prop {string} field
+ * @prop {number} add
+ * @prop {number} multiply
+ *
+ * @typedef {Object} Aura
+ * @prop {string} modifier
+ * @prop {number} range
+ *
+ * @typedef {Object} Modifier
+ * @prop {string} id
+ * @prop {string} name
+ * @prop {string} description
+ * @prop {number} duration
+ * @prop {number} maxStack
+ * @prop {Array<Modification>} modifications
+ * @prop {Array<Aura>} auras
+ * @prop {boolean} auraHitsSelf
+ * @prop {boolean} auraHitsFriendly
+ * @prop {boolean} auraHitsAllied
+ * @prop {boolean} auraHitsEnemy
+ * @prop {Rgba} auraColour
+ * @prop {Array<string>} auraTargetFilters
+ * @prop {Array<string>} auraTargetFiltersExclude
+ * @prop {Array<string>} disableCommands
+ * @prop {boolean} changeEntityImg
+ * @prop {string} entityImg
+ * @prop {boolean} changeAtkEffect
+ * @prop {string} atkEffect
+ * @prop {Array<string>} effects
+ * @prop {string} sound
+ * @prop {number} soundVolume
+ * @prop {Array<string>} killModifiers
  */
 
 /**
@@ -77,7 +113,8 @@ export default class MapConfig {
     this._config = {
       meta: {},
       data: {
-        graphicsData: {}
+        graphicsData: {},
+        modifiersData: {}
       }
     }
     /**
@@ -94,6 +131,10 @@ export default class MapConfig {
      * @type {BoundMap<Graphic>}
      */
     this.graphics = new BoundMap(this._config.data.graphicsData)
+    /**
+     * @type {BoundMap<Modifier>}
+     */
+    this.modifiers = new BoundMap(this._config.data.modifiersData)
   }
 
   /**

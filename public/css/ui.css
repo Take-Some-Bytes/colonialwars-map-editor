@@ -304,7 +304,7 @@
   border: 1px solid rgb(197, 197, 197);
   background-color: rgb(244, 244, 244);
   font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 0.8rem !important;
 }
 .ui-delete-button:hover {
   background-color: rgb(233, 233, 233);
@@ -317,4 +317,30 @@
   display: inline-block;
 
   text-align: center;
+}
+
+/********** Editable List **********/
+.ui-editable-list {
+  width: 100%;
+}
+.ui-editable-list__list {
+  list-style-type: none;
+  margin-bottom: 0.5rem;
+}
+.ui-editable-list__list__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.ui-editable-list__list__item__content {
+  padding: 0.15rem 0.1rem;
+  padding-right: 0.5rem;
+
+  white-space: pre-wrap;
+}
+.ui-editable-list__list__item__del-button-container {
+  /* padding-bottom: 0.1rem; */
+}
+.ui-editable-list__new-item-button {
+  font-size: 0.65rem !important;
 }

@@ -29,6 +29,7 @@ export default function EditorInterface (props) {
         openMapTeamsModal={props.openMapTeamsModal}
         openSettingsModal={props.openSettingsModal}
         openGraphicsModal={props.openGraphicsModal}
+        openModifiersModal={props.openModifiersModal}
       />
     </>
   )

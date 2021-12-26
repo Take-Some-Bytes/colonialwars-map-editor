@@ -40,6 +40,7 @@ const BUTTON_SIZE = {
  * @prop {VoidFunction} openMapTeamsModal
  * @prop {VoidFunction} openSettingsModal
  * @prop {VoidFunction} openGraphicsModal
+ * @prop {VoidFunction} openModifiersModal
  */
 
 /**
@@ -95,6 +96,7 @@ export default function EditorToolBar (props) {
   const onOpenMapTeams = closeMenusAnd(props.openMapTeamsModal)
   const onOpenSettings = closeMenusAnd(props.openSettingsModal)
   const onOpenGraphics = closeMenusAnd(props.openGraphicsModal)
+  const onOpenModifiers = closeMenusAnd(props.openModifiersModal)
 
   return (
     <div
@@ -204,6 +206,20 @@ export default function EditorToolBar (props) {
       >
         <img
           src='/imgs/graphics.svg'
+          width={BUTTON_SIZE.width}
+          height={BUTTON_SIZE.height}
+        />
+      </button>
+      <ReactTooltip id='modifiers-tip' {...DEFAULT_TOOLTIP_PROPS} />
+      <button
+        name='modifiers-modal-open'
+        className='editor-toolbar__button'
+        data-tip='Map modifiers'
+        data-for='modifiers-tip'
+        onClick={onOpenModifiers}
+      >
+        <img
+          src='/imgs/modifiers.svg'
           width={BUTTON_SIZE.width}
           height={BUTTON_SIZE.height}
         />

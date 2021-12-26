@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog][1], and this project adheres to [Seman
 with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
+### Changed:
+- \[[``51f7dd4b``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/51f7dd4b)\]
+The map size inputs of the "New Map" modal now only takes integers. This is to prevent
+users from entering odd map sizes.
 
 ## [v0.4.2] - 2021-12-24
 ### Changed:

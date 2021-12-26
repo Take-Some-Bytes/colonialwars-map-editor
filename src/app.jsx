@@ -102,7 +102,7 @@ function onNewMapConfigBlur (setNewMapConfig) {
         size: {
           ...prevConfig.size,
           [target.name[5]]: mathUtils.bound(
-            Number(target.value),
+            Math.round(Number(target.value)),
             Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE,
             Constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE
           )
@@ -112,7 +112,7 @@ function onNewMapConfigBlur (setNewMapConfig) {
       setNewMapConfig(prevConfig => ({
         ...prevConfig,
         defaultHeight: mathUtils.bound(
-          Number(target.value),
+          Math.round(Number(target.value)),
           Constants.MAP_CONFIG_LIMITS.MIN_DEFAULT_HEIGHT,
           Constants.MAP_CONFIG_LIMITS.MAX_DEFAULT_HEIGHT
         )

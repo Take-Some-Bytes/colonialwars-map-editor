@@ -10,10 +10,10 @@ import constants from '../constants.js'
 const { ID_REGEXP, NAME_REGEXP, MAP_CONFIG_LIMITS, REGEXP } = constants
 const { DESCRIPTION_MULTI_LINE, DESCRIPTION_SINGLE_LINE } = REGEXP
 
-const IdSchema = Joi.string().pattern(ID_REGEXP, 'id')
-const NameSchema = Joi.string().pattern(NAME_REGEXP, 'name')
+export const IdSchema = Joi.string().pattern(ID_REGEXP, 'id')
+export const NameSchema = Joi.string().pattern(NAME_REGEXP, 'name')
 const MultiLineDescSchema = Joi.string().pattern(DESCRIPTION_MULTI_LINE, 'multi-line-desc')
-const SingleLineDescSchema = Joi.string().pattern(DESCRIPTION_SINGLE_LINE, 'single-line-desc')
+export const SingleLineDescSchema = Joi.string().pattern(DESCRIPTION_SINGLE_LINE, 'single-line-desc')
 const Vector2dSchema = Joi.object({
   x: Joi.number().integer(),
   y: Joi.number().integer()
@@ -24,6 +24,21 @@ const StaticImgSchema = Joi.object().pattern(
 )
 const DynAnimationSchema = StaticImgSchema.keys({
   frameSize: Joi.number().integer()
+})
+const RgbaSchema = Joi.object({
+  r: Joi.number().integer().min(0).max(255),
+  g: Joi.number().integer().min(0).max(255),
+  b: Joi.number().integer().min(0).max(255),
+  a: Joi.number().min(0).max(1)
+})
+const AuraSchema = Joi.object({
+  modifier: IdSchema,
+  range: Joi.number().positive().integer().min(1)
+})
+const ModificationSchema = Joi.object({
+  field: Joi.string().allow(''),
+  add: Joi.number().integer(),
+  multiply: Joi.number().integer()
 })
 const TeamSchema = Joi.object({
   name: Joi
@@ -61,6 +76,40 @@ const GraphicsDataSchema = Joi.object().pattern(IdSchema, Joi.object({
       otherwise: Joi.any().allow(null).optional()
     })
 }))
+const ModifiersDataSchema = Joi.object().pattern(IdSchema, Joi.object({
+  id: IdSchema,
+  name: NameSchema,
+  description: SingleLineDescSchema
+    .allow('')
+    .min(0)
+    .max(MAP_CONFIG_LIMITS.MAX_MODIFIER_DESC_LEN),
+  duration: Joi.number().integer(),
+  maxStack: Joi.number().integer(),
+  modifications: Joi
+    .array()
+    .items(ModificationSchema)
+    .max(MAP_CONFIG_LIMITS.MAX_MODIFICATIONS_PER_MODIFIER),
+  auras: Joi
+    .array()
+    .items(AuraSchema)
+    .max(MAP_CONFIG_LIMITS.MAX_AURAS_PER_MODIFIER),
+  auraHitsSelf: Joi.boolean(),
+  auraHitsFriendly: Joi.boolean(),
+  auraHitsAllied: Joi.boolean(),
+  auraHitsEnemy: Joi.boolean(),
+  auraColour: RgbaSchema,
+  auraTargetFilters: Joi.array().items(Joi.string()),
+  auraTargetFiltersExclude: Joi.array().items(Joi.string()),
+  disableCommands: Joi.array().items(Joi.string()),
+  changeEntityImg: Joi.boolean(),
+  entityImg: IdSchema,
+  changeAtkEffect: Joi.boolean(),
+  atkEffect: Joi.string(),
+  effects: Joi.array().items(Joi.string()),
+  sound: Joi.string(),
+  soundVolume: Joi.number().positive(),
+  killModifiers: Joi.array().items(IdSchema)
+}))
 
 export const MapConfigSchema = Joi.object({
   meta: Joi.object({
@@ -91,7 +140,8 @@ export const MapConfigSchema = Joi.object({
       .items(TeamSchema)
   }),
   data: Joi.object({
-    graphicsData: GraphicsDataSchema
+    graphicsData: GraphicsDataSchema,
+    modifiersData: ModifiersDataSchema
   }),
   configType: Joi.string().valid('map-config')
 }).prefs({ presence: 'required', convert: false })

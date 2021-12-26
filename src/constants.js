@@ -71,9 +71,13 @@ export default deepFreeze({
     MAX_TEAM_DESC_LEN: 150,
     MAX_MAP_NAME_LEN: 30,
     MAX_MAP_DESC_LEN: 5000,
+    // Limits for graphics, modifiers, abilities, units, buildings, obstacles.
     MIN_MAP_GRAPHICS: 0,
-    // Set this to a reasonably high amount.
-    MAX_MAP_GRAPHICS: 1500
+    MAX_MAP_GRAPHICS: 1500,
+    MAX_MAP_MODIFIERS: 1500,
+    MAX_MODIFIER_DESC_LEN: 150,
+    MAX_AURAS_PER_MODIFIER: 10,
+    MAX_MODIFICATIONS_PER_MODIFIER: 50
   },
   REGEXP: {
     TEAM_NAME: /^[A-Za-z0-9]*$/,
@@ -147,6 +151,7 @@ export default deepFreeze({
       soundVolume: 1,
       killModifiers: []
     },
+    MODIFICATION_CONFIG: { field: '', add: 0, multiply: 1 },
     IMG_CONFIG: { x: 0, y: 0, w: 0, h: 0 },
     ANIMATION_CONFIG: { x: 0, y: 0, w: 0, h: 0, frameSize: 0 }
   },

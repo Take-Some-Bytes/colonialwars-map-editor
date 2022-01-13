@@ -77,6 +77,8 @@ export default deepFreeze({
     MAX_MAP_MODIFIERS: 1500,
     MAX_MODIFIER_DESC_LEN: 150,
     MAX_AURAS_PER_MODIFIER: 10,
+    MIN_AURA_RANGE: 1,
+    MAX_AURA_RANGE: 200,
     MAX_MODIFICATIONS_PER_MODIFIER: 50
   },
   REGEXP: {
@@ -153,7 +155,8 @@ export default deepFreeze({
     },
     MODIFICATION_CONFIG: { field: '', add: 0, multiply: 1 },
     IMG_CONFIG: { x: 0, y: 0, w: 0, h: 0 },
-    ANIMATION_CONFIG: { x: 0, y: 0, w: 0, h: 0, frameSize: 0 }
+    ANIMATION_CONFIG: { x: 0, y: 0, w: 0, h: 0, frameSize: 0 },
+    AURA_RANGE: 3.5
   },
   SELECTABLE: {
     GRAPHIC_FILES: [{

@@ -13,6 +13,7 @@ import ItemEditor, { ItemDisplayRow } from '../../components/item-editor.jsx'
 import constants from '../../constants.js'
 import { bound, centerPos } from '../../helpers/math-utils.js'
 import * as schemas from '../../editor/config-schemas.js'
+import Selectmenu from '../../components/selectmenu.jsx'
 
 const debug = debugFactory('cw-map-editor:modifiers')
 
@@ -29,8 +30,9 @@ const SingleLineDescSchema = schemas
   .max(constants.MAP_CONFIG_LIMITS.MAX_MODIFIER_DESC_LEN)
 
 /**
- * @typedef {import('../../editor/map-config').Modification} Modification
+ * @typedef {import('../../editor/map-config').Aura} Aura
  * @typedef {import('../../editor/map-config').Modifier} Modifier
+ * @typedef {import('../../editor/map-config').Modification} Modification
  * @typedef {import('../../helpers/display-utils').ViewportDimensions} ViewportDimensions
  */
 /**
@@ -48,6 +50,12 @@ const SingleLineDescSchema = schemas
  * @prop {Modifier} modifier
  * @prop {React.Dispatch<any>} setError
  * @prop {(id: string, opts: Omit<Modifier, 'id'>) => void} setModifier
+ *
+ * @typedef {Object} AuraListProps
+ * @prop {Modifier} modifier
+ * @prop {Array<Modifier>} allModifiers
+ * @prop {React.Dispatch<any>} setError
+ * @prop {(id: string, opts: Omit<Modifier, 'id'>) => void} setModifier
  */
 
 /**
@@ -63,7 +71,7 @@ function ModificationList (props) {
    * Creates a new modification.
    */
   function createModification () {
-    if (modifier.modifications.length > maxModifications) {
+    if (modifier.modifications.length + 1 > maxModifications) {
       debug('Too many modifications')
       setError(new Error('Maximum of 50 modifications is allowed per modifier.'))
       return
@@ -82,6 +90,7 @@ function ModificationList (props) {
    */
   function renderModification (modification) {
     const currentModification = modifier.modifications[modification.id]
+
     /**
      * Handles an input change.
      * @param {React.ChangeEvent<HTMLInputElement>} e The DOM event.
@@ -165,7 +174,8 @@ function ModificationList (props) {
     <EditableList
       id='modifications'
       collectiveItemName='Modification'
-      setError={e => debug('%O', e)}
+      setError={setError}
+      // So we can distinguish between the modifications.
       items={modifier.modifications.map((mod, i) => ({
         id: i,
         ...mod
@@ -191,13 +201,161 @@ function ModificationList (props) {
 }
 
 /**
+ * Renders a list of auras.
+ * @param {AuraListProps} props Component props.
+ * @returns {JSX.Element}
+ */
+function AuraList (props) {
+  const maxAuras = constants.MAP_CONFIG_LIMITS.MAX_AURAS_PER_MODIFIER
+  const { modifier: currentModifier, allModifiers, setError, setModifier } = props
+
+  /**
+   * Creates a new aura.
+   */
+  function createAura () {
+    if (currentModifier.auras.length + 1 > maxAuras) {
+      debug('Too many auras')
+      setError(new Error('Maximum of 10 auras is allowed per modifier.'))
+      return
+    }
+    if (allModifiers.length === 1) {
+      // Auras apply modifiers, and if there is only one modifier (the current one)
+      // it won't work properly.
+      debug('Not enough modifications')
+      setError(new Error([
+        'Auras apply modifiers; cannot create aura since ',
+        'the only modifier is the current one.'
+      ].join('')))
+      return
+    }
+
+    // Default aura config is the ID of the first modifier which is not
+    // the current one, and the default aura radius.
+    currentModifier.auras.push({
+      modifier: allModifiers
+        .map(modifier => modifier.id)
+        .find(modifierID => modifierID !== currentModifier.id),
+      range: constants.DEFAULT.AURA_RANGE
+    })
+    setModifier(currentModifier.id, currentModifier)
+  }
+
+  /**
+   * Renders an aura.
+   * @param {Aura & { id: number }} aura The aura to render.
+   * @returns {JSX.Element}
+   */
+  function renderAura (aura) {
+    const currentAura = currentModifier.auras[aura.id]
+
+    /**
+     * Handles an input change.
+     * @param {React.ChangeEvent<HTMLInputElement>} e The DOM event.
+     */
+    function onChange (e) {
+      const targetName = e.target.name
+      const targetVal = e.target.value
+
+      switch (targetName) {
+        case 'modifier':
+          currentModifier.auras[aura.id] = {
+            ...currentAura,
+            modifier: String(targetVal)
+          }
+          setModifier(currentModifier.id, currentModifier)
+          break
+        case 'range':
+          currentModifier.auras[aura.id] = {
+            ...currentAura,
+            range: bound(
+              // Not 100% precise, but it works here.
+              Math.round(Number(targetVal) * 100) / 100,
+              constants.MAP_CONFIG_LIMITS.MIN_AURA_RANGE,
+              constants.MAP_CONFIG_LIMITS.MAX_AURA_RANGE
+            )
+          }
+          setModifier(currentModifier.id, currentModifier)
+          break
+        default:
+          debug('Unrecognized target name %s', targetName)
+      }
+    }
+
+    return (
+      <form id={`aura-${aura.id}-edit`}>
+        <label htmlFor='modifier-select' id='modifier-select-label'>
+          Modifier:&nbsp;
+        </label>
+        <Selectmenu
+          id='modifier-select'
+          name='modifier'
+          onChange={onChange}
+          value={currentAura.modifier}
+          dimensions={{
+            width: 200,
+            height: 45
+          }}
+          options={
+            allModifiers
+              .filter(modifier => modifier.id !== currentModifier.id)
+              .map(modifier => ({
+                id: modifier.id,
+                value: modifier.id,
+                displayedText: modifier.name
+              }))
+          }
+          arrowSrc='/imgs/drop-down-arrow.png'
+        />
+      </form>
+    )
+  }
+
+  /**
+   * Deletes the specified aura.
+   * @param {string} id The ID of the aura.
+   */
+  function deleteAura (id) {
+    debug('Delete aura %s', id)
+    id = Number(id)
+    if (isNaN(id) || id >= currentModifier.auras.length) {
+      debug('Invalid aura')
+      return
+    }
+
+    currentModifier.auras.splice(id, 1)
+    setModifier(currentModifier.id, currentModifier)
+  }
+
+  return (
+    <EditableList
+      id='auras'
+      collectiveItemName='Aura'
+      setError={setError}
+      // So we can distinguish between the modifications.
+      items={currentModifier.auras.map((aura, i) => ({
+        id: i,
+        ...aura
+      }))}
+      itemLimits={{ min: 0, max: 50 }}
+      itemOps={{
+        create: createAura,
+        render: renderAura,
+        delete: deleteAura
+      }}
+    />
+  )
+}
+
+/**
  * Returns a function that renders a specific modifier.
  * @param {React.Dispatch<any>} setError Set the current error.
  * @param {(id: string, opts: Omit<Modifier, "id">) => void} setModifier
  * Function to update the current modifier.
+ * @param {Array<Modifier>} allModifiers An array of all the modifiers
+ * currently configured in this map
  * @returns {(modifier: Modifier) => JSX.Element}
  */
-function createModifierRenderer (setError, setModifier) {
+function createModifierRenderer (setError, setModifier, allModifiers) {
   return modifier => {
     // Assign a default to modifier so inputs won't change from
     // controlled to uncontrolled and vice versa.
@@ -304,8 +462,13 @@ function createModifierRenderer (setError, setModifier) {
             setModifier={setModifier}
           />
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Auras'>
+          <AuraList
+            modifier={modifier}
+            setError={setError}
+            setModifier={setModifier}
+            allModifiers={allModifiers}
+          />
         </ItemDisplayRow>
         <ItemDisplayRow name='next'>
           Next item value.
@@ -367,7 +530,11 @@ function createModifierRenderer (setError, setModifier) {
  */
 export default function ModifiersModal (props) {
   const position = centerPos(MODAL_DIMENSIONS, props.vwDimensions)
-  const renderModifier = createModifierRenderer(props.setError, props.setModifier)
+  const renderModifier = createModifierRenderer(
+    props.setError,
+    props.setModifier,
+    props.modifiers
+  )
 
   return (
     <ItemEditor

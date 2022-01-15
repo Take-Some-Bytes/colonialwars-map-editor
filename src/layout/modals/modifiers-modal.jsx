@@ -30,6 +30,18 @@ const SingleLineDescSchema = schemas
   .max(constants.MAP_CONFIG_LIMITS.MAX_MODIFIER_DESC_LEN)
 
 /**
+ * Uppercases the first letter of a string.
+ * @param {string} str The string to operate on.
+ * @returns {string}
+ */
+function upperFirstLetter (str) {
+  return (
+    str.charAt(0).toUpperCase() +
+    str.slice(1)
+  )
+}
+
+/**
  * @typedef {import('../../editor/map-config').Aura} Aura
  * @typedef {import('../../editor/map-config').Modifier} Modifier
  * @typedef {import('../../editor/map-config').Modification} Modification
@@ -371,6 +383,7 @@ function createModifierRenderer (setError, setModifier, allModifiers) {
       const targetName = e.target.name
       const targetVal = e.target.value
 
+      // First round
       switch (targetName) {
         case 'desc': {
           try {
@@ -389,8 +402,18 @@ function createModifierRenderer (setError, setModifier, allModifiers) {
           setModifier(modifier.id, modifier)
           break
         }
-        default:
-          debug('Unrecognized input name: %s', targetName)
+        case '':
+      }
+
+      // Second round
+      if (targetName.startsWith('auraHits.')) {
+        const subName = upperFirstLetter(targetName.slice(9))
+
+        modifier = {
+          ...modifier,
+          [`auraHits${subName}`]: Boolean(e.target.checked)
+        }
+        setModifier(modifier.id, modifier)
       }
     }
     /**
@@ -470,17 +493,41 @@ function createModifierRenderer (setError, setModifier, allModifiers) {
             allModifiers={allModifiers}
           />
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Aura Hits Self'>
+          <input
+            type='checkbox'
+            name='auraHits.self'
+            id='aura-hits-self-input'
+            checked={modifier.auraHitsSelf}
+            onChange={onChange}
+          />
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Aura Hits Friendly'>
+          <input
+            type='checkbox'
+            name='auraHits.friendly'
+            id='aura-hits-friendly-input'
+            checked={modifier.auraHitsFriendly}
+            onChange={onChange}
+          />
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Aura Hits Allied'>
+          <input
+            type='checkbox'
+            name='auraHits.allied'
+            id='aura-hits-allied-input'
+            checked={modifier.auraHitsAllied}
+            onChange={onChange}
+          />
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Aura Hits Enemy'>
+          <input
+            type='checkbox'
+            name='auraHits.enemy'
+            id='aura-hits-enemy-input'
+            checked={modifier.auraHitsEnemy}
+            onChange={onChange}
+          />
         </ItemDisplayRow>
         <ItemDisplayRow name='next'>
           Next item value.

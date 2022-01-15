@@ -19,6 +19,10 @@
     "name": "Take-Some-Bytes",
     "email": "horton0712@gmail.com"
   },
+  "engines": {
+    "node": ">=12",
+    "npm": ">=7"
+  },
   "dependencies": {
     "@szhsin/react-menu": "^2.0.1",
     "debug": "^4.3.1",

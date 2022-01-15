@@ -49,6 +49,8 @@ export function openFiles (options) {
     fileInput.addEventListener('error', e => {
       reject(new Error(e.message))
     })
+
+    // For detecting if a file has been picked. If not, don't wait forever.
     window.addEventListener('focus', function checkFilePicked () {
       setTimeout(() => {
         window.removeEventListener('focus', checkFilePicked)
@@ -57,7 +59,7 @@ export function openFiles (options) {
         if (fileInput.files.length < 1) {
           reject(createError('No file picked!', 'ENOFILE'))
         }
-      }, 100)
+      }, 1000)
     })
 
     document.body.appendChild(fileInput)

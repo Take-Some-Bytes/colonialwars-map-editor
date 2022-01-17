@@ -6,7 +6,7 @@ with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
 ### Added:
-- \[[``5bf0ff34``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/5bf0ff34)\]
+- \[[``cf9e1d60``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/cf9e1d60)\]
 Added a colour picker component. Unlike the default HTML colour picker, this one, built
 top of ``react-color``, supports an alpha (transparency) channel.
 - \[[``f90ac74b``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/f90ac74b)\] **PROJECT MAINTAINERS**:

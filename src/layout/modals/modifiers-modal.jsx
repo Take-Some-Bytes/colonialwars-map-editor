@@ -9,6 +9,7 @@ import debugFactory from 'debug'
 
 import Selectmenu from '../../components/selectmenu.jsx'
 import EditableList from '../../components/editable-list.jsx'
+import ColourPicker from '../../components/colour-picker.jsx'
 import ItemEditor, { ItemDisplayRow } from '../../components/item-editor.jsx'
 
 import constants from '../../constants.js'
@@ -529,8 +530,16 @@ function createModifierRenderer (setError, setModifier, allModifiers) {
             onChange={onChange}
           />
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Aura Colour'>
+          <ColourPicker
+            colour={modifier.auraColour}
+            dimensions={{ width: 60, height: 16 }}
+            onColourChange={result => {
+              modifier.auraColour = result.rgb
+              setModifier(modifier.id, modifier)
+            }}
+            enableAlpha
+          />
         </ItemDisplayRow>
         <ItemDisplayRow name='next'>
           Next item value.

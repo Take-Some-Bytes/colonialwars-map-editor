@@ -344,3 +344,23 @@
 .ui-editable-list__new-item-button {
   font-size: 0.65rem !important;
 }
+
+/********** ReactJS colour picker **********/
+.ui-colour-picker {
+  display: inline-block;
+  padding: 5px;
+  cursor: pointer;
+}
+.ui-colour-picker__popover {
+  position: absolute;
+}
+.ui-colour-picker__popover__overlay {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+.ui-colour-picker__popover__window {
+  pointer-events: all;
+}

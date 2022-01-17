@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog][1], and this project adheres to [Seman
 with the exception that this project does *not* expose a public API.
 
 ## [Unreleased]
+### Added:
+- \[[``cf9e1d60``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/cf9e1d60)\]
+Added a colour picker component. Unlike the default HTML colour picker, this one, built
+top of ``react-color``, supports an alpha (transparency) channel.
+- \[[``f90ac74b``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/f90ac74b)\] **PROJECT MAINTAINERS**:
+Added [``react-color``](https://npmjs.com/package/react-color) as a dependency. See
+above for details.
+
 ### Changed:
 - \[[``51f7dd4b``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/51f7dd4b)\]
 The map size inputs of the "New Map" modal now only takes integers. This is to prevent

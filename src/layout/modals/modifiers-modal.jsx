@@ -344,7 +344,7 @@ function AuraList (props) {
       id='auras'
       collectiveItemName='Aura'
       setError={setError}
-      // So we can distinguish between the modifications.
+      // So we can distinguish between the auras.
       items={currentModifier.auras.map((aura, i) => ({
         id: i,
         ...aura
@@ -541,38 +541,38 @@ function createModifierRenderer (setError, setModifier, allModifiers) {
             enableAlpha
           />
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Aura Target Filters'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Aura Target Filters Exclude'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Disable Commands'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Change Entity Image'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Entity Image'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Change Attack Effect'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Attack Effect'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Effects'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Sound'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Sound Volume'>
+          TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='next'>
-          Next item value.
+        <ItemDisplayRow name='Remove Modifiers'>
+          TODO
         </ItemDisplayRow>
       </>
     )

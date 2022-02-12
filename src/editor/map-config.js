@@ -76,7 +76,7 @@ const { MAP_CONFIG_LIMITS } = constants
  * @prop {Array<string>} effects
  * @prop {string} sound
  * @prop {number} soundVolume
- * @prop {Array<string>} killModifiers
+ * @prop {Array<string>} removeModifiers
  */
 
 /**

@@ -151,7 +151,7 @@ export default deepFreeze({
       effects: [],
       sound: 'none',
       soundVolume: 1,
-      killModifiers: []
+      removeModifiers: []
     },
     MODIFICATION_CONFIG: { field: '', add: 0, multiply: 1 },
     IMG_CONFIG: { x: 0, y: 0, w: 0, h: 0 },

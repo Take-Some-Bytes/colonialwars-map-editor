@@ -108,7 +108,7 @@ const ModifiersDataSchema = Joi.object().pattern(IdSchema, Joi.object({
   effects: Joi.array().items(Joi.string()),
   sound: Joi.string(),
   soundVolume: Joi.number().positive(),
-  killModifiers: Joi.array().items(IdSchema)
+  removeModifiers: Joi.array().items(IdSchema)
 }))
 
 export const MapConfigSchema = Joi.object({

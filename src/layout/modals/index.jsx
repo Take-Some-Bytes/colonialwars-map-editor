@@ -5,6 +5,7 @@
  */
 
 import React from 'react'
+import debugFactory from 'debug'
 
 import ErrorModal from './error-modal.jsx'
 import NewMapModal from './new-map-modal.jsx'
@@ -15,6 +16,10 @@ import GraphicsModal from './graphics-modal.jsx'
 import NewGraphicModal from './new-graphic-modal.jsx'
 
 import MapConfig from '../../editor/map-config.js'
+import ModifiersModal from './modifiers-modal.jsx'
+import NewModifierModal from './new-modifier-modal.jsx'
+
+const debug = debugFactory('cw-map-editor:modals')
 
 /**
  * @typedef {Object} OpenClosable
@@ -30,8 +35,9 @@ import MapConfig from '../../editor/map-config.js'
  *
  * @typedef {Object} EditorModalsProps
  * @prop {OpenClosable} teamsModal
- * @prop {OpenClosable} graphicsModal
  * @prop {OpenClosable} settingsModal
+ * @prop {OpenClosable} graphicsModal
+ * @prop {OpenClosable} modifiersModal
  * @prop {() => void} unsuspendEditor
  * @prop {React.Dispatch<any>} setError
  * @prop {React.DispatchWithoutAction} forceUpdate
@@ -47,10 +53,12 @@ import MapConfig from '../../editor/map-config.js'
 export function EditorModals (props) {
   const [newTeamModalOpen, setNewTeamModalOpen] = React.useState(false)
   const [newGraphicModalOpen, setNewGraphicModalOpen] = React.useState(false)
+  const [newModifierModalOpen, setNewModifierModalOpen] = React.useState(false)
   const { mapConfig, forceUpdate } = props
   const { open: teamsModalOpen, setOpen: setTeamsModalOpen } = props.teamsModal
   const { open: settingsModalOpen, setOpen: setSettingsModalOpen } = props.settingsModal
   const { open: graphicsModalOpen, setOpen: setGraphicsModalOpen } = props.graphicsModal
+  const { open: modifiersModalOpen, setOpen: setModifiersModalOpen } = props.modifiersModal
 
   /**
    * Safely call ``func`` and force update this component.
@@ -85,6 +93,8 @@ export function EditorModals (props) {
   const deleteTeam = safeCall(mapConfig?.deleteTeam?.bind?.(mapConfig))
   const setGraphic = safeCall(mapConfig?.graphics?.set?.bind?.(mapConfig?.graphics))
   const deleteGraphic = safeCall(mapConfig?.graphics?.del?.bind?.(mapConfig?.graphics))
+  const setModifier = safeCall(mapConfig?.modifiers?.set?.bind?.(mapConfig?.modifiers))
+  const deleteModifier = safeCall(mapConfig?.modifiers?.del?.bind?.(mapConfig?.modifiers))
 
   return (
     <>
@@ -154,6 +164,44 @@ export function EditorModals (props) {
         closeModal={() => { setNewGraphicModalOpen(false) }}
         vwDimensions={props.vwDimensions}
         showError={showError}
+      />
+      <ModifiersModal
+        setError={props.setError}
+        isOpen={modifiersModalOpen}
+        vwDimensions={props.vwDimensions}
+        closeModal={() => {
+          props.unsuspendEditor()
+          setModifiersModalOpen(false)
+        }}
+        setModifier={setModifier}
+        modifiers={mapConfig?.modifiers?.all?.() || []}
+        openNewModifierModal={() => {
+          setNewModifierModalOpen(true)
+          debug('New modifier modal opened')
+        }}
+        deleteModifier={(name) => {
+          debug('Modifier %s deleted', name)
+          deleteModifier(name)
+        }}
+      />
+      <NewModifierModal
+        isOpen={newModifierModalOpen}
+        vwDimensions={props.vwDimensions}
+        closeModal={() => { setNewModifierModalOpen(false) }}
+        showError={showError}
+        newModifier={(id, opts) => {
+          if (!(mapConfig instanceof MapConfig)) {
+            // Do nothing.
+            return
+          }
+          if (mapConfig.modifiers.has(id)) {
+            showError('Modifier already exists.')
+            return
+          }
+
+          setModifier(id, opts)
+          debug('New modifier with ID %s created', id)
+        }}
       />
       <SettingsModal
         isOpen={settingsModalOpen}

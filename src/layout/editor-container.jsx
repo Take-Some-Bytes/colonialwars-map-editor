@@ -44,6 +44,7 @@ export default function EditorContainer (props) {
   const [teamsModalOpen, setTeamsModalOpen] = React.useState(false)
   const [settingsModalOpen, setSettingsModalOpen] = React.useState(false)
   const [graphicsModalOpen, setGraphicsModalOpen] = React.useState(false)
+  const [modifiersModalOpen, setModifiersModalOpen] = React.useState(false)
   const forceUpdate = React.useReducer(() => ({}))[1]
   const editorState = React.useRef(constants.EDITOR_STATE.DO_NOT_START)
 
@@ -195,6 +196,10 @@ export default function EditorContainer (props) {
             pauseEditor()
             setGraphicsModalOpen(true)
           }}
+          openModifiersModal={() => {
+            pauseEditor()
+            setModifiersModalOpen(true)
+          }}
         />
         {/* We have to use state to do this because changing refs don't cause re-renders. */}
         {editorLoading &&
@@ -226,6 +231,10 @@ export default function EditorContainer (props) {
         graphicsModal={{
           open: graphicsModalOpen,
           setOpen: setGraphicsModalOpen
+        }}
+        modifiersModal={{
+          open: modifiersModalOpen,
+          setOpen: setModifiersModalOpen
         }}
         unsuspendEditor={unpauseEditor}
         setError={props.setError}

@@ -9,6 +9,7 @@ import Header from '../header.jsx'
 import Footer from '../footer.jsx'
 import Content from '../content.jsx'
 
+import constants from '../../constants.js'
 import { loadMap } from '../../helpers/loaders.js'
 
 /**
@@ -78,7 +79,7 @@ export default function LandingPage (props) {
         }}
         show={visible}
       />
-      <Footer version={import.meta.env.SNOWPACK_PUBLIC_VERSION} show={visible} />
+      <Footer version={constants.VERSION} show={visible} />
     </>
   )
 }

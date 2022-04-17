@@ -38,6 +38,7 @@ export default deepFreeze({
       dataFiles: { unit: 'none', building: 'none', graphics: 'none' }
     }
   },
+  VERSION: 'v0.4.2-PRE-ALPHA',
   GAME_CONSTANTS: {
     PLAYER_SPEED: 1,
     VIEWPORT_STICKINESS: 0.004,

@@ -4,7 +4,9 @@ Changelog for ``colonialwars-server``.
 The format is based on [Keep a Changelog][1], and this project adheres to [Semantic Versioning][2],
 with the exception that this project does *not* expose a public API.
 
-## [v0.5.0]
+## [Unreleased]
+
+## [v0.5.0] - 2022-04-17
 ### Added:
 - \[[``cf9e1d60``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/cf9e1d60)\]
 Added a colour picker component. Unlike the default HTML colour picker, this one, built
@@ -214,4 +216,5 @@ canvas. The canvas is now unselectable.
 [v0.4.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/b7b44d16be914311a31a9363b0bba85be4ff6cac
 [v0.4.1]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/0b7553416554695ed5fdeb2949bbc5f7f460d185
 [v0.4.2]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/8b5600303d046fc515796f866fdbf4e785401d00
-[v0.5.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main
+[v0.5.0]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/b5e714a9b0a242e70fd2eefa33c9d93d46d6d65f
+[Unreleased]: https://github.com/Take-Some-Bytes/colonialwars-map-editor/tree/main

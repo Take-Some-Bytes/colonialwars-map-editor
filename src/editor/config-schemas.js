@@ -54,6 +54,12 @@ const TeamSchema = Joi.object({
 
   spawnPosition: Vector2dSchema
 })
+
+const PlayerDataSchema = Joi.object({
+  img: Joi.string(),
+  speed: Joi.number().positive()
+})
+
 const GraphicsDataSchema = Joi.object().pattern(IdSchema, Joi.object({
   id: IdSchema,
   name: NameSchema,
@@ -76,6 +82,7 @@ const GraphicsDataSchema = Joi.object().pattern(IdSchema, Joi.object({
       otherwise: Joi.any().allow(null).optional()
     })
 }))
+
 const ModifiersDataSchema = Joi.object().pattern(IdSchema, Joi.object({
   id: IdSchema,
   name: NameSchema,
@@ -141,7 +148,8 @@ export const MapConfigSchema = Joi.object({
   }),
   data: Joi.object({
     graphicsData: GraphicsDataSchema,
-    modifiersData: ModifiersDataSchema
+    modifiersData: ModifiersDataSchema,
+    playerData: PlayerDataSchema
   }),
   configType: Joi.string().valid('map-config')
 }).prefs({ presence: 'required', convert: false })

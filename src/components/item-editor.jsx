@@ -117,7 +117,7 @@ function ItemDisplay (props) {
     <div className='ui-item-editor__item-display'>
       <p
         style={{ display: noItemSelectedDisplay }}
-        className='ui-item-editor__item-display--no-team-selected'
+        className='ui-item-editor__item-display--no-item-selected'
       >
         No {props.itemName} Selected
       </p>

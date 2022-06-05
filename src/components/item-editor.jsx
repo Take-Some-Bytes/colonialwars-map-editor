@@ -59,7 +59,8 @@ import TwoColTable, { Row } from './two-col-table.jsx'
  * @prop {RenderItem<T>} renderItem
  * @prop {boolean} itemSelected
  * @prop {string} itemName
- * @prop {(name: string) => void} deleteItem
+ * @prop {(name: string) => boolean} deleteItem Delete the specified item.
+ * Should return ``true`` if deletion was successful, ``false`` otherwise.
  * @prop {T} item
  * @template {BaseItem} T
  */
@@ -240,8 +241,11 @@ export default function ItemEditor (props) {
           item={itemToDisplay}
           renderItem={props.renderItem}
           deleteItem={(...args) => {
-            setSelectedItem(null)
-            props.deleteItem(...args)
+            // Only reset the selected item if item was deleted successfully.
+            const res = props.deleteItem(...args)
+            if (res) {
+              setSelectedItem(null)
+            }
           }}
         />
       </div>

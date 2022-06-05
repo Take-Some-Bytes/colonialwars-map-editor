@@ -80,7 +80,8 @@ export default deepFreeze({
     MAX_AURAS_PER_MODIFIER: 10,
     MIN_AURA_RANGE: 1,
     MAX_AURA_RANGE: 200,
-    MAX_MODIFICATIONS_PER_MODIFIER: 50
+    MAX_MODIFICATIONS_PER_MODIFIER: 50,
+    MAX_PLAYER_SPEED: 10
   },
   REGEXP: {
     TEAM_NAME: /^[A-Za-z0-9]*$/,
@@ -157,17 +158,25 @@ export default deepFreeze({
     MODIFICATION_CONFIG: { field: '', add: 0, multiply: 1 },
     IMG_CONFIG: { x: 0, y: 0, w: 0, h: 0 },
     ANIMATION_CONFIG: { x: 0, y: 0, w: 0, h: 0, frameSize: 0 },
-    AURA_RANGE: 3.5
+    AURA_RANGE: 3.5,
+    PLAYER_SPEED: 1
   },
   REQUIRED: {
     GRAPHICS: ['commander_img']
   },
   SELECTABLE: {
-    GRAPHIC_FILES: [{
-      id: 'none_avilable',
-      value: '@@_none',
-      displayedText: 'None'
-    }],
+    GRAPHIC_FILES: [
+      {
+        id: 'none_avilable',
+        value: '@@_none',
+        displayedText: 'None'
+      },
+      {
+        id: 'placeholder_commander',
+        value: 'placeholder/commander.png',
+        displayedText: 'Placeholder Commander'
+      }
+    ],
     ANGLES: [
       { id: 'one', value: 1, displayedText: '1' },
       { id: 'two', value: 2, displayedText: '2' },

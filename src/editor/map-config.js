@@ -114,7 +114,8 @@ export default class MapConfig {
       meta: {},
       data: {
         graphicsData: {},
-        modifiersData: {}
+        modifiersData: {},
+        playerData: {}
       }
     }
     /**
@@ -198,6 +199,24 @@ export default class MapConfig {
   }
 
   /**
+   * Sets this map configuration's default player config.
+   * @private
+   */
+  _setDefaultPlayerConfig () {
+    this.graphics.set('commander_img', {
+      ...constants.DEFAULT.GRAPHIC_CONFIG,
+      file: 'placeholder/commander.png',
+      name: 'Commander',
+      mainImg: {
+        x: 0, y: 0, w: 840, h: 1080
+      }
+    })
+
+    this._config.data.playerData.img = 'commander_img'
+    this._config.data.playerData.speed = constants.DEFAULT.PLAYER_SPEED
+  }
+
+  /**
    * Creates a new MapConfig object with the specified parameters. The difference
    * between this method and manually creating a MapConfig object is that this method
    * produces configurations that are valid by default; manually creating a new MapConfig
@@ -216,6 +235,7 @@ export default class MapConfig {
     config.description = ''
     config._setDataFiles(dataFiles)
     config._setConstantConfig(worldLimits, tileType, defaultHeight, mode)
+    config._setDefaultPlayerConfig()
     config.setTeam('Red', Vector2D.zero(), 1, 'Team Red')
     config.setTeam('Blue', Vector2D.fromObject(worldLimits), 1, 'Team Blue')
 
@@ -266,6 +286,39 @@ export default class MapConfig {
     return this._config.meta?.worldLimits?.x && this._config.meta?.worldLimits?.y
       ? Vector2D.fromObject(this._config.meta.worldLimits)
       : null
+  }
+
+  /**
+   * Gets a handle to modify player entity configurations.
+   * @returns {PlayerConfig}
+   * @readonly
+   */
+  get player () {
+    return new Proxy({}, {
+      get: (_target, prop, _receiver) => {
+        return this._config.data.playerData[prop]
+      },
+      set: (_target, prop, val, _receiver) => {
+        switch (prop) {
+          case 'img': {
+            /**
+             * TODO: Add placeholder player entity sprite.
+             * (06/01/2022) Take-Some-Bytes */
+            if (!this.graphics.has(String(val.toLowerCase()))) {
+              throw new Error('Specified graphic does not exist!')
+            }
+
+            this._config.data.playerData.img = val
+            break
+          }
+          case 'speed': {
+            this._config.data.playerData.speed = mathUtils.bound(
+              val, 0, constants.MAP_CONFIG_LIMITS.MAX_PLAYER_SPEED
+            )
+          }
+        }
+      }
+    })
   }
 
   /**

@@ -159,6 +159,9 @@ export default deepFreeze({
     ANIMATION_CONFIG: { x: 0, y: 0, w: 0, h: 0, frameSize: 0 },
     AURA_RANGE: 3.5
   },
+  REQUIRED: {
+    GRAPHICS: ['commander_img']
+  },
   SELECTABLE: {
     GRAPHIC_FILES: [{
       id: 'none_avilable',

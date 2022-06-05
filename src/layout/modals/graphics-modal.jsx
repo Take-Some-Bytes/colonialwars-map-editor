@@ -35,7 +35,7 @@ const animationNames = [
   'Reload', 'Busy Animation', 'Cast Animation', 'Busy/Damaged Animation',
   'Busy/Heavily Damaged Animation'
 ]
-const MAX_GRAPHICS = constants.MAP_CONFIG_LIMITS.MAX_MAP_GRAP
+const MAX_GRAPHICS = constants.MAP_CONFIG_LIMITS.MAX_MAP_GRAPHICS
 
 /**
  * XXX: Some of the names below are a little ambiguous--maybe change them?
@@ -533,7 +533,16 @@ export default function GraphicsModal (props) {
 
         props.openNewGraphicModal()
       }}
-      deleteItem={props.deleteGraphic}
+      deleteItem={name => {
+        if (constants.REQUIRED.GRAPHICS.includes(name)) {
+          // Thou shall not delete a required graphic.
+          props.setError(new Error(`The ${name.toLowerCase()} graphic is required.`))
+          return false
+        }
+
+        props.deleteGraphic(name)
+        return true
+      }}
     />
   )
 }

@@ -81,6 +81,7 @@ export default deepFreeze({
     MIN_AURA_RANGE: 1,
     MAX_AURA_RANGE: 200,
     MAX_MODIFICATIONS_PER_MODIFIER: 50,
+    MIN_PLAYER_SPEED: 0.1,
     MAX_PLAYER_SPEED: 10
   },
   REGEXP: {

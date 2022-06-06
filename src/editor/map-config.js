@@ -310,19 +310,11 @@ export default class MapConfig {
             }
 
             target[prop] = val
-            break
-          }
-          case 'speed': {
-            target[prop] = mathUtils.bound(
-              val, 0, constants.MAP_CONFIG_LIMITS.MAX_PLAYER_SPEED
-            )
-            break
+            return true
           }
           default:
-            return false
+            return (target[prop] = val)
         }
-
-        return true
       }
     })
   }

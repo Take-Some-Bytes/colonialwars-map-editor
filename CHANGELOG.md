@@ -4,6 +4,14 @@ Changelog for ``colonialwars-server``.
 The format is based on [Keep a Changelog][1], and this project adheres to [Semantic Versioning][2],
 with the exception that this project does *not* expose a public API.
 
+<!--
+  When releasing a new version: 
+    - Ensure all updateable dependencies are updated.
+    - Add changelog entries for important things that changed.
+    - Bump version in package.json.
+    - Update compatibility table in README.md if needed.
+-->
+
 ## [Unreleased]
 
 ## [v0.5.0] - 2022-04-17

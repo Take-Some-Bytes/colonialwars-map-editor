@@ -41,6 +41,7 @@ const BUTTON_SIZE = {
  * @prop {VoidFunction} openSettingsModal
  * @prop {VoidFunction} openGraphicsModal
  * @prop {VoidFunction} openModifiersModal
+ * @prop {VoidFunction} openPlayerConfigModal
  */
 
 /**
@@ -97,6 +98,7 @@ export default function EditorToolBar (props) {
   const onOpenSettings = closeMenusAnd(props.openSettingsModal)
   const onOpenGraphics = closeMenusAnd(props.openGraphicsModal)
   const onOpenModifiers = closeMenusAnd(props.openModifiersModal)
+  const onOpenPlayerConfig = closeMenusAnd(props.openPlayerConfigModal)
 
   return (
     <div
@@ -130,6 +132,7 @@ export default function EditorToolBar (props) {
       >
         <MenuItem className='editor-toolbar__menu__item'>Keybindings...</MenuItem>
         <MenuItem className='editor-toolbar__menu__item' onClick={onOpenSettings}>Map Settings...</MenuItem>
+        <MenuItem className='editor-toolbar__menu__item' onClick={onOpenPlayerConfig}>Player Settings...</MenuItem>
         <MenuItem className='editor-toolbar__menu__item' onClick={onQuit}>Quit</MenuItem>
       </Menu>
       <ReactTooltip id='file-tip' {...DEFAULT_TOOLTIP_PROPS} />

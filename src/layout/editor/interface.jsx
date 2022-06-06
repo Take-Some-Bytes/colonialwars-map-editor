@@ -30,6 +30,7 @@ export default function EditorInterface (props) {
         openSettingsModal={props.openSettingsModal}
         openGraphicsModal={props.openGraphicsModal}
         openModifiersModal={props.openModifiersModal}
+        openPlayerConfigModal={props.openPlayerConfigModal}
       />
     </>
   )

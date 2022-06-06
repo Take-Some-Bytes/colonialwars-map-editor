@@ -45,6 +45,7 @@ export default function EditorContainer (props) {
   const [settingsModalOpen, setSettingsModalOpen] = React.useState(false)
   const [graphicsModalOpen, setGraphicsModalOpen] = React.useState(false)
   const [modifiersModalOpen, setModifiersModalOpen] = React.useState(false)
+  const [playerConfigModalOpen, setPlayerConfigModalOpen] = React.useState(false)
   const forceUpdate = React.useReducer(() => ({}))[1]
   const editorState = React.useRef(constants.EDITOR_STATE.DO_NOT_START)
 
@@ -200,6 +201,10 @@ export default function EditorContainer (props) {
             pauseEditor()
             setModifiersModalOpen(true)
           }}
+          openPlayerConfigModal={() => {
+            pauseEditor()
+            setPlayerConfigModalOpen(true)
+          }}
         />
         {/* We have to use state to do this because changing refs don't cause re-renders. */}
         {editorLoading &&
@@ -235,6 +240,10 @@ export default function EditorContainer (props) {
         modifiersModal={{
           open: modifiersModalOpen,
           setOpen: setModifiersModalOpen
+        }}
+        playerConfigModal={{
+          open: playerConfigModalOpen,
+          setOpen: setPlayerConfigModalOpen
         }}
         unsuspendEditor={unpauseEditor}
         setError={props.setError}

@@ -18,6 +18,7 @@ import NewGraphicModal from './new-graphic-modal.jsx'
 import MapConfig from '../../editor/map-config.js'
 import ModifiersModal from './modifiers-modal.jsx'
 import NewModifierModal from './new-modifier-modal.jsx'
+import PlayerConfigModal from './player-config-modal.jsx'
 
 const debug = debugFactory('cw-map-editor:modals')
 
@@ -38,6 +39,7 @@ const debug = debugFactory('cw-map-editor:modals')
  * @prop {OpenClosable} settingsModal
  * @prop {OpenClosable} graphicsModal
  * @prop {OpenClosable} modifiersModal
+ * @prop {OpenClosable} playerConfigModal
  * @prop {() => void} unsuspendEditor
  * @prop {React.Dispatch<any>} setError
  * @prop {React.DispatchWithoutAction} forceUpdate
@@ -59,6 +61,7 @@ export function EditorModals (props) {
   const { open: settingsModalOpen, setOpen: setSettingsModalOpen } = props.settingsModal
   const { open: graphicsModalOpen, setOpen: setGraphicsModalOpen } = props.graphicsModal
   const { open: modifiersModalOpen, setOpen: setModifiersModalOpen } = props.modifiersModal
+  const { open: playerConfigModalOpen, setOpen: setPlayerConfigModalOpen } = props.playerConfigModal
 
   /**
    * Safely call ``func`` and force update this component.
@@ -208,6 +211,16 @@ export function EditorModals (props) {
         closeModal={() => {
           props.unsuspendEditor()
           setSettingsModalOpen(false)
+        }}
+        vwDimensions={props.vwDimensions}
+        mapConfig={mapConfig}
+        forceUpdate={forceUpdate}
+      />
+      <PlayerConfigModal
+        isOpen={playerConfigModalOpen}
+        closeModal={() => {
+          props.unsuspendEditor()
+          setPlayerConfigModalOpen(false)
         }}
         vwDimensions={props.vwDimensions}
         mapConfig={mapConfig}

@@ -77,6 +77,10 @@ const { MAP_CONFIG_LIMITS } = constants
  * @prop {string} sound
  * @prop {number} soundVolume
  * @prop {Array<string>} removeModifiers
+ *
+ * @typedef {Object} PlayerConfig
+ * @prop {string} img
+ * @prop {number} speed
  */
 
 /**
@@ -212,8 +216,8 @@ export default class MapConfig {
       }
     })
 
-    this._config.data.playerData.img = 'commander_img'
-    this._config.data.playerData.speed = constants.DEFAULT.PLAYER_SPEED
+    this.player.img = 'commander_img'
+    this.player.speed = constants.DEFAULT.PLAYER_SPEED
   }
 
   /**
@@ -294,11 +298,8 @@ export default class MapConfig {
    * @readonly
    */
   get player () {
-    return new Proxy({}, {
-      get: (_target, prop, _receiver) => {
-        return this._config.data.playerData[prop]
-      },
-      set: (_target, prop, val, _receiver) => {
+    return new Proxy(this._config.data.playerData, {
+      set: (target, prop, val, _receiver) => {
         switch (prop) {
           case 'img': {
             /**
@@ -308,15 +309,20 @@ export default class MapConfig {
               throw new Error('Specified graphic does not exist!')
             }
 
-            this._config.data.playerData.img = val
+            target[prop] = val
             break
           }
           case 'speed': {
-            this._config.data.playerData.speed = mathUtils.bound(
+            target[prop] = mathUtils.bound(
               val, 0, constants.MAP_CONFIG_LIMITS.MAX_PLAYER_SPEED
             )
+            break
           }
+          default:
+            return false
         }
+
+        return true
       }
     })
   }

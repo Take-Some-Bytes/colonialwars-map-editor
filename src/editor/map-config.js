@@ -305,15 +305,17 @@ export default class MapConfig {
             /**
              * TODO: Add placeholder player entity sprite.
              * (06/01/2022) Take-Some-Bytes */
-            if (!this.graphics.has(String(val.toLowerCase()))) {
+            if (!this.graphics.has(String(val).toLowerCase())) {
               throw new Error('Specified graphic does not exist!')
             }
 
             target[prop] = val
             return true
           }
-          default:
-            return (target[prop] = val)
+          default: {
+            target[prop] = val
+            return true
+          }
         }
       }
     })

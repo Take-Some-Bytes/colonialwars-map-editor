@@ -130,6 +130,7 @@ export const MapConfigSchema = Joi.object({
     unitDataExtends: Joi.string(),
     buildingDataExtends: Joi.string(),
     graphicsDataExtends: Joi.string(),
+    playerDataExtends: Joi.string(),
     maxPlayers: Joi
       .number()
       .integer()

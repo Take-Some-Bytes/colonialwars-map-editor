@@ -200,6 +200,11 @@ export default class MapConfig {
     Object.keys(dataFiles).forEach(key => {
       this._config.meta[`${key}DataExtends`] = dataFiles[key]
     })
+
+    /**
+     * TODO: Make this configurable.
+     * (06/23/2022) Take-Some-Bytes */
+    this._config.meta.playerDataExtends = 'none'
   }
 
   /**

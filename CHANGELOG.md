@@ -13,6 +13,15 @@ with the exception that this project does *not* expose a public API.
 -->
 
 ## [Unreleased]
+### Added:
+- \[[``0c8c20f7``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/0c8c20f7)\]
+Added the "Player Config" modal for editing player (aka commander) properties.
+- \[[``aed32011``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/aed32011)\]
+Added a placeholder graphic for the player unit, aka the commander.
+
+### Changed:
+- \[[``ee6dc924``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/ee6dc924)\] **PROJECT MAINTAINERS**:
+Added code to handle failed deletions in the ``ItemEditor``.
 
 ## [v0.5.0] - 2022-04-17
 ### Added:

@@ -7,7 +7,7 @@ import Joi from 'joi'
 import React from 'react'
 
 import Button from '../../components/button.jsx'
-import CustomModal from '../../components/custom-modal.js'
+import CustomModal from '../../components/custom-modal.jsx'
 
 import constants from '../../constants.js'
 import { centerPos } from '../../helpers/math-utils.js'

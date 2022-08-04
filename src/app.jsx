@@ -231,7 +231,7 @@ export default function App () {
           inputFieldValues: newMapConfig,
           onBlur: handleNewMapFormBlur,
           onChange: handleNewMapFormChange,
-          onOkButtonClick: onOkButtonClick
+          onOkButtonClick
         }}
         vwDimensions={viewportDimensions}
       />

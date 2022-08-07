@@ -3,10 +3,10 @@
  * @fileoverview ChunkSplitter class to split a larger map into small chunks.
  */
 
-import Vector2D from '../physics/vector2d.js'
+import * as mathUtils from 'colonialwars-lib/math'
 
+import Vector2D from '../physics/vector2d.js'
 import * as loaders from '../../helpers/loaders.js'
-import * as mathUtils from '../../helpers/math-utils.js'
 
 import debugFactory from 'debug'
 
@@ -60,8 +60,8 @@ export default class ChunkSplitter {
    */
   _getChunkSize (dimensions, prefersBigChunks) {
     const chunkSize = Vector2D.zero()
-    const widthDivisors = mathUtils.findAllDivisors(dimensions.width)
-    const heightDivisors = mathUtils.findAllDivisors(dimensions.height)
+    const widthDivisors = mathUtils.getFactors(dimensions.width)
+    const heightDivisors = mathUtils.getFactors(dimensions.height)
     let widthDivisor = 0
     let heightDivisor = 0
 

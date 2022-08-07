@@ -10,7 +10,7 @@ import Button from '../../components/button.jsx'
 import CustomModal from '../../components/custom-modal.jsx'
 
 import constants from '../../constants.js'
-import { centerPos } from '../../helpers/math-utils.js'
+import { centerPos } from '../../helpers/display-utils.js'
 
 const { ID_REGEXP, NAME_REGEXP } = constants
 const MODAL_DIMENSIONS = Object.freeze({

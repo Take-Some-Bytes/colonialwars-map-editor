@@ -4,8 +4,9 @@
  * bound to a minimum and maximum.
  */
 
+import * as mathUtils from 'colonialwars-lib/math'
+
 import Vector2D from './vector2d.js'
-import * as mathUtils from '../../helpers/math-utils.js'
 
 /**
  * @typedef {Object} Bounds

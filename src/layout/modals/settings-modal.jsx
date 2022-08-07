@@ -10,7 +10,7 @@ import CustomModal from '../../components/custom-modal.jsx'
 
 import constants from '../../constants.js'
 
-import { centerPos } from '../../helpers/math-utils.js'
+import { centerPos } from '../../helpers/display-utils.js'
 
 /**
  * @typedef {Object} SettingsModalProps

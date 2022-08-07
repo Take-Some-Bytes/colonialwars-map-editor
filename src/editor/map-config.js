@@ -6,12 +6,12 @@
 import Joi from 'joi'
 import debugFactory from 'debug'
 
+import * as mathUtils from 'colonialwars-lib/math'
+
 import constants from '../constants.js'
 import Vector2D from './physics/vector2d.js'
 import BoundMap from '../helpers/bound-map.js'
 import { MapConfigSchema } from './config-schemas.js'
-
-import * as mathUtils from '../helpers/math-utils.js'
 
 const debug = debugFactory('cw-map-editor:map-config')
 const { MAP_CONFIG_LIMITS } = constants

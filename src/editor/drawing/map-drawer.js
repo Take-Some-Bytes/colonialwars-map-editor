@@ -8,7 +8,7 @@ import constants from '../../constants.js'
 import Vector2D from '../physics/vector2d.js'
 import ChunkSplitter from './chunk-splitter.js'
 
-import * as mathUtils from '../../helpers/math-utils.js'
+import * as mathUtils from 'colonialwars-lib/math'
 
 const debug = debugFactory('cw-map-editor:map-drawer')
 

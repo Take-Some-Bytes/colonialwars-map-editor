@@ -11,7 +11,7 @@ import Selectmenu from '../../components/selectmenu.jsx'
 import CustomModal from '../../components/custom-modal.jsx'
 
 import constants from '../../constants.js'
-import { centerPos } from '../../helpers/math-utils.js'
+import { centerPos } from '../../helpers/display-utils.js'
 
 const SELECTMENU_DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 12.5,

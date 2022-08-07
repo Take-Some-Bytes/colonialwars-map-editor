@@ -6,12 +6,14 @@
 
 import React from 'react'
 
+import { bound } from 'colonialwars-lib/math'
+
 import CustomModal from '../../components/custom-modal.jsx'
 import Selectmenu from '../../components/selectmenu.jsx'
 
 import constants from '../../constants.js'
 
-import * as mathUtils from '../../helpers/math-utils.js'
+import { centerPos } from '../../helpers/display-utils.js'
 
 const DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 30,
@@ -37,7 +39,7 @@ const SELECTMENU_DIMENSIONS = Object.freeze({
  * @returns {JSX.Element}
  */
 export default function PlayerConfigModal (props) {
-  const position = mathUtils.centerPos(DIMENSIONS, props.vwDimensions)
+  const position = centerPos(DIMENSIONS, props.vwDimensions)
 
   /**
    * Handle the input change event.
@@ -68,7 +70,7 @@ export default function PlayerConfigModal (props) {
 
     switch (targetName) {
       case 'speed':
-        props.mapConfig.player.speed = mathUtils.bound(
+        props.mapConfig.player.speed = bound(
           Number(targetVal), 0,
           constants.MAP_CONFIG_LIMITS.MAX_PLAYER_SPEED
         )

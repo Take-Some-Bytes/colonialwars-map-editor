@@ -5,10 +5,12 @@
 
 import React from 'react'
 
+import { bound } from 'colonialwars-lib/math'
+
 import ItemEditor, { ItemDisplayRow } from '../../components/item-editor.jsx'
 
 import constants from '../../constants.js'
-import { bound, centerPos } from '../../helpers/math-utils.js'
+import { centerPos } from '../../helpers/display-utils.js'
 
 const ITEM_DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 10.5,

@@ -7,6 +7,8 @@ import Joi from 'joi'
 import React from 'react'
 import debugFactory from 'debug'
 
+import { bound } from 'colonialwars-lib/math'
+
 import Selectmenu from '../../components/selectmenu.jsx'
 import EditableList from '../../components/editable-list.jsx'
 import ColourPicker from '../../components/colour-picker.jsx'
@@ -14,7 +16,7 @@ import ItemEditor, { ItemDisplayRow } from '../../components/item-editor.jsx'
 
 import constants from '../../constants.js'
 import * as schemas from '../../editor/config-schemas.js'
-import { bound, centerPos } from '../../helpers/math-utils.js'
+import { centerPos } from '../../helpers/display-utils.js'
 
 const debug = debugFactory('cw-map-editor:modifiers')
 

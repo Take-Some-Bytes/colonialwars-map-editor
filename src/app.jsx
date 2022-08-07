@@ -6,6 +6,8 @@
 import React from 'react'
 import debugFactory from 'debug'
 
+import * as mathUtils from 'colonialwars-lib/math'
+
 import Layout from './layout/layout.jsx'
 import Modals from './layout/modals/index.jsx'
 import LandingPage from './layout/pages/landing.jsx'
@@ -13,8 +15,6 @@ import EditorContainer from './layout/editor-container.jsx'
 
 import Constants from './constants.js'
 import MapConfig from './editor/map-config.js'
-
-import * as mathUtils from './helpers/math-utils.js'
 
 import { ViewportDimensions } from './helpers/display-utils.js'
 import { loadKeybindings } from './helpers/loaders.js'

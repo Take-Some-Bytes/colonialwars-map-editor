@@ -6,13 +6,15 @@
 
 import React from 'react'
 
+import { bound } from 'colonialwars-lib/math'
+
 import Button from '../../components/button.jsx'
 import CustomModal from '../../components/custom-modal.jsx'
 
 import constants from '../../constants.js'
 import Vector2D from '../../editor/physics/vector2d.js'
 
-import { bound, centerPos } from '../../helpers/math-utils.js'
+import { centerPos } from '../../helpers/display-utils.js'
 
 /**
  * @callback NewTeam

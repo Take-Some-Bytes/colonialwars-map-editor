@@ -34,7 +34,8 @@
     "react-dom": "^18.0.0",
     "react-draggable": "^4.4.3",
     "react-modal": "^3.12.1",
-    "react-tooltip": "^4.2.21"
+    "react-tooltip": "^4.2.21",
+    "colonialwars-lib": "git://github.com/Take-Some-Bytes/colonialwars-lib.git#main"
   },
   "devDependencies": {
     "@types/react": "^18.0.15",

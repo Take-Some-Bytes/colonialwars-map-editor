@@ -6,8 +6,9 @@
 
 import debugFactory from 'debug'
 
+import { MutableMapConfig } from 'colonialwars-lib/mapconfig'
+
 import constants from '../constants.js'
-import MapConfig from '../editor/map-config.js'
 import * as fileUtils from './file-utils.js'
 
 const debug = debugFactory('cw-map-editor:loaders')
@@ -137,7 +138,7 @@ export async function loadMap () {
   }
 
   try {
-    config = new MapConfig(
+    config = new MutableMapConfig(
       new TextDecoder().decode(new Uint8Array(fileStats.contents))
     )
   } catch (ex) {

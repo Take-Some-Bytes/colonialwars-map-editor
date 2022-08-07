@@ -7,6 +7,8 @@
 import React from 'react'
 import debugFactory from 'debug'
 
+import { MutableMapConfig } from 'colonialwars-lib/mapconfig'
+
 import ErrorModal from './error-modal.jsx'
 import NewMapModal from './new-map-modal.jsx'
 import TeamsModal from './teams-modal.jsx'
@@ -15,7 +17,6 @@ import SettingsModal from './settings-modal.jsx'
 import GraphicsModal from './graphics-modal.jsx'
 import NewGraphicModal from './new-graphic-modal.jsx'
 
-import MapConfig from '../../editor/map-config.js'
 import ModifiersModal from './modifiers-modal.jsx'
 import NewModifierModal from './new-modifier-modal.jsx'
 import PlayerConfigModal from './player-config-modal.jsx'
@@ -70,7 +71,7 @@ export function EditorModals (props) {
    */
   function safeCall (func) {
     return (...args) => {
-      if (!(mapConfig instanceof MapConfig)) {
+      if (!(mapConfig instanceof MutableMapConfig)) {
         // Do nothing.
         return
       }
@@ -104,12 +105,12 @@ export function EditorModals (props) {
       <TeamsModal
         teams={(() => {
           if (
-            !(mapConfig instanceof MapConfig) ||
-            !Array.isArray(mapConfig.getTeams())
+            !(mapConfig instanceof MutableMapConfig) ||
+            !Array.isArray(mapConfig.allTeams())
           ) {
             return []
           }
-          return mapConfig.getTeams()
+          return mapConfig.allTeams()
         })()}
         isOpen={teamsModalOpen}
         closeModal={() => {
@@ -153,7 +154,7 @@ export function EditorModals (props) {
       <NewGraphicModal
         isOpen={newGraphicModalOpen}
         newGraphic={(id, opts) => {
-          if (!(mapConfig instanceof MapConfig)) {
+          if (!(mapConfig instanceof MutableMapConfig)) {
             // Do nothing.
             return
           }
@@ -193,7 +194,7 @@ export function EditorModals (props) {
         closeModal={() => { setNewModifierModalOpen(false) }}
         showError={showError}
         newModifier={(id, opts) => {
-          if (!(mapConfig instanceof MapConfig)) {
+          if (!(mapConfig instanceof MutableMapConfig)) {
             // Do nothing.
             return
           }

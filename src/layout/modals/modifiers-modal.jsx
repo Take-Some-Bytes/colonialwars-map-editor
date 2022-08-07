@@ -8,6 +8,7 @@ import React from 'react'
 import debugFactory from 'debug'
 
 import { bound } from 'colonialwars-lib/math'
+import { Validate } from 'colonialwars-lib/mapconfig'
 
 import Selectmenu from '../../components/selectmenu.jsx'
 import EditableList from '../../components/editable-list.jsx'
@@ -15,7 +16,6 @@ import ColourPicker from '../../components/colour-picker.jsx'
 import ItemEditor, { ItemDisplayRow } from '../../components/item-editor.jsx'
 
 import constants from '../../constants.js'
-import * as schemas from '../../editor/config-schemas.js'
 import { centerPos } from '../../helpers/display-utils.js'
 
 const debug = debugFactory('cw-map-editor:modifiers')
@@ -28,7 +28,7 @@ const ITEM_DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 10.5,
   height: constants.ROOT_FONT_SIZE * 2.25
 })
-const SingleLineDescSchema = schemas
+const SingleLineDescSchema = Validate
   .SingleLineDescSchema
   .max(constants.MAP_CONFIG_LIMITS.MAX_MODIFIER_DESC_LEN)
 

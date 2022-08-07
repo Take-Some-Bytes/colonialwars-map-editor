@@ -158,7 +158,7 @@ export default function EditorContainer (props) {
             // Set the maximum amount of players in the map to the total of the
             // max players in each team.
             editor.mapConfig.maxPlayers = editor.mapConfig
-              .getTeams()
+              .allTeams()
               .map(team => team.maxPlayers)
               .reduce((acc, current) => acc + current)
 

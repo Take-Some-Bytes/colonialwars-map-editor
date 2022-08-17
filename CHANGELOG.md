@@ -13,15 +13,25 @@ with the exception that this project does *not* expose a public API.
 -->
 
 ## [Unreleased]
+**PROJECT MAINTAINERS**: The required Node.JS versions has been updated. Only Node.JS 14 and 16
+are supported now. This is due to the switch from ``snowpack`` to ``vite``.
+
 ### Added:
 - \[[``0c8c20f7``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/0c8c20f7)\]
 Added the "Player Config" modal for editing player (aka commander) properties.
 - \[[``aed32011``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/aed32011)\]
 Added a placeholder graphic for the player unit, aka the commander.
-
-### Changed:
+- \[[``1cd48e17``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/1cd48e17)\] **PROJECT MAINTAINERS**:
+Added [``colonialwars-lib``](https://github.com/Take-Some-Bytes/colonialwars-lib) as a dependency
+to reduce code duplication.
 - \[[``ee6dc924``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/ee6dc924)\] **PROJECT MAINTAINERS**:
 Added code to handle failed deletions in the ``ItemEditor``.
+
+### Changed:
+- \[[``1e7d2bda``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/1e7d2bda)\] **PROJECT MAINTAINERS**:
+Migrated from ``snowpack`` to [``vite``](https://npmjs.com/package/vite).
+- \[[``fbd03be0``](https://github.com/Take-Some-Bytes/colonialwars-map-editor/commit/fbd03be0)\] **PROJECT MAINTAINERS**:
+Upgraded to React 18.
 
 ## [v0.5.0] - 2022-04-17
 ### Added:

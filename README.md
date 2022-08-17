@@ -14,13 +14,12 @@ The save files that can be opened by this application currently follows an ***un
 of Colonial Wars save files. Compatibility with ``colonialwars-server`` is not guaranteed.
 
 ## Running the Development Server
-The development server is powered by [``snowpack``](https://npmjs.com/package/snowpack).
+The development server is powered by [``vite``](https://npmjs.com/package/vite).
 To start it up, just run:
 ```sh
-npm start
+npm run dev
 ```
-A new browser tab will open once snowpack has completed its work.
 
 Make sure you have Node.JS [installed](https://nodejs.org), with a version that satisfies
 the [``engines``](https://github.com/Take-Some-Bytes/colonialwars-client/blob/main/package.json#L26)
-field (currently Node.JS 12 and up).
+field (currently Node.JS 14 and up).

@@ -60,8 +60,8 @@ function deepCopy (obj) {
  * @typedef {Object} NewModifierModalProps
  * @prop {boolean} isOpen
  * @prop {VoidFunction} closeModal
+ * @prop {React.Dispatch<any>} setError
  * @prop {ViewportDimensions} vwDimensions
- * @prop {(msg: string) => void} showError
  * @prop {(id: string, opts: NewModifierOpts) => void} newModifier
  */
 
@@ -104,22 +104,23 @@ export default function NewModifierModal (props) {
     const { error: nameError } = NameSchema.validate(modifierConfig.name)
 
     if (idLenError) {
-      props.showError('Modifier ID must be between 1 and 52 characters long.')
+      props.setError(new Error('Modifier ID must be between 1 and 52 characters long.'))
     } else if (idError) {
-      props.showError([
+      props.setError(new Error([
         'Invalid characters in modifier ID. ',
         'Only lowercase letters, numbers, and underscores are allowed.'
-      ].join(''))
+      ].join('')))
     } else if (nameError) {
-      props.showError([
+      props.setError(new Error([
         'Invalid characters in modifier name, or graphic name is too long.. ',
         'Maximum 30 characters in modifier name, and only alphanumeric ',
         'characters and spaces are allowed.'
-      ].join(''))
+      ].join('')))
     } else {
       // All good.
       props.newModifier(modifierConfig.id, {
         ...deepCopy(constants.DEFAULT.MODIFIER_CONFIG),
+        id: modifierConfig.id,
         name: modifierConfig.name
       })
       props.closeModal()

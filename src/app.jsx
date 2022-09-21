@@ -3,183 +3,101 @@
  * @fileoverview Main application component.
  */
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import debugFactory from 'debug'
 
-import * as mathUtils from 'colonialwars-lib/math'
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  Navigate
+} from 'react-router-dom'
+
 import { MutableMapConfig } from 'colonialwars-lib/mapconfig'
 
-import Layout from './layout/layout.jsx'
-import Modals from './layout/modals/index.jsx'
-import LandingPage from './layout/pages/landing.jsx'
-import EditorContainer from './layout/editor-container.jsx'
+import Loading from './components/loading.jsx'
 
-import Constants from './constants.js'
+import ErrorModal from './layout/modals/error-modal.jsx'
+import NewMapModal from './layout/modals/new-map-modal.jsx'
 
 import { ViewportDimensions } from './helpers/display-utils.js'
-import { loadKeybindings } from './helpers/loaders.js'
+import { loadKeybindings, loadMap } from './helpers/loaders.js'
 
-const debug = debugFactory('cw-map-editor:main-app')
+const LandingPage = React.lazy(() => import('./layout/pages/landing.jsx'))
+const EditorPage = React.lazy(() => import('./layout/pages/editor.jsx'))
 
-/**
- * @callback NewMapFormCB
- * @param {T extends React.SyntheticEvent ? T : never} e
- * @returns {void}
- * @template T
- */
+const debug = debugFactory('cw:editor:main')
 
-/**
- * Handles a change in the new map modal/form.
- * @param {React.Dispatch<React.SetStateAction<{
- *  mode: string;
- *  defaultHeight: number;
- *  tileType: string;
- *  size: {
- *   x: number;
- *   y: number;
- *  };
- *  dataFiles: {
- *   unit: string;
- *   building: string;
- *   graphics: string;
- *  };
- * }>>} setNewMapConfig Function to set a new map config.
- * @returns {NewMapFormCB<React.ChangeEvent<HTMLInputElement|HTMLSelectElement>>}
- */
-function onNewMapConfigChange (setNewMapConfig) {
-  return e => {
-    const target = e.target
-    if (target.name === 'size.x' || target.name === 'size.y') {
-      setNewMapConfig(prevConfig => ({
-        ...prevConfig,
-        size: {
-          ...prevConfig.size,
-          [target.name[5]]: target.value
-        }
-      }))
-    } else if (target.name.startsWith('dataFiles')) {
-      setNewMapConfig(prevConfig => ({
-        ...prevConfig,
-        dataFiles: {
-          ...prevConfig.dataFiles,
-          [target.name.slice(10)]: target.value
-        }
-      }))
-    } else {
-      setNewMapConfig(prevConfig => ({
-        ...prevConfig,
-        [target.name]: target.value
-      }))
-    }
-  }
-}
-/**
- * Handles an input blur in the new map modal/form.
- * @param {React.Dispatch<React.SetStateAction<{
- *  mode: string;
- *  defaultHeight: number;
- *  tileType: string;
- *  size: {
- *   x: number;
- *   y: number;
- *  };
- *  dataFiles: {
- *   unit: string;
- *   building: string;
- *   graphics: string;
- *  };
- * }>>} setNewMapConfig Function to set a new map config.
- * @returns {NewMapFormCB<React.FocusEvent<HTMLInputElement|HTMLSelectElement>>}
- */
-function onNewMapConfigBlur (setNewMapConfig) {
-  return e => {
-    const target = e.target
-    // This function is mainly to bound the number inputs to
-    // their respective minimums and maximums.
-    if (target.name === 'size.x' || target.name === 'size.y') {
-      setNewMapConfig(prevConfig => ({
-        ...prevConfig,
-        size: {
-          ...prevConfig.size,
-          [target.name[5]]: mathUtils.bound(
-            Math.round(Number(target.value)),
-            Constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE,
-            Constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE
-          )
-        }
-      }))
-    } else if (target.name === 'defaultHeight') {
-      setNewMapConfig(prevConfig => ({
-        ...prevConfig,
-        defaultHeight: mathUtils.bound(
-          Math.round(Number(target.value)),
-          Constants.MAP_CONFIG_LIMITS.MIN_DEFAULT_HEIGHT,
-          Constants.MAP_CONFIG_LIMITS.MAX_DEFAULT_HEIGHT
-        )
-      }))
-    }
-  }
-}
+const vwDimensions = new ViewportDimensions()
 
 /**
  * Main component.
  * @returns {JSX.Element}
  */
 export default function App () {
-  const [page, setPage] = React.useState(0)
   const [error, setError] = React.useState(null)
-  const [mapConfig, setMapConfig] = React.useState({})
-  const [newMapConfig, setNewMapConfig] = React.useState({
-    ...Constants.FALLBACKS.STARTING_MAP_CONFIG
-  })
+  const [mapConfig, setMapConfig] = React.useState(null)
   const [newMapModalOpened, setNewMapModalOpened] = React.useState(false)
-  const newMapPromiseRef = React.useRef(null)
 
-  const viewportDimensions = new ViewportDimensions()
-  const handleNewMapFormBlur = onNewMapConfigBlur(setNewMapConfig)
-  const handleNewMapFormChange = onNewMapConfigChange(setNewMapConfig)
+  const newMapResolveRef = React.useRef(null)
 
-  /**
-   * Called when the client clicks the ``OK`` button in the New Map modal.
-   * @param {React.MouseEvent<HTMLButtonElement>} e The event that happened.
-   */
-  function onOkButtonClick (e) {
-    const config = MutableMapConfig.createNew({
-      mode: newMapConfig.mode,
-      tileType: newMapConfig.tileType,
-      defaultHeight: newMapConfig.defaultHeight,
-      dataFiles: newMapConfig.dataFiles,
-      worldLimits: {
-        x: newMapConfig.size.x * 100,
-        y: newMapConfig.size.y * 100
-      }
-    })
+  const navigate = useNavigate()
+  const location = useLocation()
 
-    debug('New map config: %O', config)
+  const landingElem = (
+    <Suspense fallback={<Loading />}>
+      <LandingPage
+        setError={setError}
+        setMapConfig={setMapConfig}
+        setNewMapModalOpened={setNewMapModalOpened}
+      />
+    </Suspense>
+  )
+  const editorElem = (
+    <Suspense fallback={<Loading />}>
+      <EditorPage
+        closeEditor={() => {
+          setError(null)
+          setMapConfig(null)
+          setNewMapModalOpened(false)
 
-    e.stopPropagation()
-    e.preventDefault()
-    // If the editor is waiting on the new map modal, tell it to stop, since
-    // we're creating a new map.
-    if (typeof newMapPromiseRef.current === 'function') {
-      debug('OK button clicked')
-      newMapPromiseRef.current(true)
-      newMapPromiseRef.current = null
-    }
+          navigate('/')
+        }}
+        setError={setError}
+        mapConfig={mapConfig}
+        vwDimensions={vwDimensions}
+        keyBindings={loadKeybindings()}
+        openNewMapModal={() => {
+          setNewMapModalOpened(true)
 
-    setPage(1)
-    setMapConfig(config)
-    setNewMapModalOpened(false)
-  }
-  function closeEditor () {
-    setPage(0)
-    setError(null)
-    setMapConfig({})
-    setNewMapModalOpened(false)
-  }
+          return new Promise(resolve => {
+            newMapResolveRef.current = resolve
+          })
+        }}
+        loadMap={async () => {
+          let config
+
+          try {
+            config = await loadMap()
+          } catch (ex) {
+            setError(ex)
+          }
+
+          if (config === null) {
+            // No file is selected.
+            return false
+          }
+
+          setMapConfig(config)
+          return true
+        }}
+      />
+    </Suspense>
+  )
 
   const rootClassNames = []
-  if (page === 0) {
+  if (location.pathname === '/') {
     rootClassNames.push('space-between')
     rootClassNames.push('root--home')
   } else {
@@ -187,58 +105,57 @@ export default function App () {
   }
 
   return (
-    <Layout
-      id='app-layout'
-      className={rootClassNames.join(' ')}
-    >
-      <LandingPage
-        visible={page === 0}
-        setPage={setPage}
-        setError={setError}
-        setMapConfig={setMapConfig}
-        setNewMapModalOpened={setNewMapModalOpened}
+    <div className={rootClassNames.join(' ')}>
+      {/* Generic modals */}
+      <ErrorModal
+        isOpen={error instanceof Error}
+        closeModal={() => setError(null)}
+        vwDimensions={vwDimensions}
+        error={error || {}}
       />
-      <EditorContainer
-        show={page === 1}
-        mapConfig={mapConfig}
-        keyBindings={loadKeybindings()}
-        vwDimensions={viewportDimensions}
-        closeEditor={closeEditor}
-        openNewMapModal={() => {
-          return new Promise(resolve => {
-            newMapPromiseRef.current = resolve
-            debug('Opening new map modal')
-            setNewMapModalOpened(true)
-            debug('New map modal opened')
-          })
-        }}
-        setError={setError}
-        setMapConfig={setMapConfig}
-      />
-      <Modals
-        errorModalOpts={{
-          error,
-          setError
-        }}
-        newMapModal={{
-          open: newMapModalOpened,
-          setOpen: isOpen => {
-            // If the editor is waiting on the new map modal, tell it to keep going.
-            if (typeof newMapPromiseRef.current === 'function' && !isOpen) {
-              debug('Closing new map modal')
-              newMapPromiseRef.current(false)
-              newMapPromiseRef.current = null
-            }
+      <NewMapModal
+        isOpen={newMapModalOpened}
+        vwDimensions={vwDimensions}
+        closeModal={() => {
+          if (typeof newMapResolveRef.current === 'function') {
+            // The editor is waiting on us.
+            // Tell it to continue.
+            newMapResolveRef.current(false)
+            newMapResolveRef.current = null
+          }
 
-            setNewMapModalOpened(isOpen)
-          },
-          inputFieldValues: newMapConfig,
-          onBlur: handleNewMapFormBlur,
-          onChange: handleNewMapFormChange,
-          onOkButtonClick
+          setNewMapModalOpened(false)
         }}
-        vwDimensions={viewportDimensions}
+        onNewMap={newConf => {
+          const config = MutableMapConfig.createNew({
+            ...newConf,
+            worldLimits: {
+              x: newConf.size.x * 100,
+              y: newConf.size.y * 100
+            }
+          })
+
+          if (typeof newMapResolveRef.current === 'function') {
+            // The editor is waiting on us.
+            // Tell it to stop.
+            newMapResolveRef.current(true)
+            newMapResolveRef.current = null
+          }
+
+          debug('New map config: %O', config)
+
+          setMapConfig(config)
+          setNewMapModalOpened(false)
+          navigate('/editor')
+        }}
       />
-    </Layout>
+
+      {/* Actual page */}
+      <Routes>
+        <Route path='/' element={landingElem} />
+        {/* Don't you dare try to go to the editor without loading a map. */}
+        <Route path='/editor' element={mapConfig ? editorElem : <Navigate to='/' replace />} />
+      </Routes>
+    </div>
   )
 }

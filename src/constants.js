@@ -102,14 +102,6 @@ export default deepFreeze({
     'busyDamaged1',
     'busyDamaged2'
   ],
-  EDITOR_STATE: {
-    RUNNING: Symbol('EDITOR_STATE_RUNNING'),
-    STARTING: Symbol('EDITOR_STATE_STARTING'),
-    SUSPENDED: Symbol('EDITOR_STATE_SUSPENDED'),
-    HAD_ERROR: Symbol('EDITOR_STATE_HAD_ERROR'),
-    NOT_STARTED: Symbol('EDITOR_STATE_NOT_STARTED'),
-    DO_NOT_START: Symbol('EDITOR_STATE_DO_NOT_START')
-  },
   DEFAULT: {
     KEYBINDINGS: {
       up: ['w', 'W', 'ArrowUp'],

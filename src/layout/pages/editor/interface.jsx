@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import EditorToolBar from './toolbar'
+import EditorToolBar from './toolbar.jsx'
 
 /**
  * @typedef {import('./toolbar').EditorToolBarProps} ToolbarProps
@@ -25,12 +25,8 @@ export default function EditorInterface (props) {
         quit={props.quit}
         saveMap={props.saveMap}
         loadMap={props.loadMap}
+        openModal={props.openModal}
         openNewMapModal={props.openNewMapModal}
-        openMapTeamsModal={props.openMapTeamsModal}
-        openSettingsModal={props.openSettingsModal}
-        openGraphicsModal={props.openGraphicsModal}
-        openModifiersModal={props.openModifiersModal}
-        openPlayerConfigModal={props.openPlayerConfigModal}
       />
     </>
   )

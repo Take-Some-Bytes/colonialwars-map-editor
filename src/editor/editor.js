@@ -12,7 +12,7 @@ import InputManager from './input/input-manager.js'
 
 import debugFactory from 'debug'
 
-const debug = debugFactory('cw-map-editor:editor')
+const debug = debugFactory('cw:editor:editor-class')
 
 /**
  * @typedef {Object} WorldLimits
@@ -71,6 +71,8 @@ export default class Editor {
       x: { MIN: 0, MAX: this.mapConfig.worldLimits.x },
       y: { MIN: 0, MAX: this.mapConfig.worldLimits.y }
     })
+
+    this._animationFrameID = null
   }
 
   /**
@@ -102,15 +104,16 @@ export default class Editor {
   }
 
   /**
-   * Function to call on every iteration of the animation/update loop.
+   * Handles the orchestration of a single editor loop iteration.
+   *
+   * @param {number} currentTime The current time.
    */
-  run () {
+  update (currentTime) {
     if (this.paused) {
-      // Editor is suspended! Do nothing.
+      // Editor is paused! Do nothing.
       return
     }
 
-    const currentTime = Date.now()
     this.deltaTime = currentTime - this.lastUpdateTime
     this.lastUpdateTime = currentTime
 
@@ -137,6 +140,26 @@ export default class Editor {
   unpause () {
     this.inputManager.startTracking(document, this.drawing.context.canvas)
     this.paused = false
+  }
+
+  /**
+   * Starts the editor render and update loop.
+   */
+  start () {
+    const _update = () => {
+      this.update(Date.now())
+
+      this._animationFrameID = window.requestAnimationFrame(_update.bind(this))
+    }
+
+    _update()
+  }
+
+  /**
+   * Stops the editor render and update loop.
+   */
+  stop () {
+    window.cancelAnimationFrame(this._animationFrameID)
   }
 
   /**

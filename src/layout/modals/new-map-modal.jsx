@@ -5,8 +5,10 @@
 
 import React from 'react'
 
+import * as mathUtils from 'colonialwars-lib/math'
+
 import SelectMenu from '../../components/selectmenu.jsx'
-import CustomModal from '../../components/custom-modal.jsx'
+import CustomModal, { ModalPriority } from '../../components/custom-modal.jsx'
 
 import constants from '../../constants.js'
 
@@ -34,11 +36,9 @@ const SELECTMENU_DIMENSIONS = Object.freeze({
  * @typedef {Object} NewMapModalProps
  * @prop {boolean} isOpen
  * @prop {() => void} closeModal
- * @prop {ClickHandler} onOkButtonClick
  * @prop {FieldValues} inputFieldValues
+ * @prop {(config: FieldValues) => void} onNewMap
  * @prop {Record<'width'|'height', number>} vwDimensions
- * @prop {React.ChangeEventHandler<HTMLSelectElement|HTMLInputElement>} onChange
- * @prop {React.FocusEventHandler<HTMLSelectElement|HTMLInputElement>} onBlur
  *
  * @typedef {Object} MapConfigProps
  * @prop {FieldValues} inputFieldValues
@@ -167,11 +167,85 @@ function AdvMapConfig (props) {
  * @returns {JSX.Element}
  */
 export default function NewMapModal (props) {
+  const [newMapConfig, setNewMapConfig] = React.useState({
+    ...constants.FALLBACKS.STARTING_MAP_CONFIG
+  })
+
   const dimensions = {
     width: constants.ROOT_FONT_SIZE * 27.5,
     height: constants.ROOT_FONT_SIZE * 27.5
   }
   const position = centerPos(dimensions, props.vwDimensions)
+
+  /**
+   * @param {React.MouseEvent<HTMLButtonElement} e
+   */
+  function onOkButtonClick (e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    props.onNewMap(newMapConfig)
+  }
+  /**
+   * @param {React.ChangeEvent<HTMLInputElement|HTMLSelectElement>} e
+   */
+  function onChange (e) {
+    const target = e.target
+
+    if (target.name === 'size.x' || target.name === 'size.y') {
+      setNewMapConfig(prevConfig => ({
+        ...prevConfig,
+        size: {
+          ...prevConfig.size,
+          [target.name[5]]: target.value
+        }
+      }))
+    } else if (target.name.startsWith('dataFiles')) {
+      setNewMapConfig(prevConfig => ({
+        ...prevConfig,
+        dataFiles: {
+          ...prevConfig.dataFiles,
+          [target.name.slice(10)]: target.value
+        }
+      }))
+    } else {
+      setNewMapConfig(prevConfig => ({
+        ...prevConfig,
+        [target.name]: target.value
+      }))
+    }
+  }
+  /**
+   * @param {React.FocusEvent<HTMLInputElement|HTMLSelectElement>} e
+   */
+  function onBlur (e) {
+    const target = e.target
+
+    // This function is mainly to bound the number inputs to
+    // their respective minimums and maximums.
+    if (target.name === 'size.x' || target.name === 'size.y') {
+      setNewMapConfig(prevConfig => ({
+        ...prevConfig,
+        size: {
+          ...prevConfig.size,
+          [target.name[5]]: mathUtils.bound(
+            Math.round(Number(target.value)),
+            constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE,
+            constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE
+          )
+        }
+      }))
+    } else if (target.name === 'defaultHeight') {
+      setNewMapConfig(prevConfig => ({
+        ...prevConfig,
+        defaultHeight: mathUtils.bound(
+          Math.round(Number(target.value)),
+          constants.MAP_CONFIG_LIMITS.MIN_DEFAULT_HEIGHT,
+          constants.MAP_CONFIG_LIMITS.MAX_DEFAULT_HEIGHT
+        )
+      }))
+    }
+  }
 
   return (
     <CustomModal
@@ -180,6 +254,7 @@ export default function NewMapModal (props) {
       headerContent='New Map'
       dimensions={dimensions}
       position={position}
+      priority={ModalPriority.High}
       onCloseRequest={e => {
         e.stopPropagation()
         e.preventDefault()
@@ -192,7 +267,7 @@ export default function NewMapModal (props) {
             style={{
               margin: '12px'
             }}
-            onClick={props.onOkButtonClick}
+            onClick={onOkButtonClick}
           >
             OK
           </button>
@@ -201,14 +276,14 @@ export default function NewMapModal (props) {
     >
       <div className='newmap-config'>
         <BasicMapConfig
-          inputFieldValues={props.inputFieldValues}
-          onChange={props.onChange}
-          onBlur={props.onBlur}
+          inputFieldValues={newMapConfig}
+          onChange={onChange}
+          onBlur={onBlur}
         />
         <AdvMapConfig
-          inputFieldValues={props.inputFieldValues}
-          onChange={props.onChange}
-          onBlur={props.onBlur}
+          inputFieldValues={newMapConfig}
+          onChange={onChange}
+          onBlur={onBlur}
         />
       </div>
     </CustomModal>

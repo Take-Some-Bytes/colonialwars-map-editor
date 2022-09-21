@@ -29,7 +29,7 @@ const SELECTMENU_DIMENSIONS = Object.freeze({
  * @prop {boolean} isOpen
  * @prop {VoidFunction} closeModal
  * @prop {React.DispatchWithoutAction} forceUpdate
- * @prop {import('../../editor/map-config').default} mapConfig
+ * @prop {import('colonialwars-lib/mapconfig').MutableMapConfig} mapConfig
  * @prop {import('../../helpers/display-utils').ViewportDimensions} vwDimensions
  */
 
@@ -120,7 +120,7 @@ export default function PlayerConfigModal (props) {
         arrowSrc='/imgs/drop-down-arrow.png'
         dimensions={SELECTMENU_DIMENSIONS}
         value={props.mapConfig?.player?.img}
-        options={props.mapConfig?.graphics?.all?.().map(graphic => ({
+        options={Array.from(props.mapConfig?.graphics?.values?.()).map(graphic => ({
           id: graphic.id,
           value: graphic.id,
           displayedText: graphic.name

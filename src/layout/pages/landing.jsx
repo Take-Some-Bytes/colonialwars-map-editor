@@ -5,20 +5,17 @@
 
 import React from 'react'
 
-import Header from '../header.jsx'
-import Footer from '../footer.jsx'
-import Content from '../content.jsx'
+import { useNavigate } from 'react-router-dom'
+
+import Button from '../../components/button.jsx'
 
 import constants from '../../constants.js'
 import { loadMap } from '../../helpers/loaders.js'
 
 /**
  * @typedef {Object} LandingPageProps
- * @prop {boolean} visible
- * @prop {React.MouseEvent<HTMLButtonElement, MouseEvent>} loadMap
  * @prop {React.Dispatch<any>} setError
- * @prop {React.Dispatch<React.SetStateAction<number>>} setPage
- * @prop {React.Dispatch<React.SetStateAction<{}>>} setMapConfig
+ * @prop {React.Dispatch<React.SetStateAction<any>>} setMapConfig
  * @prop {React.Dispatch<React.SetStateAction<boolean>>} setNewMapModalOpened
  */
 
@@ -30,10 +27,10 @@ import { loadMap } from '../../helpers/loaders.js'
  */
 export default function LandingPage (props) {
   const {
-    visible,
-    setError, setPage,
-    setMapConfig, setNewMapModalOpened
+    setError, setMapConfig, setNewMapModalOpened
   } = props
+
+  const navigate = useNavigate()
 
   /**
    * Function to call when the New Map button is pressed.
@@ -65,21 +62,32 @@ export default function LandingPage (props) {
     }
 
     setMapConfig(config)
-    setPage(1)
     setNewMapModalOpened(false)
+
+    navigate('/editor')
   }
 
   return (
     <>
-      <Header show={visible} />
-      <Content
-        buttonHandlers={{
-          handleNewMap: onNewMap,
-          handleLoadMap: onLoadMap
-        }}
-        show={visible}
-      />
-      <Footer version={constants.VERSION} show={visible} />
+      <header id='home-header-container'>
+        <h1>Colonial Wars Map Editor</h1>
+      </header>
+      <main id='home-content-container'>
+        <header>
+          <h2>Either create a new map, or load an existing one from your computer.</h2>
+        </header>
+        <div className='column'>
+          <Button id='new-map-button' onClick={onNewMap}>
+            New map...
+          </Button>
+          <Button id='load-map-button' onClick={onLoadMap}>
+            Load map...
+          </Button>
+        </div>
+      </main>
+      <footer id='home-footer-container'>
+        Version {constants.VERSION}.
+      </footer>
     </>
   )
 }

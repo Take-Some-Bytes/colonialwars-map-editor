@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import CustomModal from '../../components/custom-modal.jsx'
+import CustomModal, { ModalPriority } from '../../components/custom-modal.jsx'
 
 import constants from '../../constants.js'
 import { centerPos } from '../../helpers/display-utils.js'
@@ -37,6 +37,7 @@ export default function ErrorModal (props) {
       headerContent='Error'
       dimensions={dimensions}
       position={position}
+      priority={ModalPriority.Critical}
       onCloseRequest={e => {
         e.stopPropagation()
         e.preventDefault()

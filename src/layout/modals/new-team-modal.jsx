@@ -17,12 +17,7 @@ import Vector2D from '../../editor/physics/vector2d.js'
 import { centerPos } from '../../helpers/display-utils.js'
 
 /**
- * @callback NewTeam
- * @param {string} name
- * @param {Vector2D} spawnPosition
- * @param {number} maxPlayers
- * @param {string} desc
- * @returns {void}
+ * @typedef {import('colonialwars-lib/mapconfig').MutableMapConfig['addTeam']} AddTeam
  */
 
 /**
@@ -32,7 +27,7 @@ import { centerPos } from '../../helpers/display-utils.js'
  * @prop {ViewportDimensions} vwDimensions
  * @prop {() => void} closeModal
  * @prop {Vector2D} mapLimits
- * @prop {NewTeam} newTeam
+ * @prop {AddTeam} addTeam
  * @prop {boolean} isOpen
  */
 
@@ -134,7 +129,9 @@ export default function NewTeamModal (props) {
     e.stopPropagation()
     e.preventDefault()
 
-    props.newTeam(name, spawnPosition, maxPlayers, description)
+    props.addTeam(name, {
+      spawnPosition, maxPlayers, description
+    })
     props.closeModal()
   }
 

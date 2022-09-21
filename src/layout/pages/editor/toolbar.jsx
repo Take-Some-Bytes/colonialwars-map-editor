@@ -8,10 +8,11 @@ import React from 'react'
 import ReactTooltip from 'react-tooltip'
 // import debugFactory from 'debug'
 
-import Menu from '../../components/menu'
+import Menu from '../../../components/menu.jsx'
 import { SubMenu, MenuItem, useMenuState } from '@szhsin/react-menu'
 
-import constants from '../../constants.js'
+import constants from '../../../constants.js'
+import { Modals } from './modals.jsx'
 
 // const debug = debugFactory('cw-map-editor:toolbar')
 
@@ -37,11 +38,7 @@ const BUTTON_SIZE = {
  * @prop {VoidFunction} saveMap
  * @prop {VoidFunction} loadMap
  * @prop {VoidFunction} openNewMapModal
- * @prop {VoidFunction} openMapTeamsModal
- * @prop {VoidFunction} openSettingsModal
- * @prop {VoidFunction} openGraphicsModal
- * @prop {VoidFunction} openModifiersModal
- * @prop {VoidFunction} openPlayerConfigModal
+ * @prop {(modal: symbol) => void} openModal
  */
 
 /**
@@ -90,15 +87,19 @@ export default function EditorToolBar (props) {
     }
   }
 
+  /**
+   * TODO: Figure out why the hell modals aren't opening.
+   * (09/12/2022) Take-Some-Bytes */
+
   const onQuit = closeMenusAnd(props.quit)
   const onNewMap = closeMenusAnd(props.openNewMapModal)
   const onSaveMap = closeMenusAnd(props.saveMap)
   const onLoadMap = closeMenusAnd(props.loadMap)
-  const onOpenMapTeams = closeMenusAnd(props.openMapTeamsModal)
-  const onOpenSettings = closeMenusAnd(props.openSettingsModal)
-  const onOpenGraphics = closeMenusAnd(props.openGraphicsModal)
-  const onOpenModifiers = closeMenusAnd(props.openModifiersModal)
-  const onOpenPlayerConfig = closeMenusAnd(props.openPlayerConfigModal)
+  const onOpenMapTeams = closeMenusAnd(() => props.openModal(Modals.Teams))
+  const onOpenSettings = closeMenusAnd(() => props.openModal(Modals.Settings))
+  const onOpenGraphics = closeMenusAnd(() => props.openModal(Modals.Graphics))
+  const onOpenModifiers = closeMenusAnd(() => props.openModal(Modals.Modifiers))
+  const onOpenPlayerConfig = closeMenusAnd(() => props.openModal(Modals.PlayerConfig))
 
   return (
     <div

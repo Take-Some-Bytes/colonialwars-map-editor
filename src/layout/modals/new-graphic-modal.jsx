@@ -38,8 +38,8 @@ const SELECTMENU_DIMENSIONS = Object.freeze({
  * @prop {boolean} isOpen
  * @prop {NewGraphic} newGraphic
  * @prop {VoidFunction} closeModal
+ * @prop {React.Dispatch<any>} setError
  * @prop {ViewportDimensions} vwDimensions
- * @prop {(msg: string) => void} showError
  */
 
 /**
@@ -81,21 +81,22 @@ export default function NewGraphicModal (props) {
     e.preventDefault()
 
     if (graphicConfig.id.length > 52 || graphicConfig.id.length < 1) {
-      props.showError('Graphic ID must be between 1 and 52 characters long.')
+      props.setError(new Error('Graphic ID must be between 1 and 52 characters long.'))
     } else if (!constants.ID_REGEXP.test(graphicConfig.id)) {
-      props.showError([
+      props.setError(new Error([
         'Invalid characters in graphic ID. ',
         'Only lowercase letters, numbers, and underscores are allowed.'
-      ].join(''))
+      ].join('')))
     } else if (!constants.NAME_REGEXP.test(graphicConfig.name)) {
-      props.showError([
+      props.setError(new Error([
         'Invalid characters in graphic name, or graphic name is too long.. ',
         'Maximum 30 characters in graphic name, and only alphanumeric ',
         'characters and spaces are allowed.'
-      ].join(''))
+      ].join('')))
     } else {
       props.newGraphic(graphicConfig.id, {
         ...constants.DEFAULT.GRAPHIC_CONFIG,
+        id: graphicConfig.id,
         name: graphicConfig.name,
         file: graphicConfig.file
       })

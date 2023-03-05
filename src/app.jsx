@@ -129,10 +129,7 @@ export default function App () {
         onNewMap={newConf => {
           const config = MutableMapConfig.createNew({
             ...newConf,
-            worldLimits: {
-              x: newConf.size.x * 100,
-              y: newConf.size.y * 100
-            }
+            worldLimits: newConf.size
           })
 
           if (typeof newMapResolveRef.current === 'function') {

@@ -32,10 +32,7 @@ export default deepFreeze({
   FALLBACKS: {
     STARTING_MAP_CONFIG: {
       mode: 'teams',
-      defaultHeight: 0,
-      tileType: 'grass',
-      size: { x: 60, y: 60 },
-      dataFiles: { unit: 'none', building: 'none', graphics: 'none' }
+      size: { x: 60, y: 60 }
     }
   },
   VERSION: 'v0.4.2-PRE-ALPHA',

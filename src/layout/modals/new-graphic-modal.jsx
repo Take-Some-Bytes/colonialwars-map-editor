@@ -4,7 +4,10 @@
  * modal to create a new graphic.
  */
 
+import Joi from 'joi'
 import React from 'react'
+
+import { Default, Validate } from 'colonialwars-lib/mapconfig'
 
 import Button from '../../components/button.jsx'
 import Selectmenu from '../../components/selectmenu.jsx'
@@ -17,6 +20,7 @@ const SELECTMENU_DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 12.5,
   height: constants.ROOT_FONT_SIZE * 2.25
 })
+const IdLenSchema = Joi.string().min(1).max(52)
 
 /**
  * @callback NewGraphic
@@ -80,14 +84,18 @@ export default function NewGraphicModal (props) {
     e.stopPropagation()
     e.preventDefault()
 
-    if (graphicConfig.id.length > 52 || graphicConfig.id.length < 1) {
+    const { error: idLenError } = IdLenSchema.validate(graphicConfig.id)
+    const { error: idError } = Validate.IdSchema.validate(graphicConfig.id)
+    const { error: nameError } = Validate.NameSchema.validate(graphicConfig.name)
+
+    if (idLenError) {
       props.setError(new Error('Graphic ID must be between 1 and 52 characters long.'))
-    } else if (!constants.ID_REGEXP.test(graphicConfig.id)) {
+    } else if (idError) {
       props.setError(new Error([
         'Invalid characters in graphic ID. ',
         'Only lowercase letters, numbers, and underscores are allowed.'
       ].join('')))
-    } else if (!constants.NAME_REGEXP.test(graphicConfig.name)) {
+    } else if (nameError) {
       props.setError(new Error([
         'Invalid characters in graphic name, or graphic name is too long.. ',
         'Maximum 30 characters in graphic name, and only alphanumeric ',
@@ -95,7 +103,7 @@ export default function NewGraphicModal (props) {
       ].join('')))
     } else {
       props.newGraphic(graphicConfig.id, {
-        ...constants.DEFAULT.GRAPHIC_CONFIG,
+        ...Default.GRAPHIC_CONFIG,
         id: graphicConfig.id,
         name: graphicConfig.name,
         file: graphicConfig.file

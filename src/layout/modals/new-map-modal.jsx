@@ -6,6 +6,7 @@
 import React from 'react'
 
 import * as mathUtils from 'colonialwars-lib/math'
+import { Validate } from 'colonialwars-lib/mapconfig'
 
 import SelectMenu from '../../components/selectmenu.jsx'
 import CustomModal, { ModalPriority } from '../../components/custom-modal.jsx'
@@ -61,8 +62,8 @@ function BasicMapConfig (props) {
         type='number'
         name='size.x'
         value={props.inputFieldValues.size.x}
-        min={constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
-        max={constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
+        min={Validate.LIMITS.MIN_MAP_SIZE}
+        max={Validate.LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
         onBlur={props.onBlur}
       />
@@ -71,8 +72,8 @@ function BasicMapConfig (props) {
         type='number'
         name='size.y'
         value={props.inputFieldValues.size.y}
-        min={constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
-        max={constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
+        min={Validate.LIMITS.MIN_MAP_SIZE}
+        max={Validate.LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
         onBlur={props.onBlur}
       />
@@ -157,8 +158,8 @@ export default function NewMapModal (props) {
           ...prevConfig.size,
           [target.name[5]]: mathUtils.bound(
             Math.round(Number(target.value)),
-            constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE,
-            constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE
+            Validate.LIMITS.MIN_MAP_SIZE,
+            Validate.LIMITS.MAX_MAP_SIZE
           )
         }
       }))

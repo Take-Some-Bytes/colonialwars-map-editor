@@ -6,6 +6,7 @@
 import React from 'react'
 
 import { bound } from 'colonialwars-lib/math'
+import { Validate } from 'colonialwars-lib/mapconfig'
 
 import ItemEditor, { ItemDisplayRow } from '../../components/item-editor.jsx'
 
@@ -16,8 +17,8 @@ const ITEM_DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 10.5,
   height: constants.ROOT_FONT_SIZE * 2.25
 })
-const MAX_TEAMS = constants.MAP_CONFIG_LIMITS.MAX_TEAMS
-const MIN_TEAMS = constants.MAP_CONFIG_LIMITS.MIN_TEAMS
+const MAX_TEAMS = Validate.LIMITS.MAX_TEAMS
+const MIN_TEAMS = Validate.LIMITS.MIN_TEAMS
 
 /**
  * @typedef {import('colonialwars-lib/mapconfig').MutableMapConfig['updateTeam']} UpdateTeam
@@ -65,7 +66,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
             type='number'
             name='maxPlayers'
             value={team.maxPlayers}
-            min={constants.MAP_CONFIG_LIMITS.MIN_PLAYERS_ON_TEAM}
+            min={Validate.LIMITS.MIN_PLAYERS_ON_TEAM}
             onChange={e => {
               updateTeam(team.name, {
                 maxPlayers: Number(e.target.value)
@@ -74,7 +75,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
             onBlur={e => {
               const boundVal = bound(
                 Number(e.target.value), 1,
-                constants.MAP_CONFIG_LIMITS.MAX_PLAYERS_ON_TEAM
+                Validate.LIMITS.MAX_PLAYERS_ON_TEAM
               )
               updateTeam(team.name, {
                 maxPlayers: boundVal
@@ -90,7 +91,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
             onChange={e => {
               updateTeam(team.name, {
                 description: String(e.target.value).slice(
-                  0, constants.MAP_CONFIG_LIMITS.MAX_TEAM_DESC_LEN
+                  0, Validate.LIMITS.MAX_TEAM_DESC_LEN
                 )
               })
             }}

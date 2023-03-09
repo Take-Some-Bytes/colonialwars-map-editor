@@ -7,6 +7,7 @@ import React from 'react'
 import debugFactory from 'debug'
 
 import { bound } from 'colonialwars-lib/math'
+import { Default, Validate } from 'colonialwars-lib/mapconfig'
 
 import Selectmenu from '../../components/selectmenu.jsx'
 import ItemEditor, { ItemDisplayRow } from '../../components/item-editor.jsx'
@@ -37,7 +38,7 @@ const animationNames = [
   'Reload', 'Busy Animation', 'Cast Animation', 'Busy/Damaged Animation',
   'Busy/Heavily Damaged Animation'
 ]
-const MAX_GRAPHICS = constants.MAP_CONFIG_LIMITS.MAX_MAP_GRAPHICS
+const MAX_GRAPHICS = Validate.LIMITS.MAX_MAP_GRAPHICS
 
 /**
  * XXX: Some of the names below are a little ambiguous--maybe change them?
@@ -356,7 +357,7 @@ function createGraphicRenderer (setGraphic) {
     // If graphic is nullish, assign a default to avoid changing the
     // below inputs from controlled to uncontrolled (and vice versa).
     graphic ??= {
-      ...constants.DEFAULT.GRAPHIC_CONFIG
+      ...Default.GRAPHIC_CONFIG
     }
     let staticHandlers, dynHandlers
 
@@ -430,7 +431,7 @@ function createGraphicRenderer (setGraphic) {
         graphic = {
           ...graphic,
           animations: Object.fromEntries(animationKeys.map(key => [
-            key, { ...constants.DEFAULT.ANIMATION_CONFIG }
+            key, { ...Default.ANIMATION_CONFIG }
           ]))
         }
         setGraphic(graphic.id, graphic)
@@ -536,7 +537,7 @@ export default function GraphicsModal (props) {
         props.openNewGraphicModal()
       }}
       deleteItem={name => {
-        if (constants.REQUIRED.GRAPHICS.includes(name)) {
+        if (Validate.REQUIRED.GRAPHICS.includes(name)) {
           // Thou shall not delete a required graphic.
           props.setError(new Error(`The ${name.toLowerCase()} graphic is required.`))
           return false

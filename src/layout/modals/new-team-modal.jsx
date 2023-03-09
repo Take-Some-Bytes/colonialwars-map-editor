@@ -7,6 +7,7 @@
 import React from 'react'
 
 import { bound } from 'colonialwars-lib/math'
+import { Validate } from 'colonialwars-lib/mapconfig'
 
 import Button from '../../components/button.jsx'
 import CustomModal from '../../components/custom-modal.jsx'
@@ -71,7 +72,7 @@ export default function NewTeamModal (props) {
           // Otherwise, a string would do fine.
           ? Number(e.target.value)
           : String(e.target.value).slice(
-            0, constants.MAP_CONFIG_LIMITS.MAX_TEAM_DESC_LEN
+            0, Validate.LIMITS.MAX_TEAM_DESC_LEN
           )
       }))
     }
@@ -101,8 +102,8 @@ export default function NewTeamModal (props) {
         ...prevConf,
         maxPlayers: bound(
           Number(e.target.value),
-          constants.MAP_CONFIG_LIMITS.MIN_PLAYERS_ON_TEAM,
-          constants.MAP_CONFIG_LIMITS.MAX_PLAYERS_ON_TEAM
+          Validate.LIMITS.MIN_PLAYERS_ON_TEAM,
+          Validate.LIMITS.MAX_PLAYERS_ON_TEAM
         )
       }))
     } else if (e.target.name === 'name') {
@@ -168,7 +169,7 @@ export default function NewTeamModal (props) {
         type='number'
         name='maxPlayers'
         min={1}
-        max={constants.MAP_CONFIG_LIMITS.MAX_PLAYERS_ON_TEAM}
+        max={Validate.LIMITS.MAX_PLAYERS_ON_TEAM}
         value={teamConfig.maxPlayers}
         onChange={onUpdate}
         onBlur={onBlur}

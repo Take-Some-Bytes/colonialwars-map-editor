@@ -8,7 +8,7 @@ import React from 'react'
 import debugFactory from 'debug'
 
 import { bound } from 'colonialwars-lib/math'
-import { Validate } from 'colonialwars-lib/mapconfig'
+import { Default, Validate } from 'colonialwars-lib/mapconfig'
 
 import Selectmenu from '../../components/selectmenu.jsx'
 import EditableList from '../../components/editable-list.jsx'
@@ -28,9 +28,9 @@ const ITEM_DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 10.5,
   height: constants.ROOT_FONT_SIZE * 2.25
 })
-const SingleLineDescSchema = Validate
-  .SingleLineDescSchema
-  .max(constants.MAP_CONFIG_LIMITS.MAX_MODIFIER_DESC_LEN)
+const TextSchema = Validate
+  .TextSchema
+  .max(Validate.LIMITS.MAX_MODIFIER_DESC_LEN)
 
 /**
  * Uppercases the first letter of a string.
@@ -46,7 +46,7 @@ function upperFirstLetter (str) {
 
 /**
  * @typedef {import('../../editor/map-config').Aura} Aura
- * @typedef {import('../../editor/map-config').Modifier} Modifier
+ * @typedef {import('colonialwars-lib/mapconfig').Modifier} Modifier
  * @typedef {import('../../editor/map-config').Modification} Modification
  * @typedef {import('../../helpers/display-utils').ViewportDimensions} ViewportDimensions
  */
@@ -79,7 +79,7 @@ function upperFirstLetter (str) {
  * @returns {JSX.Element}
  */
 function ModificationList (props) {
-  const maxModifications = constants.MAP_CONFIG_LIMITS.MAX_MODIFICATIONS_PER_MODIFIER
+  const maxModifications = Validate.LIMITS.MAX_MODIFICATIONS_PER_MODIFIER
   const { modifier, setError, setModifier } = props
 
   /**
@@ -93,9 +93,7 @@ function ModificationList (props) {
     }
 
     debug('Create new modification')
-    modifier.modifications.push(
-      constants.DEFAULT.MODIFICATION_CONFIG
-    )
+    modifier.modifications.push(Default.MODIFICATION_CONFIG)
     setModifier(modifier.id, modifier)
   }
   /**
@@ -221,7 +219,7 @@ function ModificationList (props) {
  * @returns {JSX.Element}
  */
 function AuraList (props) {
-  const maxAuras = constants.MAP_CONFIG_LIMITS.MAX_AURAS_PER_MODIFIER
+  const maxAuras = Validate.LIMITS.MAX_AURAS_PER_MODIFIER
   const { modifier: currentModifier, allModifiers, setError, setModifier } = props
 
   /**
@@ -250,7 +248,7 @@ function AuraList (props) {
       modifier: allModifiers
         .map(modifier => modifier.id)
         .find(modifierID => modifierID !== currentModifier.id),
-      range: constants.DEFAULT.AURA_RANGE
+      range: Default.AURA_RANGE
     })
     setModifier(currentModifier.id, currentModifier)
   }
@@ -285,8 +283,8 @@ function AuraList (props) {
             range: bound(
               // Not 100% precise, but it works here.
               Math.round(Number(targetVal) * 100) / 100,
-              constants.MAP_CONFIG_LIMITS.MIN_AURA_RANGE,
-              constants.MAP_CONFIG_LIMITS.MAX_AURA_RANGE
+              Validate.LIMITS.MIN_AURA_RANGE,
+              Validate.LIMITS.MAX_AURA_RANGE
             )
           }
           setModifier(currentModifier.id, currentModifier)
@@ -375,7 +373,7 @@ function createModifierRenderer (setError, setModifier, allModifiers) {
     // Assign a default to modifier so inputs won't change from
     // controlled to uncontrolled and vice versa.
     modifier ??= {
-      ...constants.DEFAULT.MODIFIER_CONFIG
+      ...Default.MODIFIER_CONFIG
     }
 
     /**
@@ -390,7 +388,7 @@ function createModifierRenderer (setError, setModifier, allModifiers) {
       switch (targetName) {
         case 'desc': {
           try {
-            Joi.assert(targetVal, SingleLineDescSchema)
+            Joi.assert(targetVal, TextSchema)
           } catch (ex) {
             // Invalid characters in input. Ignore.
             return
@@ -611,8 +609,8 @@ export default function ModifiersModal (props) {
       items={props.modifiers}
       listItemDimensions={ITEM_DIMENSIONS}
       renderItem={renderModifier}
-      minItems={constants.MAP_CONFIG_LIMITS.MIN_MAP_MODIFIERS}
-      maxItems={constants.MAP_CONFIG_LIMITS.MAX_MAP_MODIFIERS}
+      minItems={Validate.LIMITS.MIN_MAP_MODIFIERS}
+      maxItems={Validate.LIMITS.MAX_MAP_MODIFIERS}
       newItem={props.openNewModifierModal}
       deleteItem={props.deleteModifier}
     />

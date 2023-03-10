@@ -547,24 +547,6 @@ function createModifierRenderer (setError, setModifier, allModifiers) {
         <ItemDisplayRow name='Aura Target Filters Exclude'>
           TODO
         </ItemDisplayRow>
-        <ItemDisplayRow name='Disable Commands'>
-          TODO
-        </ItemDisplayRow>
-        <ItemDisplayRow name='Change Entity Image'>
-          TODO
-        </ItemDisplayRow>
-        <ItemDisplayRow name='Entity Image'>
-          TODO
-        </ItemDisplayRow>
-        <ItemDisplayRow name='Change Attack Effect'>
-          TODO
-        </ItemDisplayRow>
-        <ItemDisplayRow name='Attack Effect'>
-          TODO
-        </ItemDisplayRow>
-        <ItemDisplayRow name='Effects'>
-          TODO
-        </ItemDisplayRow>
         <ItemDisplayRow name='Sound'>
           TODO
         </ItemDisplayRow>

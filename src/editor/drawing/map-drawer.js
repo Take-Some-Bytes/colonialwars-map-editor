@@ -13,10 +13,7 @@ import * as mathUtils from 'colonialwars-lib/math'
 const debug = debugFactory('cw-map-editor:map-drawer')
 
 /**
- * @typedef {Object} MapConfig
- * @prop {'grass'|'sand'} tileType
- * @prop {{}} staticElems
- * @prop {Readonly<import('../editor').WorldLimits>} worldLimits
+ * @typedef {import('colonialwars-lib/mapconfig').MutableMapConfig} MapConfig
  *
  * @typedef {Object} MapDrawerOptions
  * @prop {MapConfig} mapConfig
@@ -56,16 +53,14 @@ export default class MapDrawer {
 
   /**
    * Draws tiles onto a canvas, which then should be split into chunks.
-   * @param {string} tileType The type of tile to draw..
+   * @param {string} tileImg The URL of the tile file to draw.
    * @param {CanvasRenderingContext2D} ctx The context to draw on.
    * @param {Vector2D} start Where to start drawing the tiles.
    * @param {Vector2D} end Where to stop drawing the tiles.
    * @private
    */
-  async _drawTiles (tileType, ctx, start, end) {
-    const tileSheet = await this.imgLoader.loadImg('tile-sheet.png')
-    const frameSize = 100
-    const frame = constants.DRAWING_CONSTANTS.tileFrames[tileType]
+  async _drawTiles (tileImg, ctx, start, end) {
+    const tile = await this.imgLoader.loadImg(tileImg)
 
     for (
       let x = start.x, endX = end.x; x < endX;
@@ -75,14 +70,7 @@ export default class MapDrawer {
         let y = start.y, endY = end.y; y < endY;
         y += constants.GAME_CONSTANTS.DRAWING_TILE_SIZE
       ) {
-        ctx.drawImage(
-          tileSheet,
-          // Src-X + Src-Y
-          frame[0] * frameSize, frame[1] * frameSize,
-          // Src width+height.
-          frameSize, frameSize,
-          x, y, frameSize, frameSize
-        )
+        ctx.drawImage(tile, x, y)
       }
     }
   }
@@ -93,7 +81,7 @@ export default class MapDrawer {
   async init () {
     if (this.initialized) { return }
 
-    const worldLimits = this.mapConfig.worldLimits
+    const worldLimits = this.mapConfig.worldLimits.scale(100)
     const end = Vector2D.zero()
     const halvedWorldLimits = Vector2D.sub(
       worldLimits, Vector2D.fromArray([worldLimits.x / 2, worldLimits.y / 2])
@@ -120,7 +108,7 @@ export default class MapDrawer {
     }
 
     await this._drawTiles(
-      this.mapConfig.tileType, this.workCtx,
+      this.mapConfig.graphics.get('tile_img').file, this.workCtx,
       { x: 0, y: 0 }, end
     )
 
@@ -135,7 +123,7 @@ export default class MapDrawer {
       // The map was halved, so finish drawing it.
       this.workCtx.clearRect(0, 0, this.workCanvas.width, this.workCanvas.height)
       await this._drawTiles(
-        this.mapConfig.tileType, this.workCtx,
+        this.mapConfig.graphics.get('tile_img').file, this.workCtx,
         { x: 0, y: 0 }, end
       )
       this.tileChunkSplitter.addChunks(this.workCanvas)
@@ -169,10 +157,7 @@ export default class MapDrawer {
       })
     ))
     const start = Vector2D.floorAxes(this.viewport.toCanvas({ x: 0, y: 0 }))
-    const end = Vector2D.floorAxes(this.viewport.toCanvas({
-      x: this.mapConfig.worldLimits.x,
-      y: this.mapConfig.worldLimits.y
-    }))
+    const end = Vector2D.floorAxes(this.viewport.toCanvas(this.mapConfig.worldLimits.scale(100)))
     let chunkID = -1
 
     for (

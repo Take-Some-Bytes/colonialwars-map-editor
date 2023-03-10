@@ -68,8 +68,8 @@ export default class Editor {
     this.deltaTime = 0
 
     this.worldBounds = Object.freeze({
-      x: { MIN: 0, MAX: this.mapConfig.worldLimits.x },
-      y: { MIN: 0, MAX: this.mapConfig.worldLimits.y }
+      x: { MIN: 0, MAX: this.mapConfig.worldLimits.x * 100 },
+      y: { MIN: 0, MAX: this.mapConfig.worldLimits.y * 100 }
     })
 
     this._animationFrameID = null

@@ -103,12 +103,12 @@ function createTeamRenderer (mapLimits, updateTeam) {
             type='number'
             name='teamSpawnPoint.x'
             min={0}
-            max={mapLimits.x / 100}
-            value={team.spawnPosition.x / 100}
+            max={mapLimits.x}
+            value={team.spawnPosition.x}
             style={{ width: '80px' }}
             onChange={e => {
               const newPos = {
-                x: Number(e.target.value) * 100,
+                x: Number(e.target.value),
                 y: team.spawnPosition.y
               }
               updateTeam(team.name, {
@@ -118,7 +118,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
             onBlur={e => {
               // Bind the value.
               const newPos = {
-                x: Math.round(bound(Number(e.target.value) * 100, 0, mapLimits.x)),
+                x: Math.round(bound(Number(e.target.value), 0, mapLimits.x)),
                 y: team.spawnPosition.y
               }
               updateTeam(team.name, {
@@ -132,13 +132,13 @@ function createTeamRenderer (mapLimits, updateTeam) {
             type='number'
             name='teamSpawnPoint.y'
             min={0}
-            max={mapLimits.y / 100}
-            value={team.spawnPosition.y / 100}
+            max={mapLimits.y}
+            value={team.spawnPosition.y}
             style={{ width: '80px' }}
             onChange={e => {
               const newPos = {
                 x: team.spawnPosition.x,
-                y: Number(e.target.value) * 100
+                y: Number(e.target.value)
               }
               updateTeam(team.name, {
                 spawnPosition: newPos
@@ -148,7 +148,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
               // Bind the value
               const newPos = {
                 x: team.spawnPosition.x,
-                y: Math.round(bound(Number(e.target.value) * 100, 0, mapLimits.y))
+                y: Math.round(bound(Number(e.target.value), 0, mapLimits.y))
               }
               updateTeam(team.name, {
                 spawnPosition: newPos

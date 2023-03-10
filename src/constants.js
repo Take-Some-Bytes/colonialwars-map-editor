@@ -71,9 +71,14 @@ export default deepFreeze({
         displayedText: 'None'
       },
       {
-        id: 'placeholder_commander',
-        value: 'placeholder/commander.png',
-        displayedText: 'Placeholder Commander'
+        id: 'default_tile',
+        value: 'default/tile.png',
+        displayedText: 'Default Tile'
+      },
+      {
+        id: 'default_player',
+        value: 'default/player.png',
+        displayedText: 'Default Player'
       }
     ],
     ANGLES: [

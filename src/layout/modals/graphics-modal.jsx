@@ -426,6 +426,11 @@ function createGraphicRenderer (setGraphic) {
     // every single time. That is why we wrap the entire if-condition in
     // React.useEffect().
     React.useEffect(() => {
+      /**
+       * CONSIDER: Move this further up?
+       * This useEffect is really annoying. It runs on every render, which isn't
+       * very performance friendly.
+       * (03/08/2023) Take-Some-Bytes */
       if (graphic.hasAnimations && !graphic.animations) {
         // We need animations!
         graphic = {
@@ -445,7 +450,7 @@ function createGraphicRenderer (setGraphic) {
       ;({
         staticHandlers, dynHandlers
       } = createGraphicEventHandlers(graphic, setGraphic, graphic.hasAnimations))
-    }, [graphic])
+    })
 
     return (
       <>

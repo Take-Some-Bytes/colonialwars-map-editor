@@ -53,6 +53,7 @@ const loadingElem = (
  * @returns {JSX.Element}
  */
 export default function EditorPage (props) {
+  /** @type {[Editor, React.Dispatch<React.SetStateAction<Editor>>]} */
   const [editor, setEditor] = React.useState(null)
   const [editorLoading, setEditorLoading] = React.useState(true)
 
@@ -115,7 +116,7 @@ export default function EditorPage (props) {
           editor.mapConfig.maxPlayers = editor.mapConfig
             .allTeams()
             .map(team => team.maxPlayers)
-            .reduce((acc, current) => acc + current)
+            .reduce((acc, current) => acc + current, 0)
 
           const exportedMapConf = new Blob([editor.mapConfig.exportAsJson()], {
             type: 'application/json;charset=utf-8'

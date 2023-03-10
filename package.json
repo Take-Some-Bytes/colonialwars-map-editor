@@ -21,12 +21,12 @@
     "email": "horton0712@gmail.com"
   },
   "engines": {
-    "node": "^14 || ^16",
+    "node": ">=14",
     "npm": ">=7"
   },
   "dependencies": {
     "@szhsin/react-menu": "^2.0.1",
-    "colonialwars-lib": "git://github.com/Take-Some-Bytes/colonialwars-lib.git#main",
+    "colonialwars-lib": "git://github.com/Take-Some-Bytes/colonialwars-lib.git#feat/cw-files-rev17",
     "debug": "^4.3.1",
     "file-saver": "^2.0.5",
     "joi": "^17.4.2",

@@ -79,13 +79,7 @@ export default class Drawing {
       gameCanvasContext: context,
       imgLoader: imgLoader,
       viewport: viewport,
-      mapConfig: {
-        // tileType: mapConfig.meta.tileType,
-        tileType: mapConfig.tileType,
-        staticElems: {},
-        // worldLimits: mapConfig.meta.worldLimits
-        worldLimits: mapConfig.worldLimits
-      }
+      mapConfig
     })
 
     return new Drawing({

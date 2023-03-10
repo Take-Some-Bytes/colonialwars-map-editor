@@ -32,10 +32,7 @@ export default deepFreeze({
   FALLBACKS: {
     STARTING_MAP_CONFIG: {
       mode: 'teams',
-      defaultHeight: 0,
-      tileType: 'grass',
-      size: { x: 60, y: 60 },
-      dataFiles: { unit: 'none', building: 'none', graphics: 'none' }
+      size: { x: 60, y: 60 }
     }
   },
   VERSION: 'v0.4.2-PRE-ALPHA',
@@ -58,104 +55,13 @@ export default deepFreeze({
     spriteSheetDir: '/imgs/sprite-sheets',
     spriteSheetMetaDir: '/meta/sprite-sheets'
   },
-  MAP_CONFIG_LIMITS: {
-    MIN_MAP_SIZE: 50,
-    MAX_MAP_SIZE: 200,
-    MIN_DEFAULT_HEIGHT: 0,
-    MAX_DEFAULT_HEIGHT: 2,
-    MIN_TEAMS: 2,
-    MAX_TEAMS: 8,
-    MIN_PLAYERS_MAP: 2,
-    MAX_PLAYERS_ON_TEAM: 20,
-    MIN_PLAYERS_ON_TEAM: 1,
-    MAX_TEAM_NAME_LEN: 30,
-    MAX_TEAM_DESC_LEN: 150,
-    MAX_MAP_NAME_LEN: 30,
-    MAX_MAP_DESC_LEN: 5000,
-    // Limits for graphics, modifiers, abilities, units, buildings, obstacles.
-    MIN_MAP_GRAPHICS: 0,
-    MAX_MAP_GRAPHICS: 1500,
-    MAX_MAP_MODIFIERS: 1500,
-    MAX_MODIFIER_DESC_LEN: 150,
-    MAX_AURAS_PER_MODIFIER: 10,
-    MIN_AURA_RANGE: 1,
-    MAX_AURA_RANGE: 200,
-    MAX_MODIFICATIONS_PER_MODIFIER: 50,
-    MIN_PLAYER_SPEED: 0.1,
-    MAX_PLAYER_SPEED: 10
-  },
-  REGEXP: {
-    TEAM_NAME: /^[A-Za-z0-9]*$/,
-    DESCRIPTION_SINGLE_LINE: /^[A-z (),.&!?;:0-9]*$/,
-    DESCRIPTION_MULTI_LINE: /^(?:[A-z (),.&!?;:0-9]|(?:\r\n|\r|\n))*$/
-  },
-  VALID_TILE_TYPES: ['grass', 'sand', 'rock'],
-  VALID_GAME_MODES: ['teams', 'koth', 'siege'],
-  VALID_ANIMATIONS: [
-    'die',
-    'idle',
-    'walk',
-    'busy',
-    'cast',
-    'attack',
-    'reload',
-    'busyDamaged1',
-    'busyDamaged2'
-  ],
   DEFAULT: {
     KEYBINDINGS: {
       up: ['w', 'W', 'ArrowUp'],
       down: ['s', 'S', 'ArrowDown'],
       left: ['a', 'A', 'ArrowLeft'],
       right: ['d', 'D', 'ArrowRight']
-    },
-    GRAPHIC_CONFIG: {
-      id: 'none_avilable',
-      name: 'None',
-      file: '@@_none',
-      angles: 1,
-      hasAnimations: false,
-      mainImg: { x: 0, y: 0, w: 0, h: 0 },
-      damaged1Img: { x: 0, y: 0, w: 0, h: 0 },
-      damaged2Img: { x: 0, y: 0, w: 0, h: 0 },
-      constructing1Img: { x: 0, y: 0, w: 0, h: 0 },
-      animations: null
-    },
-    MODIFIER_CONFIG: {
-      id: 'modifier_none',
-      name: 'None',
-      description: '',
-      duration: -1,
-      maxStack: 1,
-      modifications: [],
-      auras: [],
-      auraHitsSelf: false,
-      auraHitsFriendly: false,
-      auraHitsAllied: false,
-      auraHitsEnemy: false,
-      auraColour: {
-        r: 255, g: 255, b: 255, a: 0.5
-      },
-      auraTargetFilters: [],
-      auraTargetFiltersExclude: [],
-      disableCommands: [],
-      changeEntityImg: false,
-      entityImg: 'none',
-      changeAtkEffect: false,
-      atkEffect: 'none',
-      effects: [],
-      sound: 'none',
-      soundVolume: 1,
-      removeModifiers: []
-    },
-    MODIFICATION_CONFIG: { field: '', add: 0, multiply: 1 },
-    IMG_CONFIG: { x: 0, y: 0, w: 0, h: 0 },
-    ANIMATION_CONFIG: { x: 0, y: 0, w: 0, h: 0, frameSize: 0 },
-    AURA_RANGE: 3.5,
-    PLAYER_SPEED: 1
-  },
-  REQUIRED: {
-    GRAPHICS: ['commander_img']
+    }
   },
   SELECTABLE: {
     GRAPHIC_FILES: [
@@ -165,9 +71,14 @@ export default deepFreeze({
         displayedText: 'None'
       },
       {
-        id: 'placeholder_commander',
-        value: 'placeholder/commander.png',
-        displayedText: 'Placeholder Commander'
+        id: 'default_tile',
+        value: 'default/tile.png',
+        displayedText: 'Default Tile'
+      },
+      {
+        id: 'default_player',
+        value: 'default/player.png',
+        displayedText: 'Default Player'
       }
     ],
     ANGLES: [
@@ -177,10 +88,5 @@ export default deepFreeze({
       { id: 'eight', value: 8, displayedText: '8' }
     ]
   },
-  // Some validation regexps.
-  // Lowercase letters, numbers, and underscores only.
-  ID_REGEXP: /^(?:[a-z0-9]|_)+$/,
-  // Only alphanumerical characters and spaces.
-  NAME_REGEXP: /^(?:[A-Za-z0-9]| ){0,31}$/,
   ROOT_FONT_SIZE: parseInt(window.getComputedStyle(document.body).fontSize, 10)
 })

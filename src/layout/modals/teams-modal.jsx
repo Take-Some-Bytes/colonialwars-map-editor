@@ -6,6 +6,7 @@
 import React from 'react'
 
 import { bound } from 'colonialwars-lib/math'
+import { Validate } from 'colonialwars-lib/mapconfig'
 
 import ItemEditor, { ItemDisplayRow } from '../../components/item-editor.jsx'
 
@@ -16,8 +17,8 @@ const ITEM_DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 10.5,
   height: constants.ROOT_FONT_SIZE * 2.25
 })
-const MAX_TEAMS = constants.MAP_CONFIG_LIMITS.MAX_TEAMS
-const MIN_TEAMS = constants.MAP_CONFIG_LIMITS.MIN_TEAMS
+const MAX_TEAMS = Validate.LIMITS.MAX_TEAMS
+const MIN_TEAMS = Validate.LIMITS.MIN_TEAMS
 
 /**
  * @typedef {import('colonialwars-lib/mapconfig').MutableMapConfig['updateTeam']} UpdateTeam
@@ -65,7 +66,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
             type='number'
             name='maxPlayers'
             value={team.maxPlayers}
-            min={constants.MAP_CONFIG_LIMITS.MIN_PLAYERS_ON_TEAM}
+            min={Validate.LIMITS.MIN_PLAYERS_ON_TEAM}
             onChange={e => {
               updateTeam(team.name, {
                 maxPlayers: Number(e.target.value)
@@ -74,7 +75,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
             onBlur={e => {
               const boundVal = bound(
                 Number(e.target.value), 1,
-                constants.MAP_CONFIG_LIMITS.MAX_PLAYERS_ON_TEAM
+                Validate.LIMITS.MAX_PLAYERS_ON_TEAM
               )
               updateTeam(team.name, {
                 maxPlayers: boundVal
@@ -90,7 +91,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
             onChange={e => {
               updateTeam(team.name, {
                 description: String(e.target.value).slice(
-                  0, constants.MAP_CONFIG_LIMITS.MAX_TEAM_DESC_LEN
+                  0, Validate.LIMITS.MAX_TEAM_DESC_LEN
                 )
               })
             }}
@@ -102,12 +103,12 @@ function createTeamRenderer (mapLimits, updateTeam) {
             type='number'
             name='teamSpawnPoint.x'
             min={0}
-            max={mapLimits.x / 100}
-            value={team.spawnPosition.x / 100}
+            max={mapLimits.x}
+            value={team.spawnPosition.x}
             style={{ width: '80px' }}
             onChange={e => {
               const newPos = {
-                x: Number(e.target.value) * 100,
+                x: Number(e.target.value),
                 y: team.spawnPosition.y
               }
               updateTeam(team.name, {
@@ -117,7 +118,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
             onBlur={e => {
               // Bind the value.
               const newPos = {
-                x: Math.round(bound(Number(e.target.value) * 100, 0, mapLimits.x)),
+                x: Math.round(bound(Number(e.target.value), 0, mapLimits.x)),
                 y: team.spawnPosition.y
               }
               updateTeam(team.name, {
@@ -131,13 +132,13 @@ function createTeamRenderer (mapLimits, updateTeam) {
             type='number'
             name='teamSpawnPoint.y'
             min={0}
-            max={mapLimits.y / 100}
-            value={team.spawnPosition.y / 100}
+            max={mapLimits.y}
+            value={team.spawnPosition.y}
             style={{ width: '80px' }}
             onChange={e => {
               const newPos = {
                 x: team.spawnPosition.x,
-                y: Number(e.target.value) * 100
+                y: Number(e.target.value)
               }
               updateTeam(team.name, {
                 spawnPosition: newPos
@@ -147,7 +148,7 @@ function createTeamRenderer (mapLimits, updateTeam) {
               // Bind the value
               const newPos = {
                 x: team.spawnPosition.x,
-                y: Math.round(bound(Number(e.target.value) * 100, 0, mapLimits.y))
+                y: Math.round(bound(Number(e.target.value), 0, mapLimits.y))
               }
               updateTeam(team.name, {
                 spawnPosition: newPos

@@ -6,6 +6,8 @@
 
 import React from 'react'
 
+import { Validate } from 'colonialwars-lib/mapconfig'
+
 import CustomModal from '../../components/custom-modal.jsx'
 
 import constants from '../../constants.js'
@@ -48,7 +50,7 @@ export default function SettingsModal (props) {
     } else if (e.target.name === 'mapDescription') {
       props.mapConfig.description = String(
         e.target.value
-      ).slice(0, constants.MAP_CONFIG_LIMITS.MAX_MAP_DESC_LEN)
+      ).slice(0, Validate.LIMITS.MAX_MAP_DESC_LEN)
     }
 
     props.forceUpdate()
@@ -65,7 +67,7 @@ export default function SettingsModal (props) {
       }
 
       props.mapConfig.mapName = newMapName.slice(
-        0, constants.MAP_CONFIG_LIMITS.MAX_MAP_NAME_LEN
+        0, Validate.LIMITS.MAX_MAP_NAME_LEN
       )
     }
     props.forceUpdate()

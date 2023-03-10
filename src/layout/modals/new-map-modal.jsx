@@ -6,6 +6,7 @@
 import React from 'react'
 
 import * as mathUtils from 'colonialwars-lib/math'
+import { Validate } from 'colonialwars-lib/mapconfig'
 
 import SelectMenu from '../../components/selectmenu.jsx'
 import CustomModal, { ModalPriority } from '../../components/custom-modal.jsx'
@@ -54,44 +55,29 @@ const SELECTMENU_DIMENSIONS = Object.freeze({
  */
 function BasicMapConfig (props) {
   return (
-    <div id='newmap-basic-config' className='newmap-config__bsc'>
+    // <div id='newmap-basic-config' className='newmap-config__bsc'>
+    <div id='newmap-basic-config'>
       Size &nbsp;
       <input
         type='number'
         name='size.x'
         value={props.inputFieldValues.size.x}
-        min={constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
-        max={constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
+        min={Validate.LIMITS.MIN_MAP_SIZE}
+        max={Validate.LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
         onBlur={props.onBlur}
       />
-    &nbsp;:&nbsp;
+      &nbsp;:&nbsp;
       <input
         type='number'
         name='size.y'
         value={props.inputFieldValues.size.y}
-        min={constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE}
-        max={constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE}
+        min={Validate.LIMITS.MIN_MAP_SIZE}
+        max={Validate.LIMITS.MAX_MAP_SIZE}
         onChange={props.onChange}
         onBlur={props.onBlur}
       />
       <br /><br />
-      Tile type:
-      <SelectMenu
-        name='tileType'
-        id='tile-type-select'
-        arrowSrc='/imgs/drop-down-arrow.png'
-        dimensions={SELECTMENU_DIMENSIONS}
-        value={props.inputFieldValues.tileType}
-        options={[
-          { id: 'tile-type-1', value: 'grass', displayedText: 'Grass' },
-          { id: 'tile-type-2', value: 'sand', displayedText: 'Sand' },
-          { id: 'tile-type-3', value: 'rock', displayedText: 'Rock' }
-        ]}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-      />
-      <br />
       Game Mode:
       <SelectMenu
         name='mode'
@@ -104,56 +90,6 @@ function BasicMapConfig (props) {
           { id: 'mode-2', value: 'koth', displayedText: 'KOTH' },
           { id: 'mode-3', value: 'siege', displayedText: 'Siege' }
         ]}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-      />
-      <br />
-      Default height: &nbsp;
-      <input
-        type='number'
-        name='defaultHeight'
-        value={props.inputFieldValues.defaultHeight}
-        min={0}
-        max={2}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-      />
-    </div>
-  )
-}
-
-/**
- * AdvMapConfig component to contain the advanced map configurations
- * for the new map modal.
- * @param {MapConfigProps} props Component props.
- * @returns {JSX.Element}
- */
-function AdvMapConfig (props) {
-  return (
-    <div id='newmap-advanced-config' className='newmap-config__adv'>
-      Unit Data: &nbsp;
-      <input
-        type='text'
-        name='dataFiles.unit'
-        value={props.inputFieldValues.dataFiles.unit}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-      />
-      <br />
-      Building Data: &nbsp;
-      <input
-        type='text'
-        name='dataFiles.building'
-        value={props.inputFieldValues.dataFiles.building}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
-      />
-      <br />
-      Graphics Data: &nbsp;
-      <input
-        type='text'
-        name='dataFiles.graphics'
-        value={props.inputFieldValues.dataFiles.graphics}
         onChange={props.onChange}
         onBlur={props.onBlur}
       />
@@ -200,14 +136,6 @@ export default function NewMapModal (props) {
           [target.name[5]]: target.value
         }
       }))
-    } else if (target.name.startsWith('dataFiles')) {
-      setNewMapConfig(prevConfig => ({
-        ...prevConfig,
-        dataFiles: {
-          ...prevConfig.dataFiles,
-          [target.name.slice(10)]: target.value
-        }
-      }))
     } else {
       setNewMapConfig(prevConfig => ({
         ...prevConfig,
@@ -230,19 +158,10 @@ export default function NewMapModal (props) {
           ...prevConfig.size,
           [target.name[5]]: mathUtils.bound(
             Math.round(Number(target.value)),
-            constants.MAP_CONFIG_LIMITS.MIN_MAP_SIZE,
-            constants.MAP_CONFIG_LIMITS.MAX_MAP_SIZE
+            Validate.LIMITS.MIN_MAP_SIZE,
+            Validate.LIMITS.MAX_MAP_SIZE
           )
         }
-      }))
-    } else if (target.name === 'defaultHeight') {
-      setNewMapConfig(prevConfig => ({
-        ...prevConfig,
-        defaultHeight: mathUtils.bound(
-          Math.round(Number(target.value)),
-          constants.MAP_CONFIG_LIMITS.MIN_DEFAULT_HEIGHT,
-          constants.MAP_CONFIG_LIMITS.MAX_DEFAULT_HEIGHT
-        )
       }))
     }
   }
@@ -276,11 +195,6 @@ export default function NewMapModal (props) {
     >
       <div className='newmap-config'>
         <BasicMapConfig
-          inputFieldValues={newMapConfig}
-          onChange={onChange}
-          onBlur={onBlur}
-        />
-        <AdvMapConfig
           inputFieldValues={newMapConfig}
           onChange={onChange}
           onBlur={onBlur}

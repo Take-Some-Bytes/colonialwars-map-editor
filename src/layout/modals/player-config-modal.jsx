@@ -7,6 +7,7 @@
 import React from 'react'
 
 import { bound } from 'colonialwars-lib/math'
+import { Validate } from 'colonialwars-lib/mapconfig'
 
 import CustomModal from '../../components/custom-modal.jsx'
 import Selectmenu from '../../components/selectmenu.jsx'
@@ -72,7 +73,7 @@ export default function PlayerConfigModal (props) {
       case 'speed':
         props.mapConfig.player.speed = bound(
           Number(targetVal), 0,
-          constants.MAP_CONFIG_LIMITS.MAX_PLAYER_SPEED
+          Validate.LIMITS.MAX_PLAYER_SPEED
         )
         break
     }
@@ -101,8 +102,8 @@ export default function PlayerConfigModal (props) {
         id='player-speed-input'
         type='number'
         step={0.1}
-        min={constants.MAP_CONFIG_LIMITS.MIN_PLAYER_SPEED}
-        max={constants.MAP_CONFIG_LIMITS.MAX_PLAYER_SPEED}
+        min={Validate.LIMITS.MIN_PLAYER_SPEED}
+        max={Validate.LIMITS.MAX_PLAYER_SPEED}
         value={props.mapConfig?.player?.speed}
         onChange={onChange}
         onBlur={onBlur}

@@ -6,20 +6,19 @@
 import Joi from 'joi'
 import React from 'react'
 
+import { Default, Validate } from 'colonialwars-lib/mapconfig'
+
 import Button from '../../components/button.jsx'
 import CustomModal from '../../components/custom-modal.jsx'
 
 import constants from '../../constants.js'
 import { centerPos } from '../../helpers/display-utils.js'
 
-const { ID_REGEXP, NAME_REGEXP } = constants
 const MODAL_DIMENSIONS = Object.freeze({
   width: constants.ROOT_FONT_SIZE * 25,
   height: constants.ROOT_FONT_SIZE * 25
 })
 const IdLenSchema = Joi.string().min(1).max(52)
-const IdSchema = Joi.string().pattern(ID_REGEXP, 'id')
-const NameSchema = Joi.string().pattern(NAME_REGEXP, 'id')
 
 /**
  * Deep copies an object and its values.
@@ -100,8 +99,8 @@ export default function NewModifierModal (props) {
     e.preventDefault()
 
     const { error: idLenError } = IdLenSchema.validate(modifierConfig.id)
-    const { error: idError } = IdSchema.validate(modifierConfig.id)
-    const { error: nameError } = NameSchema.validate(modifierConfig.name)
+    const { error: idError } = Validate.IdSchema.validate(modifierConfig.id)
+    const { error: nameError } = Validate.NameSchema.validate(modifierConfig.name)
 
     if (idLenError) {
       props.setError(new Error('Modifier ID must be between 1 and 52 characters long.'))
@@ -119,7 +118,7 @@ export default function NewModifierModal (props) {
     } else {
       // All good.
       props.newModifier(modifierConfig.id, {
-        ...deepCopy(constants.DEFAULT.MODIFIER_CONFIG),
+        ...deepCopy(Default.MODIFIER_CONFIG),
         id: modifierConfig.id,
         name: modifierConfig.name
       })
